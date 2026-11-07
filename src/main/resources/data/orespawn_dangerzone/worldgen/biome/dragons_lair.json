@@ -1,0 +1,55 @@
+{
+  "has_precipitation": true,
+  "temperature": 0.8,
+  "downfall": 0.4,
+  "effects": {
+    "sky_color": 5855679,
+    "fog_color": 2763328,
+    "water_color": 2105407,
+    "water_fog_color": 2105407,
+    "mood_sound": {
+      "sound": "minecraft:ambient.cave",
+      "tick_delay": 6000,
+      "block_search_extent": 8,
+      "offset": 2.0
+    },
+    "grass_color": 2105392,
+    "foliage_color": 2105392
+  },
+  "spawners": {
+    "monster": [],
+    "creature": [
+      {
+        "type": "orespawn_dangerzone:drant",
+        "weight": 3,
+        "minCount": 1,
+        "maxCount": 2
+      }
+    ],
+    "ambient": [],
+    "water_creature": [],
+    "underground_water_creature": [],
+    "water_ambient": [],
+    "misc": [],
+    "axolotls": []
+  },
+  "spawn_costs": {},
+  "carvers": {},
+  "features": [
+    [],
+    [],
+    [],
+    [],
+    [
+      "orespawn_dangerzone:fossil_cross"
+    ],
+    [],
+    [],
+    [],
+    [],
+    [
+      "orespawn_dangerzone:dark_tree",
+      "orespawn_dangerzone:element_pillar"
+    ]
+  ]
+}

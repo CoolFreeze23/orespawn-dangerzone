@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "orespawn_dangerzone:item/doom_ant_spawn_egg"
+  }
+}

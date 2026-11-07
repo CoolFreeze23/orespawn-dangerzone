@@ -96,6 +96,54 @@
       "orespawn_dangerzone:martian_death"
     ]
   },
+  "baby_sitter.ambient": {
+    "sounds": [
+      "orespawn_dangerzone:babysitter_living1",
+      "orespawn_dangerzone:babysitter_living2"
+    ]
+  },
+  "baby_sitter.hurt": {
+    "sounds": [
+      "orespawn_dangerzone:babysitter_hit1",
+      "orespawn_dangerzone:babysitter_hit2",
+      "orespawn_dangerzone:babysitter_hit3",
+      "orespawn_dangerzone:babysitter_hit4",
+      "orespawn_dangerzone:babysitter_hit5",
+      "orespawn_dangerzone:babysitter_hit6",
+      "orespawn_dangerzone:babysitter_hit7",
+      "orespawn_dangerzone:babysitter_hit8",
+      "orespawn_dangerzone:babysitter_hit9"
+    ]
+  },
+  "baby_sitter.death": {
+    "sounds": [
+      "orespawn_dangerzone:babysitter_death1",
+      "orespawn_dangerzone:babysitter_death2"
+    ]
+  },
+  "element_dragon.ambient": {
+    "sounds": [
+      "orespawn_dangerzone:elementdragon_living"
+    ]
+  },
+  "element_dragon.hurt": {
+    "sounds": [
+      "orespawn_dangerzone:elementdragon_hit"
+    ]
+  },
+  "element_dragon.death": {
+    "sounds": [
+      "orespawn_dangerzone:elementdragon_death"
+    ]
+  },
+  "doom_worm.ambient": {
+    "sounds": [
+      "orespawn_dangerzone:caterkiller_living1",
+      "orespawn_dangerzone:caterkiller_living2",
+      "orespawn_dangerzone:caterkiller_living3",
+      "orespawn_dangerzone:caterkiller_living4"
+    ]
+  },
   "princess.roar": {
     "sounds": [
       "orespawn_dangerzone:roar1",

@@ -1,0 +1,11 @@
+{
+  "type": "orespawn_dangerzone:realm",
+  "generator": {
+    "type": "minecraft:noise",
+    "settings": "orespawn_dangerzone:dragons_lair",
+    "biome_source": {
+      "type": "minecraft:fixed",
+      "biome": "orespawn_dangerzone:dragons_lair"
+    }
+  }
+}

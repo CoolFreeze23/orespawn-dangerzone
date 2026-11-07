@@ -205,6 +205,14 @@
       "required": false
     },
     {
+      "id": "orespawn_dangerzone:dargon",
+      "required": false
+    },
+    {
+      "id": "orespawn_dangerzone:element_dragon",
+      "required": false
+    },
+    {
       "id": "orespawn_dangerzone:nastysaurus_prime",
       "required": false
     },
@@ -214,6 +222,10 @@
     },
     {
       "id": "orespawn_dangerzone:nope",
+      "required": false
+    },
+    {
+      "id": "orespawn_dangerzone:squid_guard",
       "required": false
     }
   ]

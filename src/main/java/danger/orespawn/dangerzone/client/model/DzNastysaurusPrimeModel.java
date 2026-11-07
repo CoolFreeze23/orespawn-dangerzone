@@ -223,7 +223,8 @@ public class DzNastysaurusPrimeModel<T extends Entity> extends DzModel<T> {
     protected void animateAndDraw(T entity, float f, float f1, float f2, float f3, float f4) {
         float deathfactor = 1.0F;
 
-      danger.orespawn.entity.client.RenderInfo r = ((danger.orespawn.entity.Nastysaurus) entity).getRenderInfo();
+      danger.orespawn.dangerzone.entity.NastysaurusPrime o = (danger.orespawn.dangerzone.entity.NastysaurusPrime) entity;
+      danger.orespawn.entity.client.RenderInfo r = o.getRenderInfo();
       float newangle = 0.0F;
       float pscale = 2.0F;
       float tailspeed = 0.0F;

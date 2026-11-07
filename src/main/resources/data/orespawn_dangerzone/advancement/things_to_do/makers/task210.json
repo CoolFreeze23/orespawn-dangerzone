@@ -1,0 +1,36 @@
+{
+  "display": {
+    "icon": {
+      "id": "orespawn_dangerzone:worm_food"
+    },
+    "title": {
+      "translate": "advancement.orespawn_dangerzone.task210"
+    },
+    "description": {
+      "translate": "advancement.orespawn_dangerzone.task210.desc"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:consume_item",
+      "conditions": {
+        "item": {
+          "items": "orespawn_dangerzone:worm_food"
+        }
+      }
+    }
+  },
+  "requirements": [
+    [
+      "done"
+    ]
+  ],
+  "parent": "orespawn_dangerzone:things_to_do/makers/task208",
+  "rewards": {
+    "experience": 111
+  }
+}

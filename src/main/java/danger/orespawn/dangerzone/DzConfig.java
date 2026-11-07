@@ -54,6 +54,10 @@ public final class DzConfig {
             .comment("How many Martians may stand near a landing Carrier before it lets out fewer.")
             .defineInRange("ufoMaxMartians", 30, 0, 200);
 
+    public static final ModConfigSpec.IntValue BUILDER_BLOCKS_PER_TICK = BUILDER
+            .comment("How many blocks a castle or the Dragon's Lair places per tick. Lower is kinder to the server and slower.")
+            .defineInRange("builderBlocksPerTick", 15000, 500, 500000);
+
     public static final ModConfigSpec SPEC = BUILDER.build();
 
     private DzConfig() {

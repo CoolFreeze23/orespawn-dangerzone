@@ -129,7 +129,7 @@ public final class MilestoneTwoTests {
         List<ItemEntity> paid = near(helper, ItemEntity.class, 16.0);
         check(helper, paid.stream().anyMatch(e -> e.getItem().is(ModContent.TOWER_FLAG_ITEM.get())), "the flag comes back");
         check(helper, paid.stream().anyMatch(e -> e.getItem().is(Items.DIAMOND)), "there should be a payout");
-        check(helper, flag.hurt(level.damageSources().playerAttack(player), 10.0f), "a player can hurt it once it's over");
+        check(helper, flag.isRemoved(), "the pole comes down: killing it would be a second flag");
         helper.succeed();
     }
 

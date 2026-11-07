@@ -1,0 +1,11 @@
+{
+  "type": "orespawn_dangerzone:realm",
+  "generator": {
+    "type": "minecraft:noise",
+    "settings": "orespawn_dangerzone:kraken_realm",
+    "biome_source": {
+      "type": "minecraft:fixed",
+      "biome": "orespawn_dangerzone:kraken_realm"
+    }
+  }
+}

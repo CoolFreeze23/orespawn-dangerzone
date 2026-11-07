@@ -51,7 +51,7 @@ runs {
     }
     client {
         workingDirectory project.file('run-client')
-        jvmArguments.addAll('-Xmx4G', '-Xms1G', '-Dorespawn_dangerzone.shots=true')
+        jvmArguments.addAll('-Xmx4G', '-Xms1G', '-Dorespawn_dangerzone.shots=true', "-Dorespawn_dangerzone.fast=${project.hasProperty('dzfast')}", "-Dorespawn_dangerzone.drive=${project.hasProperty('dzdrive')}", "-Dorespawn_dangerzone.phase=${project.findProperty('dzphase') ?: 'all'}")
     }
 }
 

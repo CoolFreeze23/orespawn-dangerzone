@@ -55,6 +55,48 @@ TEXTURES = {
     "orespawnres/items/eggufo.png": "item/ufo_spawn_egg.png",
     "orespawnres/items/eggufocarrier.png": "item/ufo_carrier_spawn_egg.png",
     "orespawnres/items/eggufofighter.png": "item/ufo_fighter_spawn_egg.png",
+    "orespawnres/skins/ChaosDemontexture.png": "entity/chaos_demon.png",
+    "orespawnres/skins/BabySittertexture.png": "entity/baby_sitter.png",
+    "orespawnres/skins/KrakenKingtexture.png": "entity/kraken_king.png",
+    "orespawnres/skins/SquidGuardtexture.png": "entity/squid_guard.png",
+    "orespawnres/skins/Dargontexture.png": "entity/dargon.png",
+    "orespawnres/skins/DoomWormtexture.png": "entity/doom_worm.png",
+    "orespawnres/skins/doomant.png": "entity/doom_ant.png",
+    "orespawnres/skins/ElementDragontexture.png": "entity/element_dragon.png",
+    "orespawnres/skins/EarthElementDragontexture.png": "entity/element_dragon_earth.png",
+    "orespawnres/skins/WindElementDragonTexture.png": "entity/element_dragon_wind.png",
+    "orespawnres/skins/FireElementDragontexture.png": "entity/element_dragon_fire.png",
+    "orespawnres/skins/WaterElementDragontexture.png": "entity/element_dragon_water.png",
+    "orespawnres/skins/LightningElementDragontexture.png": "entity/element_dragon_lightning.png",
+    "orespawnres/skins/PlantElementDragontexture.png": "entity/element_dragon_plant.png",
+    "orespawnres/skins/%s" % "Drant.png": "entity/drant.png",
+    "orespawnres/items/earthstaff.png": "item/earth_staff.png",
+    "orespawnres/items/firestaff.png": "item/fire_staff.png",
+    "orespawnres/items/lightningstaff.png": "item/lightning_staff.png",
+    "orespawnres/items/plantstaff.png": "item/plant_staff.png",
+    "orespawnres/items/waterstaff.png": "item/water_staff.png",
+    "orespawnres/items/windstaff.png": "item/wind_staff.png",
+    "orespawnres/items/wormfood.png": "item/worm_food.png",
+    "orespawnres/items/eggbabysitter.png": "item/baby_sitter_spawn_egg.png",
+    "orespawnres/items/eggchaosdemon.png": "item/chaos_demon_spawn_egg.png",
+    "orespawnres/items/eggdargon.png": "item/dargon_spawn_egg.png",
+    "orespawnres/items/eggdoomant.png": "item/doom_ant_spawn_egg.png",
+    "orespawnres/items/eggdoomworm.png": "item/doom_worm_spawn_egg.png",
+    "orespawnres/items/eggdrant.png": "item/drant_spawn_egg.png",
+    "orespawnres/items/eggelementdragon.png": "item/element_dragon_spawn_egg.png",
+    "orespawnres/items/eggkrakenking.png": "item/kraken_king_spawn_egg.png",
+    "orespawnres/items/eggsquidguard.png": "item/squid_guard_spawn_egg.png",
+    "orespawnres/blocks/darkstone.png": "block/dark_stone.png",
+    "orespawnres/blocks/darkdirt.png": "block/dark_dirt.png",
+    "orespawnres/blocks/darkwood.png": "block/dark_log.png",
+    "orespawnres/blocks/darkwood_top.png": "block/dark_log_top.png",
+    "orespawnres/blocks/darkleaves.png": "block/dark_leaves.png",
+    "orespawnres/blocks/fossilbone.png": "block/fossil_bone.png",
+    "orespawnres/blocks/dragoneye.png": "block/dragons_eye_stone.png",
+    "orespawnres/blocks/extremetorch.png": "block/extreme_torch.png",
+    "orespawnres/blocks/duplicatortreelog.png": "block/doom_log.png",
+    "orespawnres/blocks/dargonstone1.png": "block/dargon_stone.png",
+    "orespawnres/blocks/dargonstone2.png": "block/dargon_stone_dark.png",
 }
 # from the game itself rather than its OreSpawn mod
 ENGINE_TEXTURES = {
@@ -72,6 +114,12 @@ MOD_SOUNDS = [
     "roar1", "roar2", "roar3", "roar4", "roar5", "roar6", "mothrawings1", "mothrawings2", "mothrawings3",
 ]
 GAME_SOUNDS = ["teleport1", "teleport2", "teleport3", "goose_living", "martian_hit", "martian_death"]
+LATE_MOD_SOUNDS = [
+    "babysitter_death1", "babysitter_death2", "babysitter_hit1", "babysitter_hit2", "babysitter_hit3", "babysitter_hit4", "babysitter_hit5",
+    "babysitter_hit6", "babysitter_hit7", "babysitter_hit8", "babysitter_hit9", "babysitter_living1", "babysitter_living2",
+    "elementdragon_death", "elementdragon_hit", "elementdragon_living",
+    "caterkiller_living1", "caterkiller_living2", "caterkiller_living3", "caterkiller_living4",
+]
 # sound event -> its variants
 SOUND_EVENTS = {
     "needlenose.ambient": ["warthog_living1", "warthog_living2", "warthog_living3"],
@@ -91,6 +139,13 @@ SOUND_EVENTS = {
     "nope.ambient": ["nope_living"],
     "martian.hurt": ["martian_hit"],
     "martian.death": ["martian_death"],
+    "baby_sitter.ambient": ["babysitter_living1", "babysitter_living2"],
+    "baby_sitter.hurt": ["babysitter_hit1", "babysitter_hit2", "babysitter_hit3", "babysitter_hit4", "babysitter_hit5", "babysitter_hit6", "babysitter_hit7", "babysitter_hit8", "babysitter_hit9"],
+    "baby_sitter.death": ["babysitter_death1", "babysitter_death2"],
+    "element_dragon.ambient": ["elementdragon_living"],
+    "element_dragon.hurt": ["elementdragon_hit"],
+    "element_dragon.death": ["elementdragon_death"],
+    "doom_worm.ambient": ["caterkiller_living1", "caterkiller_living2", "caterkiller_living3", "caterkiller_living4"],
     "princess.roar": ["roar1", "roar2", "roar3", "roar4", "roar5", "roar6"],
     "princess.wings": ["mothrawings1", "mothrawings2", "mothrawings3"],
 }
@@ -107,13 +162,24 @@ MODEL_CLASSES = {
     "ModelUFOFighter": "DzUfoFighterModel",
     "ModelThePrincessTeen": "DzPrincessTeenModel",
     "ModelThePrincessAdult": "DzPrincessYoungAdultModel",
+    "ModelChaosDemon": "DzChaosDemonModel",
+    "ModelBabySitter": "DzBabySitterModel",
+    "ModelKrakenKing": "DzKrakenKingModel",
+    "ModelSquidGuard": "DzSquidGuardModel",
+    "ModelDargon": "DzDargonModel",
+    "ModelElementDragon": "DzElementDragonModel",
+    "ModelDoomWorm": "DzDoomWormModel",
+    "ModelDrant": "DzDrantModel",
+    "ModelAnt": "DzAntModel",
 }
 ENGINE_MODEL_CLASSES = {
     "ModelFlag": "DzTowerFlagModel",
     "ModelMartian": "DzMartianModel",
 }
 # Models whose render method calls helper methods of their own, which come along.
-KEEP_HELPERS = {"ModelThePrincessAdult"}
+KEEP_HELPERS = {"ModelThePrincessAdult", "ModelKrakenKing", "ModelSquidGuard", "ModelDargon", "ModelChaosDemon", "ModelBabySitter", "ModelElementDragon"}
+# The real classes behind a model's cast of its entity.
+ENTITY_CASTS = {"NastysaurusPrime": "NastysaurusPrime", "ChaosDemon": "ChaosDemon", "KrakenKing": "KrakenKing", "SquidGuard": "SquidGuard", "Dargon": "Dargon", "ElementDragon": "ElementDragon", "DoomWorm": "DoomWorm"}
 # DangerZone applies this model's extra scale only to other creatures that borrow it.
 SCALE_OVERRIDE = {"ModelThePrincessAdult": 1.0}
 
@@ -277,6 +343,30 @@ def convert_model(source_name, class_name, folder=ENTITIES):
     body = strip_block(body, "if (entity != null && (entity != DangerZone.player")
     blended = "GL_BLEND" in body
     body = re.sub(r"GL11\.gl\w+\([^;]*\);", "", body)
+    body = body.replace("MatrixStack.pushMatrix()", "dzPush()").replace("MatrixStack.popMatrix()", "dzPop()")
+    body = body.replace("MatrixStack.sendCurrentStack();", "")
+    body = body.replace("MatrixStack.translate(", "dzTranslate(").replace("MatrixStack.rotate(", "dzRotate(").replace("MatrixStack.scale(", "dzScale(")
+    # the worm's hundred segments are drawn by the code in DzModel, against the body it tracks
+    if "double curx = dw.posx;" in body:
+        at = body.index("double curx = dw.posx;")
+        close = body.index("dzPop();\n         }", at)
+        close = body.index("}", close)
+        rest = body.index("dzPop();", close)
+        body = body[:at] + "drawSegments(dw, this.body1);" + body[rest + len("dzPop();"):]
+    body = body.replace("entity instanceof ThePrinceYoungAdult", "false")
+    body = re.sub(r"ThePrinceYoungAdult (\w+) = \(ThePrinceYoungAdult\)entity;", r"danger.orespawn.dangerzone.entity.DzAnimated \1 = (danger.orespawn.dangerzone.entity.DzAnimated) entity;", body)
+    for cls, real in ENTITY_CASTS.items():
+        body = re.sub(cls + r" (\w+) = \(" + cls + r"\)entity;", "danger.orespawn.dangerzone.entity." + real + r" \1 = (danger.orespawn.dangerzone.entity." + real + r") entity;", body)
+        body = body.replace("entity instanceof " + cls, "entity instanceof danger.orespawn.dangerzone.entity." + real)
+    body = re.sub(r"RenderInfo r = (\w+)\.renderdata;", r"danger.orespawn.entity.client.RenderInfo r = \1.getRenderInfo();", body)
+    body = re.sub(r"\b(\w+)\.world\.rand\.", r"\1.level().random.", body)
+    body = re.sub(r"\b(e|k|dw|cd)\.getAttacking\(\)", r"\1.dzAttacking()", body)
+    body = re.sub(r"\b(e|k)\.isFlying\(\)", r"\1.dzFlying()", body)
+    body = re.sub(r"\b(e|k)\.getStaying\(\)", r"\1.dzStaying()", body)
+    body = body.replace("entity.getStaying()", "staying()").replace("entity.getArmsUp()", "armsUp()")
+    # how far the engine's own swing has got; these creatures don't swing that way
+    body = body.replace("entity.getRightArmAngle()", "0.0F").replace("entity.getLeftArmAngle()", "0.0F")
+    body = re.sub(r"\bModelRenderer\b", "ModelPart", body)
     # the model's own state calls go through the interface its creature implements
     body = re.sub(r"\b(c|k|ro)\.getAttacking\(\)", r"\1.dzAttacking()", body)
     body = re.sub(r"\b(c|k|ro)\.isFlying\(\)", r"\1.dzFlying()", body)
@@ -344,6 +434,101 @@ public class {class_name}<T extends Entity> extends DzModel<T> {{
     print(class_name, "parts", len(parts), "connected", len(connected), "texture", size, "scale", scale)
 
 
+# DangerZone's blocks, as the castles' palette. Its own materials are this mod's; the rest are their nearest vanilla blocks.
+PALETTE = {
+    "stone": "minecraft:stone", "stone2": "minecraft:cobblestone", "greystone": "minecraft:andesite", "greystone2": "minecraft:polished_andesite",
+    "greystone4": "minecraft:polished_andesite", "hardrock": "minecraft:obsidian", "lightstick": "minecraft:shroomlight", "glass": "minecraft:glass",
+    "grassblock": "minecraft:grass_block", "blockemerald": "minecraft:emerald_block", "blockdark": "minecraft:black_concrete",
+    "oredark": "minecraft:blackstone", "darkstick": "minecraft:blackstone_wall", "blockflower_black": "minecraft:wither_rose",
+    "blockflower_scary": "minecraft:wither_rose",
+    "dargonstone1": "orespawn_dangerzone:dargon_stone", "dargonstone2": "orespawn_dangerzone:dargon_stone_dark",
+    "dragoneyestone": "orespawn_dangerzone:dragons_eye_stone", "extremetorch": "orespawn_dangerzone:extreme_torch",
+    "krakenkingspawner": "orespawn_dangerzone:kraken_king_spawner",
+    # spawners: these three names only ever go through spawner()
+    "varmintspawner": "orespawn:terrible_terror", "verminspawner": "orespawn:terrible_terror", "annoyancespawner": "orespawn:terrible_terror",
+}
+DUNGEON_METHODS = ["public static void makeElementDungeon(", "public void makeDargonsLair(", "public void buildDargonDungeon(",
+                   "public void makeKrakenKingCastle(", "private void makekrakentreasures(", "private void makekrakentreasure("]
+
+
+def translate_dungeons():
+    src = open(os.path.join(DZ, "src/orespawn-dzvr28/OreSpawn/OreSpawnDungeons.java"), encoding="utf8", errors="ignore").read()
+    out = []
+    for start in DUNGEON_METHODS:
+        at = src.index(start)
+        i = src.index("{", at)
+        depth = 0
+        for j in range(i, len(src)):
+            depth += (src[j] == "{") - (src[j] == "}")
+            if depth == 0:
+                out.append(src[at : j + 1])
+                break
+    code = "\n\n".join(out)
+    code = re.sub(r"\b(public|private)( static)? void ", "public static void ", code)
+    code = re.sub(r"\bWorld (world|w)\b, int (dim|d)\b", r"DzBuilder \1", code)
+    code = re.sub(r"\b(?:OreSpawnMain|Blocks)\.(\w+)\.blockID", lambda m: f'block("{m.group(1)}")', code)
+    code = code.replace("this.", "")
+    code = re.sub(r"\bFastSetBlock\((world|w), (dim|d), ", r"\1.set(", code)
+    code = re.sub(r"\bSetSpawner\((world|w), (dim|d), ", r"\1.spawner(", code)
+    code = re.sub(r"\b(world|w)\.setblocknonotify\((dim|d), ", r"\1.set(", code)
+    code = re.sub(r"\b(world|w)\.setblock\((dim|d), ", r"\1.set(", code)
+    code = re.sub(r"\b(world|w)\.getblock\((dim|d), ", r"\1.get(", code)
+    code = re.sub(r"\bUtils\.add_chest\((world|w), (dim|d), ([^;]*), (\w+)\);", r'\1.chest(\3, "\4");', code)
+    code = re.sub(r"\bspawnCreature\(\s*(world|w),\s*(dim|d),\s*", r"\1.creature(", code)
+    code = re.sub(r"\b(world|w)\.createEntityByName\(\s*", r"\1.create(", code)
+    code = re.sub(r'(\.create\("[^"]+"), (dim|d), ', r"\1, ", code)
+    code = re.sub(r"\bFastmath\.nextInt\(", "world.rand(", code)
+    code = re.sub(r"\b(world|w)\.rand\.nextInt\(", r"\1.rand(", code)
+    code = re.sub(r"\b(world|w)\.spawnEntityInWorld\(", r"\1.add(", code)
+    code = re.sub(r"\b(makekrakentreasures?|buildDargonDungeon|makeDargonsLair|makeKrakenKingCastle|makeElementDungeon)\((world|w), (dim|d), ", r"\1(\2, ", code)
+    code = re.sub(r"\bEntity\b", "DzBuilder.Creature", code)
+    code = re.sub(r"\bnew InventoryContainer\(", "new DzBuilder.Held(", code)
+    used = sorted(set(re.findall(r'block\("(\w+)"\)', code)))
+    missing = [b for b in used if b not in PALETTE]
+    if missing:
+        raise SystemExit(f"blocks with no palette entry: {missing}")
+    target = os.path.join(HERE, "src/main/java/danger/orespawn/dangerzone/world/DzDungeons.java")
+    os.makedirs(os.path.dirname(target), exist_ok=True)
+    table = ",\n".join(f'            "{k}", "{v}"' for k, v in PALETTE.items() if k in used)
+    # Map.of tops out at ten pairs, and this table is longer.
+    pairs = ",\n".join(f'            Map.entry("{k}", "{v}")' for k, v in PALETTE.items() if k in used)
+    text = f"""package danger.orespawn.dangerzone.world;
+
+import java.util.Map;
+
+/**
+ * DangerZone's castle builders, by TheyCallMeDanger. Generated by tools/import_dangerzone.py; do not edit.
+ * They run against {{@link DzBuilder}}, which queues what they ask for and places it over many ticks.
+ */
+public final class DzDungeons {{
+    static final Map<String, String> PALETTE = Map.ofEntries(
+{pairs});
+
+    private DzDungeons() {{
+    }}
+
+    private static int block(String name) {{
+        return DzBuilder.id(name);
+    }}
+
+{code}
+}}
+"""
+    with open(target, "w", encoding="utf8", newline="\n") as fh:
+        fh.write(text)
+    print("dungeons", len(code.splitlines()), "lines, blocks", used)
+
+
+def terrain_base():
+    """Vanilla's overworld noise settings, the starting point for this mod's dimensions."""
+    import glob
+    jars = glob.glob(os.path.join(HERE, ".gradle/repositories/ng_dummy_ng/net/minecraft/client/1.21.1/*client-extra.jar"))
+    with zipfile.ZipFile(jars[0]) as jar:
+        target = os.path.join(HERE, "tools/overworld_noise_settings.json")
+        with open(target, "wb") as fh:
+            fh.write(jar.read("data/minecraft/worldgen/noise_settings/overworld.json"))
+
+
 def write_file(path, data):
     os.makedirs(os.path.dirname(path), exist_ok=True)
     with open(path, "wb") as fh:
@@ -369,7 +554,7 @@ def main():
         raise SystemExit("ffmpeg is not on the path")
     os.makedirs(os.path.join(ASSETS, "sounds"), exist_ok=True)
     with tempfile.TemporaryDirectory() as tmp:
-        for zf, prefix, names in ((mod, "orespawnres/sounds/", MOD_SOUNDS), (engine, "res/sounds/", GAME_SOUNDS)):
+        for zf, prefix, names in ((mod, "orespawnres/sounds/", MOD_SOUNDS + LATE_MOD_SOUNDS), (engine, "res/sounds/", GAME_SOUNDS)):
             for name in names:
                 wav = os.path.join(tmp, name + ".wav")
                 # the archive's own capitalisation varies from the names the code uses
@@ -377,7 +562,8 @@ def main():
                 write_file(wav, zf.read(entry))
                 ogg = os.path.join(ASSETS, "sounds", name + ".ogg")
                 subprocess.run([ffmpeg, "-y", "-loglevel", "error", "-i", wav, "-ac", "1", "-c:a", "libvorbis", "-q:a", "5", ogg], check=True)
-    print("sounds", len(MOD_SOUNDS) + len(GAME_SOUNDS))
+    print("sounds", len(MOD_SOUNDS) + len(LATE_MOD_SOUNDS) + len(GAME_SOUNDS))
+    terrain_base()
     events = {k: {"sounds": [f"{MOD}:{s}" for s in v]} for k, v in SOUND_EVENTS.items()}
     write_file(os.path.join(ASSETS, "sounds.json"), json.dumps(events, indent=2).encode())
 
@@ -385,6 +571,7 @@ def main():
         convert_model(source, target)
     for source, target in ENGINE_MODEL_CLASSES.items():
         convert_model(source, target, os.path.join(DZ, "x/dz21-buildkit/src/dangerzone/entities"))
+    translate_dungeons()
 
 
 main()

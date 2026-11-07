@@ -46,7 +46,7 @@ import java.util.UUID;
 /**
  * DangerZone's Tower Defense Flag. A ten-block pole that hostile creatures attack. Every 30 seconds it calls the next
  * species on a ladder of every eligible hostile creature, weakest first, and spins and smokes as its health falls.
- * Players can't hurt it while the event runs. Survive the ladder and it pays out and hands the flag back.
+ * Players can't hurt it. Survive the ladder and it pays out, hands the flag back and comes down.
  */
 public class TowerFlag extends Mob {
     private static final ResourceKey<LootTable> REWARD =
@@ -133,6 +133,11 @@ public class TowerFlag extends Mob {
         if (!(level() instanceof ServerLevel level)) {
             return;
         }
+        // A pole still standing from before it came down by itself: its flag has already been handed back.
+        if (finished()) {
+            discard();
+            return;
+        }
         removeAllEffects();
         float effects = Math.min(32.0f, pressure);
         if (effects > 4.0f) {
@@ -143,9 +148,6 @@ public class TowerFlag extends Mob {
         }
         this.bossBar.setProgress(h / getMaxHealth());
         clearAround(level);
-        if (finished()) {
-            return;
-        }
         if (this.tickCount % DRIVE_EVERY == 0) {
             driveAttackers(level);
         }
@@ -271,6 +273,7 @@ public class TowerFlag extends Mob {
         level.getServer().reloadableRegistries().getLootTable(REWARD).getRandomItems(params).forEach(this::spawnAtLocation);
         spawnAtLocation(new ItemStack(ModContent.TOWER_FLAG_ITEM.get()));
         bolt(level);
+        discard();
     }
 
     @Override
@@ -278,8 +281,7 @@ public class TowerFlag extends Mob {
         if (source.is(DamageTypeTags.IS_LIGHTNING)) {
             return false;
         }
-        // Players can take it down once the event is over, not before.
-        if (!finished() && source.getEntity() instanceof Player && !source.isCreativePlayer()) {
+        if (source.getEntity() instanceof Player && !source.isCreativePlayer()) {
             return false;
         }
         return super.hurt(source, amount);

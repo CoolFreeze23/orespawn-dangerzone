@@ -53,6 +53,7 @@
       "required": false
     },
     "orespawn_dangerzone:tower_flag",
-    "orespawn_dangerzone:volcano"
+    "orespawn_dangerzone:volcano",
+    "orespawn_dangerzone:delayed_event"
   ]
 }

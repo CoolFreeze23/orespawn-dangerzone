@@ -3,6 +3,33 @@ package danger.orespawn.dangerzone;
 import danger.orespawn.dangerzone.effect.ShrunkEffect;
 import danger.orespawn.dangerzone.entity.AntQueen;
 import danger.orespawn.dangerzone.entity.BabyNope;
+import danger.orespawn.dangerzone.entity.BabySitter;
+import danger.orespawn.dangerzone.entity.ChaosDemon;
+import danger.orespawn.dangerzone.entity.Dargon;
+import danger.orespawn.dangerzone.entity.DelayedEvent;
+import danger.orespawn.dangerzone.entity.DoomWorm;
+import danger.orespawn.dangerzone.entity.ElementDragon;
+import danger.orespawn.dangerzone.entity.ElementShot;
+import danger.orespawn.dangerzone.entity.KrakenKing;
+import danger.orespawn.dangerzone.entity.PortalAnt;
+import danger.orespawn.dangerzone.entity.PurpleFireball;
+import danger.orespawn.dangerzone.entity.SquidGuard;
+import danger.orespawn.dangerzone.item.ElementStaffItem;
+import danger.orespawn.dangerzone.world.DzBlocks;
+import danger.orespawn.dangerzone.world.DzFeatures;
+import danger.orespawn.dangerzone.world.DzPlaces;
+import net.minecraft.world.food.FoodProperties;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.LeavesBlock;
+import net.minecraft.world.level.block.RotatedPillarBlock;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
+import net.minecraft.world.level.material.MapColor;
+import net.neoforged.neoforge.registries.DeferredBlock;
 import danger.orespawn.dangerzone.entity.Martian;
 import danger.orespawn.dangerzone.entity.Nope;
 import danger.orespawn.dangerzone.entity.PrincessTeen;
@@ -64,6 +91,8 @@ public final class ModContent {
     public static final DeferredRegister<MobEffect> EFFECTS = DeferredRegister.create(Registries.MOB_EFFECT, MOD);
     public static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(Registries.SOUND_EVENT, MOD);
     public static final DeferredRegister<RecipeSerializer<?>> RECIPES = DeferredRegister.create(Registries.RECIPE_SERIALIZER, MOD);
+    public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(MOD);
+    public static final DeferredRegister<Feature<?>> FEATURES = DeferredRegister.create(Registries.FEATURE, MOD);
     public static final DeferredRegister<CreativeModeTab> TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MOD);
 
     // Sizes are DangerZone's.
@@ -103,6 +132,31 @@ public final class ModContent {
     public static final DeferredHolder<EntityType<?>, EntityType<Martian>> MARTIAN = ENTITIES.register("martian",
             () -> EntityType.Builder.of(Martian::new, MobCategory.MONSTER).sized(0.65f, 1.55f).clientTrackingRange(10).build("martian"));
 
+    public static final DeferredHolder<EntityType<?>, EntityType<ChaosDemon>> CHAOS_DEMON = ENTITIES.register("chaos_demon",
+            () -> EntityType.Builder.of(ChaosDemon::new, MobCategory.MONSTER).sized(1.75f, 3.2f).clientTrackingRange(12).build("chaos_demon"));
+    public static final DeferredHolder<EntityType<?>, EntityType<BabySitter>> BABY_SITTER = ENTITIES.register("baby_sitter",
+            () -> EntityType.Builder.of(BabySitter::new, MobCategory.MONSTER).sized(3.0f, 14.0f).clientTrackingRange(16).build("baby_sitter"));
+    public static final DeferredHolder<EntityType<?>, EntityType<DelayedEvent>> DELAYED_EVENT = ENTITIES.register("delayed_event",
+            () -> EntityType.Builder.<DelayedEvent>of(DelayedEvent::new, MobCategory.MISC).sized(0.1f, 0.1f).clientTrackingRange(2).build("delayed_event"));
+    public static final DeferredHolder<EntityType<?>, EntityType<KrakenKing>> KRAKEN_KING = ENTITIES.register("kraken_king",
+            () -> EntityType.Builder.of(KrakenKing::new, MobCategory.MONSTER).sized(15.75f, 4.75f).clientTrackingRange(32).build("kraken_king"));
+    public static final DeferredHolder<EntityType<?>, EntityType<SquidGuard>> SQUID_GUARD = ENTITIES.register("squid_guard",
+            () -> EntityType.Builder.of(SquidGuard::new, MobCategory.MONSTER).sized(1.75f, 1.55f).clientTrackingRange(10).build("squid_guard"));
+    public static final DeferredHolder<EntityType<?>, EntityType<Dargon>> DARGON = ENTITIES.register("dargon",
+            () -> EntityType.Builder.of(Dargon::new, MobCategory.MONSTER).sized(22.75f, 20.75f).fireImmune().clientTrackingRange(32).build("dargon"));
+    public static final DeferredHolder<EntityType<?>, EntityType<ElementDragon>> ELEMENT_DRAGON = ENTITIES.register("element_dragon",
+            () -> EntityType.Builder.of(ElementDragon::new, MobCategory.MONSTER).sized(4.25f, 3.25f).clientTrackingRange(16).build("element_dragon"));
+    public static final DeferredHolder<EntityType<?>, EntityType<ElementShot>> ELEMENT_SHOT = ENTITIES.register("element_shot",
+            () -> EntityType.Builder.<ElementShot>of(ElementShot::new, MobCategory.MISC).sized(0.4f, 0.4f).clientTrackingRange(8).updateInterval(4).build("element_shot"));
+    public static final DeferredHolder<EntityType<?>, EntityType<PurpleFireball>> PURPLE_FIREBALL = ENTITIES.register("purple_fireball",
+            () -> EntityType.Builder.<PurpleFireball>of(PurpleFireball::new, MobCategory.MISC).sized(1.0f, 1.0f).fireImmune().clientTrackingRange(16).updateInterval(2).build("purple_fireball"));
+    public static final DeferredHolder<EntityType<?>, EntityType<DoomWorm>> DOOM_WORM = ENTITIES.register("doom_worm",
+            () -> EntityType.Builder.of(DoomWorm::new, MobCategory.MONSTER).sized(4.5f, 4.5f).clientTrackingRange(24).build("doom_worm"));
+    public static final DeferredHolder<EntityType<?>, EntityType<PortalAnt>> DOOM_ANT = ENTITIES.register("doom_ant",
+            () -> EntityType.Builder.<PortalAnt>of((type, level) -> new PortalAnt(type, level, DzPlaces.DOOM), MobCategory.CREATURE).sized(0.5f, 0.3f).clientTrackingRange(8).build("doom_ant"));
+    public static final DeferredHolder<EntityType<?>, EntityType<PortalAnt>> DRANT = ENTITIES.register("drant",
+            () -> EntityType.Builder.<PortalAnt>of((type, level) -> new PortalAnt(type, level, DzPlaces.DRAGONS_LAIR), MobCategory.CREATURE).sized(0.5f, 0.3f).clientTrackingRange(8).build("drant"));
+
     public static final DeferredHolder<MobEffect, ShrunkEffect> SHRUNK = EFFECTS.register("shrunk", ShrunkEffect::new);
 
     public static final DeferredHolder<SoundEvent, SoundEvent> SND_NEEDLENOSE_AMBIENT = sound("needlenose.ambient");
@@ -122,6 +176,30 @@ public final class ModContent {
     public static final DeferredHolder<SoundEvent, SoundEvent> SND_NOPE_AMBIENT = sound("nope.ambient");
     public static final DeferredHolder<SoundEvent, SoundEvent> SND_MARTIAN_HURT = sound("martian.hurt");
     public static final DeferredHolder<SoundEvent, SoundEvent> SND_MARTIAN_DEATH = sound("martian.death");
+    public static final DeferredHolder<SoundEvent, SoundEvent> SND_SITTER_AMBIENT = sound("baby_sitter.ambient");
+    public static final DeferredHolder<SoundEvent, SoundEvent> SND_SITTER_HURT = sound("baby_sitter.hurt");
+    public static final DeferredHolder<SoundEvent, SoundEvent> SND_SITTER_DEATH = sound("baby_sitter.death");
+    public static final DeferredHolder<SoundEvent, SoundEvent> SND_ELEMENT_AMBIENT = sound("element_dragon.ambient");
+    public static final DeferredHolder<SoundEvent, SoundEvent> SND_ELEMENT_HURT = sound("element_dragon.hurt");
+    public static final DeferredHolder<SoundEvent, SoundEvent> SND_ELEMENT_DEATH = sound("element_dragon.death");
+    public static final DeferredHolder<SoundEvent, SoundEvent> SND_WORM_AMBIENT = sound("doom_worm.ambient");
+
+    public static final DeferredBlock<Block> DARK_STONE = BLOCKS.registerSimpleBlock("dark_stone", stone(1.5f, 6.0f));
+    public static final DeferredBlock<Block> DARK_DIRT = BLOCKS.registerSimpleBlock("dark_dirt", BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BLACK).strength(0.5f).sound(SoundType.GRAVEL));
+    public static final DeferredBlock<RotatedPillarBlock> DARK_LOG = BLOCKS.registerBlock("dark_log", RotatedPillarBlock::new, BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BLACK).strength(2.0f).sound(SoundType.WOOD));
+    public static final DeferredBlock<LeavesBlock> DARK_LEAVES = BLOCKS.registerBlock("dark_leaves", LeavesBlock::new, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LEAVES));
+    public static final DeferredBlock<Block> FOSSIL_BONE = BLOCKS.registerSimpleBlock("fossil_bone", stone(1.5f, 6.0f));
+    public static final DeferredBlock<Block> DRAGONS_EYE_STONE = BLOCKS.registerSimpleBlock("dragons_eye_stone", stone(3.0f, 9.0f));
+    public static final DeferredBlock<DzBlocks.ExtremeTorch> EXTREME_TORCH = BLOCKS.registerBlock("extreme_torch", DzBlocks.ExtremeTorch::new, BlockBehaviour.Properties.ofFullCopy(Blocks.TORCH).lightLevel(state -> 15));
+    public static final DeferredBlock<DzBlocks.KingSpawner> KRAKEN_KING_SPAWNER = BLOCKS.registerBlock("kraken_king_spawner", DzBlocks.KingSpawner::new, BlockBehaviour.Properties.ofFullCopy(Blocks.OBSIDIAN).randomTicks());
+    public static final DeferredBlock<Block> DARGON_STONE = BLOCKS.registerSimpleBlock("dargon_stone", stone(4.0f, 1200.0f));
+    public static final DeferredBlock<Block> DARGON_STONE_DARK = BLOCKS.registerSimpleBlock("dargon_stone_dark", stone(4.0f, 1200.0f));
+    public static final DeferredBlock<RotatedPillarBlock> DOOM_LOG = BLOCKS.registerBlock("doom_log", RotatedPillarBlock::new, BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GRAY).strength(2.0f).sound(SoundType.WOOD));
+    public static final DeferredBlock<LeavesBlock> DOOM_LEAVES = BLOCKS.registerBlock("doom_leaves", LeavesBlock::new, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LEAVES));
+    public static final DeferredBlock<Block> DOOM_SAND = BLOCKS.registerSimpleBlock("doom_sand", BlockBehaviour.Properties.of().mapColor(MapColor.SAND).strength(0.5f).sound(SoundType.SAND));
+
+    public static final DeferredHolder<Feature<?>, Feature<NoneFeatureConfiguration>> FOSSIL_CROSS = FEATURES.register("fossil_cross", DzFeatures.FossilCross::new);
+    public static final DeferredHolder<Feature<?>, Feature<NoneFeatureConfiguration>> ELEMENT_PILLAR = FEATURES.register("element_pillar", DzFeatures.ElementPillar::new);
 
     /** DangerZone's 6000 uses and 85 damage, with damage on the port's scale: its Ultimate Sword is 100 there, 36 here. */
     public static final Tier DRAGONS_EYE_TIER = new SimpleTier(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 6000, 15.0f, 26.0f, 50,
@@ -140,6 +218,39 @@ public final class ModContent {
             () -> new TowerFlagItem(new Item.Properties().stacksTo(1).rarity(Rarity.RARE)));
     public static final DeferredItem<TrophyItem> TROPHY = ITEMS.register("trophy",
             () -> new TrophyItem(new Item.Properties().stacksTo(16)));
+
+    public static final DeferredItem<BlockItem> DARK_STONE_ITEM = ITEMS.registerSimpleBlockItem(DARK_STONE);
+    public static final DeferredItem<BlockItem> DARK_DIRT_ITEM = ITEMS.registerSimpleBlockItem(DARK_DIRT);
+    public static final DeferredItem<BlockItem> DARK_LOG_ITEM = ITEMS.registerSimpleBlockItem(DARK_LOG);
+    public static final DeferredItem<BlockItem> DARK_LEAVES_ITEM = ITEMS.registerSimpleBlockItem(DARK_LEAVES);
+    public static final DeferredItem<BlockItem> FOSSIL_BONE_ITEM = ITEMS.registerSimpleBlockItem(FOSSIL_BONE);
+    public static final DeferredItem<BlockItem> DRAGONS_EYE_STONE_ITEM = ITEMS.registerSimpleBlockItem(DRAGONS_EYE_STONE);
+    public static final DeferredItem<BlockItem> EXTREME_TORCH_ITEM = ITEMS.registerSimpleBlockItem(EXTREME_TORCH);
+    public static final DeferredItem<BlockItem> KRAKEN_KING_SPAWNER_ITEM = ITEMS.registerSimpleBlockItem(KRAKEN_KING_SPAWNER);
+    public static final DeferredItem<BlockItem> DARGON_STONE_ITEM = ITEMS.registerSimpleBlockItem(DARGON_STONE);
+    public static final DeferredItem<BlockItem> DARGON_STONE_DARK_ITEM = ITEMS.registerSimpleBlockItem(DARGON_STONE_DARK);
+    public static final DeferredItem<BlockItem> DOOM_LOG_ITEM = ITEMS.registerSimpleBlockItem(DOOM_LOG);
+    public static final DeferredItem<BlockItem> DOOM_LEAVES_ITEM = ITEMS.registerSimpleBlockItem(DOOM_LEAVES);
+    public static final DeferredItem<BlockItem> DOOM_SAND_ITEM = ITEMS.registerSimpleBlockItem(DOOM_SAND);
+
+    public static final DeferredItem<Item> WORM_FOOD = ITEMS.registerItem("worm_food", Item::new,
+            new Item.Properties().food(new FoodProperties.Builder().nutrition(1).saturationModifier(0.1f).build()));
+    public static final DeferredItem<ElementStaffItem> EARTH_STAFF = staff("earth_staff", ElementShot.EARTH);
+    public static final DeferredItem<ElementStaffItem> WIND_STAFF = staff("wind_staff", ElementShot.WIND);
+    public static final DeferredItem<ElementStaffItem> FIRE_STAFF = staff("fire_staff", ElementShot.FIRE);
+    public static final DeferredItem<ElementStaffItem> WATER_STAFF = staff("water_staff", ElementShot.WATER);
+    public static final DeferredItem<ElementStaffItem> LIGHTNING_STAFF = staff("lightning_staff", ElementShot.LIGHTNING);
+    public static final DeferredItem<ElementStaffItem> PLANT_STAFF = staff("plant_staff", ElementShot.PLANT);
+
+    public static final DeferredItem<DeferredSpawnEggItem> CHAOS_DEMON_EGG = egg("chaos_demon", CHAOS_DEMON);
+    public static final DeferredItem<DeferredSpawnEggItem> BABY_SITTER_EGG = egg("baby_sitter", BABY_SITTER);
+    public static final DeferredItem<DeferredSpawnEggItem> KRAKEN_KING_EGG = egg("kraken_king", KRAKEN_KING);
+    public static final DeferredItem<DeferredSpawnEggItem> SQUID_GUARD_EGG = egg("squid_guard", SQUID_GUARD);
+    public static final DeferredItem<DeferredSpawnEggItem> DARGON_EGG = egg("dargon", DARGON);
+    public static final DeferredItem<DeferredSpawnEggItem> ELEMENT_DRAGON_EGG = egg("element_dragon", ELEMENT_DRAGON);
+    public static final DeferredItem<DeferredSpawnEggItem> DOOM_WORM_EGG = egg("doom_worm", DOOM_WORM);
+    public static final DeferredItem<DeferredSpawnEggItem> DOOM_ANT_EGG = egg("doom_ant", DOOM_ANT);
+    public static final DeferredItem<DeferredSpawnEggItem> DRANT_EGG = egg("drant", DRANT);
 
     public static final DeferredItem<DeferredSpawnEggItem> NOPE_EGG = egg("nope", NOPE);
     public static final DeferredItem<DeferredSpawnEggItem> BABY_NOPE_EGG = egg("baby_nope", BABY_NOPE);
@@ -180,6 +291,19 @@ public final class ModContent {
     private ModContent() {
     }
 
+    private static BlockBehaviour.Properties stone(float hardness, float resistance) {
+        return BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BLACK).strength(hardness, resistance).requiresCorrectToolForDrops().sound(SoundType.STONE);
+    }
+
+    private static DeferredItem<ElementStaffItem> staff(String name, int element) {
+        return ITEMS.register(name, () -> new ElementStaffItem(element, new Item.Properties().durability(100).rarity(Rarity.RARE)));
+    }
+
+    /** In element order: what each Element Dragon drops. */
+    public static java.util.List<? extends Item> elementStaffs() {
+        return java.util.List.of(EARTH_STAFF.get(), WIND_STAFF.get(), FIRE_STAFF.get(), WATER_STAFF.get(), LIGHTNING_STAFF.get(), PLANT_STAFF.get());
+    }
+
     private static DeferredHolder<SoundEvent, SoundEvent> sound(String name) {
         return SOUNDS.register(name, () -> SoundEvent.createVariableRangeEvent(OreSpawnDangerZone.id(name)));
     }
@@ -190,6 +314,8 @@ public final class ModContent {
 
     static void register(IEventBus modBus) {
         ENTITIES.register(modBus);
+        BLOCKS.register(modBus);
+        FEATURES.register(modBus);
         ITEMS.register(modBus);
         EFFECTS.register(modBus);
         SOUNDS.register(modBus);
@@ -215,6 +341,15 @@ public final class ModContent {
         event.put(UFO_CARRIER.get(), UfoCarrier.createAttributes().build());
         event.put(UFO_FIGHTER.get(), UfoFighter.createAttributes().build());
         event.put(MARTIAN.get(), Martian.createAttributes().build());
+        event.put(CHAOS_DEMON.get(), ChaosDemon.createAttributes().build());
+        event.put(BABY_SITTER.get(), BabySitter.createAttributes().build());
+        event.put(KRAKEN_KING.get(), KrakenKing.createKingAttributes().build());
+        event.put(SQUID_GUARD.get(), SquidGuard.createAttributes().build());
+        event.put(DARGON.get(), Dargon.createDargonAttributes().build());
+        event.put(ELEMENT_DRAGON.get(), ElementDragon.createAttributes().build());
+        event.put(DOOM_WORM.get(), DoomWorm.createAttributes().build());
+        event.put(DOOM_ANT.get(), PortalAnt.createAttributes().build());
+        event.put(DRANT.get(), PortalAnt.createAttributes().build());
     }
 
     private static void placements(RegisterSpawnPlacementsEvent event) {
@@ -226,6 +361,19 @@ public final class ModContent {
                 Monster::checkMonsterSpawnRules, RegisterSpawnPlacementsEvent.Operation.REPLACE);
         // The Queen stands in the open by day or night in DangerZone: PERMANENT and not tied to the dark.
         event.register(ANT_QUEEN.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
+                Mob::checkMobSpawnRules, RegisterSpawnPlacementsEvent.Operation.REPLACE);
+        event.register(CHAOS_DEMON.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
+                Mob::checkMobSpawnRules, RegisterSpawnPlacementsEvent.Operation.REPLACE);
+        // It flies, and its realm is mostly sea: any open air will do, over water as well as land.
+        event.register(SQUID_GUARD.get(), SpawnPlacementTypes.NO_RESTRICTIONS, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
+                (type, level, reason, pos, random) -> level.getBlockState(pos).isAir(), RegisterSpawnPlacementsEvent.Operation.REPLACE);
+        event.register(DARGON.get(), SpawnPlacementTypes.NO_RESTRICTIONS, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
+                Mob::checkMobSpawnRules, RegisterSpawnPlacementsEvent.Operation.REPLACE);
+        event.register(DOOM_WORM.get(), SpawnPlacementTypes.NO_RESTRICTIONS, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
+                Mob::checkMobSpawnRules, RegisterSpawnPlacementsEvent.Operation.REPLACE);
+        event.register(DOOM_ANT.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
+                Mob::checkMobSpawnRules, RegisterSpawnPlacementsEvent.Operation.REPLACE);
+        event.register(DRANT.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
                 Mob::checkMobSpawnRules, RegisterSpawnPlacementsEvent.Operation.REPLACE);
         event.register(NOPE.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
                 Mob::checkMobSpawnRules, RegisterSpawnPlacementsEvent.Operation.REPLACE);

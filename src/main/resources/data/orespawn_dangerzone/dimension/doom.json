@@ -1,0 +1,26 @@
+{
+  "type": "orespawn_dangerzone:doom",
+  "generator": {
+    "type": "minecraft:flat",
+    "settings": {
+      "biome": "orespawn_dangerzone:doom",
+      "lakes": false,
+      "features": true,
+      "structure_overrides": [],
+      "layers": [
+        {
+          "block": "minecraft:bedrock",
+          "height": 1
+        },
+        {
+          "block": "minecraft:obsidian",
+          "height": 2
+        },
+        {
+          "block": "orespawn_dangerzone:doom_sand",
+          "height": 47
+        }
+      ]
+    }
+  }
+}

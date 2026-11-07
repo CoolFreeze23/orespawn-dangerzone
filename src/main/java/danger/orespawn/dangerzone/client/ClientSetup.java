@@ -9,7 +9,24 @@ import danger.orespawn.dangerzone.client.model.DzModel;
 import danger.orespawn.dangerzone.client.model.DzNastysaurusPrimeModel;
 import danger.orespawn.dangerzone.client.model.DzNeedlenoseModel;
 import danger.orespawn.dangerzone.client.model.DzNurseBugModel;
+import danger.orespawn.dangerzone.client.model.DzAntModel;
 import danger.orespawn.dangerzone.client.model.DzBabyNopeModel;
+import danger.orespawn.dangerzone.client.model.DzBabySitterModel;
+import danger.orespawn.dangerzone.client.model.DzChaosDemonModel;
+import danger.orespawn.dangerzone.client.model.DzDargonModel;
+import danger.orespawn.dangerzone.client.model.DzDoomWormModel;
+import danger.orespawn.dangerzone.client.model.DzDrantModel;
+import danger.orespawn.dangerzone.client.model.DzElementDragonModel;
+import danger.orespawn.dangerzone.client.model.DzKrakenKingModel;
+import danger.orespawn.dangerzone.client.model.DzSquidGuardModel;
+import danger.orespawn.dangerzone.entity.BabySitter;
+import danger.orespawn.dangerzone.entity.ChaosDemon;
+import danger.orespawn.dangerzone.entity.Dargon;
+import danger.orespawn.dangerzone.entity.DoomWorm;
+import danger.orespawn.dangerzone.entity.ElementDragon;
+import danger.orespawn.dangerzone.entity.KrakenKing;
+import danger.orespawn.dangerzone.entity.PortalAnt;
+import danger.orespawn.dangerzone.entity.SquidGuard;
 import danger.orespawn.dangerzone.client.model.DzMartianModel;
 import danger.orespawn.dangerzone.client.model.DzNopeModel;
 import danger.orespawn.dangerzone.client.model.DzPrincessTeenModel;
@@ -59,6 +76,17 @@ public final class ClientSetup {
     private static final ModelLayerLocation UFO_CARRIER = layer("ufo_carrier");
     private static final ModelLayerLocation UFO_FIGHTER = layer("ufo_fighter");
     private static final ModelLayerLocation MARTIAN = layer("martian");
+    private static final ModelLayerLocation CHAOS_DEMON = layer("chaos_demon");
+    private static final ModelLayerLocation BABY_SITTER = layer("baby_sitter");
+    private static final ModelLayerLocation KRAKEN_KING = layer("kraken_king");
+    private static final ModelLayerLocation SQUID_GUARD = layer("squid_guard");
+    private static final ModelLayerLocation DARGON = layer("dargon");
+    private static final ModelLayerLocation ELEMENT_DRAGON = layer("element_dragon");
+    private static final ModelLayerLocation DOOM_WORM = layer("doom_worm");
+    private static final ModelLayerLocation DOOM_ANT = layer("doom_ant");
+    private static final ModelLayerLocation DRANT = layer("drant");
+    private static final String[] ELEMENT_TEXTURES = {"element_dragon_earth", "element_dragon_wind", "element_dragon_fire",
+            "element_dragon_water", "element_dragon_lightning", "element_dragon_plant"};
 
     private ClientSetup() {
     }
@@ -83,6 +111,15 @@ public final class ClientSetup {
         event.registerLayerDefinition(UFO_CARRIER, DzUfoCarrierModel::createBodyLayer);
         event.registerLayerDefinition(UFO_FIGHTER, DzUfoFighterModel::createBodyLayer);
         event.registerLayerDefinition(MARTIAN, DzMartianModel::createBodyLayer);
+        event.registerLayerDefinition(CHAOS_DEMON, DzChaosDemonModel::createBodyLayer);
+        event.registerLayerDefinition(BABY_SITTER, DzBabySitterModel::createBodyLayer);
+        event.registerLayerDefinition(KRAKEN_KING, DzKrakenKingModel::createBodyLayer);
+        event.registerLayerDefinition(SQUID_GUARD, DzSquidGuardModel::createBodyLayer);
+        event.registerLayerDefinition(DARGON, DzDargonModel::createBodyLayer);
+        event.registerLayerDefinition(ELEMENT_DRAGON, DzElementDragonModel::createBodyLayer);
+        event.registerLayerDefinition(DOOM_WORM, DzDoomWormModel::createBodyLayer);
+        event.registerLayerDefinition(DOOM_ANT, DzAntModel::createBodyLayer);
+        event.registerLayerDefinition(DRANT, DzDrantModel::createBodyLayer);
     }
 
     @SubscribeEvent
@@ -99,6 +136,27 @@ public final class ClientSetup {
                 new DzRenderer<>(c, new DzBloodlustAntModel<>(c.bakeLayer(BLOODLUST)), "bloodlust_ant", 1.0f, DzBloodlustAntModel.SCALE));
         event.registerEntityRenderer(ModContent.SHRINK_BOLT.get(), NoopRenderer::new);
         event.registerEntityRenderer(ModContent.VOLCANO.get(), NoopRenderer::new);
+        event.registerEntityRenderer(ModContent.DELAYED_EVENT.get(), NoopRenderer::new);
+        event.registerEntityRenderer(ModContent.PURPLE_FIREBALL.get(), NoopRenderer::new);
+        event.registerEntityRenderer(ModContent.ELEMENT_SHOT.get(), NoopRenderer::new);
+        event.registerEntityRenderer(ModContent.CHAOS_DEMON.get(), (EntityRendererProvider<ChaosDemon>) c ->
+                new DzRenderer<>(c, new DzChaosDemonModel<>(c.bakeLayer(CHAOS_DEMON)), "chaos_demon", 1.0f, DzChaosDemonModel.SCALE));
+        event.registerEntityRenderer(ModContent.BABY_SITTER.get(), (EntityRendererProvider<BabySitter>) c ->
+                new DzRenderer<>(c, new DzBabySitterModel<>(c.bakeLayer(BABY_SITTER)), "baby_sitter", 2.0f, DzBabySitterModel.SCALE));
+        event.registerEntityRenderer(ModContent.KRAKEN_KING.get(), (EntityRendererProvider<KrakenKing>) c ->
+                new DzRenderer<>(c, new DzKrakenKingModel<>(c.bakeLayer(KRAKEN_KING)), "kraken_king", 0.0f, DzKrakenKingModel.SCALE));
+        event.registerEntityRenderer(ModContent.SQUID_GUARD.get(), (EntityRendererProvider<SquidGuard>) c ->
+                new DzRenderer<>(c, new DzSquidGuardModel<>(c.bakeLayer(SQUID_GUARD)), "squid_guard", 0.0f, DzSquidGuardModel.SCALE));
+        event.registerEntityRenderer(ModContent.DARGON.get(), (EntityRendererProvider<Dargon>) c ->
+                new DzRenderer<>(c, new DzDargonModel<>(c.bakeLayer(DARGON)), "dargon", 0.0f, DzDargonModel.SCALE));
+        event.registerEntityRenderer(ModContent.ELEMENT_DRAGON.get(), (EntityRendererProvider<ElementDragon>) c ->
+                new DzRenderer<>(c, new DzElementDragonModel<>(c.bakeLayer(ELEMENT_DRAGON)), "element_dragon", 0.0f, DzElementDragonModel.SCALE, e -> ELEMENT_TEXTURES[e.element()]));
+        event.registerEntityRenderer(ModContent.DOOM_WORM.get(), (EntityRendererProvider<DoomWorm>) c ->
+                new DzRenderer<>(c, new DzDoomWormModel<>(c.bakeLayer(DOOM_WORM)), "doom_worm", 0.0f, DzDoomWormModel.SCALE));
+        event.registerEntityRenderer(ModContent.DOOM_ANT.get(), (EntityRendererProvider<PortalAnt>) c ->
+                new DzRenderer<>(c, new DzAntModel<>(c.bakeLayer(DOOM_ANT)), "doom_ant", 0.2f, DzAntModel.SCALE));
+        event.registerEntityRenderer(ModContent.DRANT.get(), (EntityRendererProvider<PortalAnt>) c ->
+                new DzRenderer<>(c, new DzDrantModel<>(c.bakeLayer(DRANT)), "drant", 0.2f, DzDrantModel.SCALE));
         event.registerEntityRenderer(ModContent.TROPHY_ENTITY.get(), TrophyRenderer::new);
         event.registerEntityRenderer(ModContent.TOWER_FLAG.get(), (EntityRendererProvider<TowerFlag>) c ->
                 new DzRenderer<>(c, new DzTowerFlagModel<>(c.bakeLayer(FLAG)), "tower_flag", 0.5f, DzTowerFlagModel.SCALE));

@@ -35,7 +35,7 @@
       "done"
     ]
   ],
-  "parent": "orespawn_dangerzone:things_to_do/friends/task109",
+  "parent": "orespawn_dangerzone:things_to_do/friends",
   "rewards": {
     "experience": 111
   }

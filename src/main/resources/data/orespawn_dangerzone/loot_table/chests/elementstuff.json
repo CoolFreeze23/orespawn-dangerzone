@@ -1,0 +1,69 @@
+{
+  "type": "minecraft:chest",
+  "pools": [
+    {
+      "rolls": {
+        "type": "minecraft:uniform",
+        "min": 3,
+        "max": 7
+      },
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:diamond"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:gold_ingot"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:blaze_rod"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:ender_pearl"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "orespawn_dangerzone:dragons_eye"
+        }
+      ]
+    },
+    {
+      "rolls": 1,
+      "conditions": [
+        {
+          "condition": "minecraft:random_chance",
+          "chance": 0.25
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "orespawn_dangerzone:earth_staff"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "orespawn_dangerzone:wind_staff"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "orespawn_dangerzone:fire_staff"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "orespawn_dangerzone:water_staff"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "orespawn_dangerzone:lightning_staff"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "orespawn_dangerzone:plant_staff"
+        }
+      ]
+    }
+  ]
+}

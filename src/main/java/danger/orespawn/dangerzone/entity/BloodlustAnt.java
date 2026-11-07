@@ -18,11 +18,14 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.AABB;
 
 import javax.annotation.Nullable;
 
 /** The Ant Queen's soldier. It takes up her fight and never hers against it. */
 public class BloodlustAnt extends Monster {
+    private static final double EXTRA_REACH = 2.0;
+
     public BloodlustAnt(EntityType<? extends BloodlustAnt> type, Level level) {
         super(type, level);
         this.xpReward = 24;
@@ -36,6 +39,12 @@ public class BloodlustAnt extends Monster {
                 .add(Attributes.MOVEMENT_SPEED, 0.25)
                 .add(Attributes.FOLLOW_RANGE, 40.0)
                 .add(Attributes.STEP_HEIGHT, 1.0);
+    }
+
+    /** Pathfinding stops something this wide a stride short of its target, where a plain reach never gets there. */
+    @Override
+    protected AABB getAttackBoundingBox() {
+        return super.getAttackBoundingBox().inflate(EXTRA_REACH, 0.0, EXTRA_REACH);
     }
 
     @Override

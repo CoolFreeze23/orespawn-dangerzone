@@ -48,7 +48,7 @@ public class Ufo extends Monster implements DzAnimated {
     @Override
     public void tick() {
         super.tick();
-        if (isNoAi() || !(level() instanceof ServerLevel level)) {
+        if (isNoAi() || isDeadOrDying() || !(level() instanceof ServerLevel level)) {
             return;
         }
         Player target = level.getNearestPlayer(getX(), getY(), getZ(), SEARCH, p -> !((Player) p).isCreative() && !p.isSpectator());

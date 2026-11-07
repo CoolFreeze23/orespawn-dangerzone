@@ -1,0 +1,81 @@
+{
+  "type": "minecraft:chest",
+  "pools": [
+    {
+      "rolls": {
+        "type": "minecraft:uniform",
+        "min": 3,
+        "max": 7
+      },
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:diamond"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:emerald"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:gold_ingot"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:amethyst_shard"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "orespawn:ruby"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "orespawn:amethyst_gem"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "orespawn:ingot_titanium"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "orespawn:ingot_uranium"
+        }
+      ]
+    },
+    {
+      "rolls": 1,
+      "conditions": [
+        {
+          "condition": "minecraft:random_chance",
+          "chance": 0.03
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "orespawn_dangerzone:earth_staff"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "orespawn_dangerzone:wind_staff"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "orespawn_dangerzone:fire_staff"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "orespawn_dangerzone:water_staff"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "orespawn_dangerzone:lightning_staff"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "orespawn_dangerzone:plant_staff"
+        }
+      ]
+    }
+  ]
+}

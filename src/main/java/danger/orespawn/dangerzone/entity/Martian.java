@@ -81,12 +81,16 @@ public class Martian extends Monster implements RangedAttackMob {
         if (hasRayGun()) {
             LaserBall shot = new LaserBall(level, this);
             shot.setPos(getX(), getEyeY(), getZ());
-            shot.shoot(dx, dy, dz, 0.75f, 1.0f);
+            // A laser goes straight: with the shot's gravity it hit the ground well short of anyone at range.
+            shot.setNoGravity(true);
+            shot.shoot(dx, dy, dz, 1.0f, 1.0f);
             level.addFreshEntity(shot);
             playSound(ModContent.SND_RAY.get(), 0.8f, 1.0f);
         } else {
             Arrow arrow = new Arrow(level, this, new ItemStack(Items.ARROW), new ItemStack(Items.BOW));
-            arrow.shoot(dx, dy + Math.sqrt(dx * dx + dz * dz) * 0.2, dz, 1.6f, 4.0f);
+            // As a skeleton aims: at the chest, plus enough for the drop.
+            double chest = target.getY(1.0 / 3.0) - arrow.getY();
+            arrow.shoot(dx, chest + Math.sqrt(dx * dx + dz * dz) * 0.2, dz, 1.6f, 4.0f);
             level.addFreshEntity(arrow);
             playSound(net.minecraft.sounds.SoundEvents.ARROW_SHOOT, 1.0f, 1.0f);
         }

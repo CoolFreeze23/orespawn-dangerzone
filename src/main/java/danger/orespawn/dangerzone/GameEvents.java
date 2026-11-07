@@ -8,6 +8,7 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.TamableAnimal;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -28,7 +29,8 @@ public final class GameEvents {
     public static void onDrops(LivingDropsEvent event) {
         LivingEntity entity = event.getEntity();
         // A DangerZone baby leaves nothing behind, so a shrunk creature can't be farmed.
-        if (entity.hasEffect(ModContent.SHRUNK)) {
+        // A player's drops are their inventory, which is another matter.
+        if (entity.hasEffect(ModContent.SHRUNK) && !(entity instanceof Player)) {
             event.getDrops().clear();
             return;
         }
@@ -61,7 +63,7 @@ public final class GameEvents {
 
     @SubscribeEvent
     public static void onExperience(LivingExperienceDropEvent event) {
-        if (event.getEntity().hasEffect(ModContent.SHRUNK)) {
+        if (event.getEntity().hasEffect(ModContent.SHRUNK) && !(event.getEntity() instanceof Player)) {
             event.setDroppedExperience(1);
         }
     }

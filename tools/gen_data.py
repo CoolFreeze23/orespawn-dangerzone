@@ -24,9 +24,13 @@ PORT_ITEMS, PORT_BLOCKS, PORT_ENTITIES = set(ids["items"]), set(ids["blocks"]), 
 OWN_ENTITIES = {"NastysaurusPrime": "nastysaurus_prime", "Needlenose": "needlenose", "NurseBug": "nurse_bug",
                 "AntQueen": "ant_queen", "BloodlustAnt": "bloodlust_ant", "Nope": "nope", "BabyNope": "baby_nope",
                 "ThePrincessTeen": "princess_teen", "ThePrincessYoungAdult": "princess_young_adult", "UFO": "ufo",
-                "UFOCarrier": "ufo_carrier", "UFOFighter": "ufo_fighter", "Martian": "martian", "MyMartian": "martian"}
+                "UFOCarrier": "ufo_carrier", "UFOFighter": "ufo_fighter", "Martian": "martian", "MyMartian": "martian",
+                "ChaosDemon": "chaos_demon", "BabySitter": "baby_sitter", "KrakenKing": "kraken_king", "SquidGuard": "squid_guard",
+                "Dargon": "dargon", "ElementDragon": "element_dragon", "DoomWorm": "doom_worm", "DoomAnt": "doom_ant", "Drant": "drant"}
 OWN_ITEMS = {"dimensionstaff": "dimension_staff", "dragonseye": "dragons_eye", "dragonseyesword": "dragons_eye_sword",
-             "shrinkray": "shrink_ray"}
+             "shrinkray": "shrink_ray", "wormfood": "worm_food", "extremetorch": "extreme_torch", "firestaff": "fire_staff",
+             "earthstaff": "earth_staff", "waterstaff": "water_staff", "windstaff": "wind_staff", "lightningstaff": "lightning_staff",
+             "plantstaff": "plant_staff", "dragoneyestone": "dragons_eye_stone", "darkstone": "dark_stone"}
 ENTITY_ALIAS = {
     "Beetle": "hercules_beetle", "Bird": "cockateil", "Criminal": "band_p", "FFrog": "frog", "Hoverboard": "elevator",
     "JumpyBug": "trooper_bug", "WTF": "gamma_metroid", "Moth": "luna_moth", "Nightmare": "pitch_black", "PowerOrb": "purple_power",
@@ -41,7 +45,8 @@ ITEM_ALIAS = {
     "nuggeturanium": "uranium_nugget", "nuggettitanium": "titanium_nugget",
     "bbblade": "bertha_blade", "bbguard": "bertha_guard", "bbhandle": "bertha_handle",
 }
-DIMENSIONS = {"utopiadimension": "utopia", "miningdimension": "mining", "chaosdimension": "chaos", "crystaldimension": "crystal", "dangerdimension": "islands"}
+DIMENSIONS = {"utopiadimension": "utopia", "miningdimension": "mining", "chaosdimension": "chaos", "crystaldimension": "crystal", "dangerdimension": "islands",
+              "doomdimension": "orespawn_dangerzone:doom", "dragonslairdimension": "orespawn_dangerzone:dragons_lair", "krakenkingdimension": "orespawn_dangerzone:kraken_realm"}
 # Kept out of the mod: the real-world political jokes.
 EXCLUDE = re.compile(r"Putin|Lavrov|Russian|Vaxx|Libtard|Pharma|Red-Pill|Whiner|Liberals|Deep State", re.I)
 # The original's text and its check disagree, so there's nothing faithful to carry over.
@@ -173,7 +178,7 @@ def parse_tasks():
             dim = DIMENSIONS.get(target)
             if dim:
                 icon = "minecraft:ender_eye"
-                crit = {"trigger": "minecraft:changed_dimension", "conditions": {"to": "orespawn:" + dim}}
+                crit = {"trigger": "minecraft:changed_dimension", "conditions": {"to": dim if ":" in dim else "orespawn:" + dim}}
         if crit is None:
             skipped.append((tid, title, f"{kind} {target}"))
             continue
@@ -273,6 +278,220 @@ def pool(item, low=1, high=1, chance=None):
     if chance is not None:
         result["conditions"] = [{"condition": "minecraft:random_chance", "chance": chance}]
     return result
+
+
+def element_noise(name, default_block, default_fluid, sea_level, surface):
+    """Vanilla's overworld terrain with this mod's blocks, sea and surface."""
+    base = json.load(open(os.path.join(HERE, "tools/overworld_noise_settings.json"), encoding="utf8"))
+    base["default_block"] = {"Name": default_block}
+    base["default_fluid"] = {"Name": default_fluid, "Properties": {"level": "0"}}
+    base["sea_level"] = sea_level
+    base["aquifers_enabled"] = False
+    base["ore_veins_enabled"] = False
+    base["spawn_target"] = base.get("spawn_target", [])
+    if surface:
+        base["surface_rule"] = surface
+    write_json(os.path.join(DATA, f"worldgen/noise_settings/{name}.json"), base)
+
+
+def biome(name, spawners, features, sky, fog, water, grass=None, temperature=0.8, downfall=0.4):
+    effects = {"sky_color": sky, "fog_color": fog, "water_color": water, "water_fog_color": water, "mood_sound": {
+        "sound": "minecraft:ambient.cave", "tick_delay": 6000, "block_search_extent": 8, "offset": 2.0}}
+    if grass is not None:
+        effects["grass_color"] = grass
+        effects["foliage_color"] = grass
+    categories = {"monster": [], "creature": [], "ambient": [], "water_creature": [], "underground_water_creature": [], "water_ambient": [], "misc": [], "axolotls": []}
+    for category, entries in spawners.items():
+        categories[category] = [{"type": e, "weight": w, "minCount": a, "maxCount": b} for e, w, a, b in entries]
+    write_json(os.path.join(DATA, f"worldgen/biome/{name}.json"), {
+        "has_precipitation": True, "temperature": temperature, "downfall": downfall, "effects": effects,
+        "spawners": categories, "spawn_costs": {}, "carvers": {}, "features": features})
+
+
+def dimension_type(name, min_y=-64, height=384, logical=384, bed=True, skylight=True):
+    write_json(os.path.join(DATA, f"dimension_type/{name}.json"), {
+        "ultrawarm": False, "natural": True, "piglin_safe": False, "respawn_anchor_works": False, "bed_works": bed, "has_raids": False,
+        "has_skylight": skylight, "has_ceiling": False, "coordinate_scale": 1.0, "ambient_light": 0.0, "logical_height": logical,
+        "effects": "minecraft:overworld", "infiniburn": "#minecraft:infiniburn_overworld", "min_y": min_y, "height": height,
+        "monster_spawn_light_level": {"type": "minecraft:uniform", "min_inclusive": 0, "max_inclusive": 7}, "monster_spawn_block_light_limit": 0})
+
+
+def placed(name, feature, placement):
+    write_json(os.path.join(DATA, f"worldgen/placed_feature/{name}.json"), {"feature": feature, "placement": placement})
+
+
+def surface_block(y_margin, block):
+    return {"type": "minecraft:block", "result_state": {"Name": block}}
+
+
+def milestone_three(lang):
+    blocks = {
+        "dark_stone": "Dark Stone", "dark_dirt": "Dark Dirt", "fossil_bone": "Fossilized Bone", "dragons_eye_stone": "Dragon's Eye Stone",
+        "dargon_stone": "Dargon Stone", "dargon_stone_dark": "Dark Dargon Stone", "kraken_king_spawner": "It Sleeps",
+    }
+    bs = os.path.join(ASSETS, "blockstates")
+    bm = os.path.join(ASSETS, "models/block")
+    im = os.path.join(ASSETS, "models/item")
+    loot_blocks = os.path.join(DATA, "loot_table/blocks")
+    self_drop = lambda name: {"type": "minecraft:block", "pools": [{"rolls": 1, "entries": [{"type": "minecraft:item", "name": f"{MOD}:{name}"}],
+                                                                       "conditions": [{"condition": "minecraft:survives_explosion"}]}]}
+
+    def cube(name, texture=None):
+        write_json(os.path.join(bs, name + ".json"), {"variants": {"": {"model": f"{MOD}:block/{name}"}}})
+        write_json(os.path.join(bm, name + ".json"), {"parent": "minecraft:block/cube_all", "textures": {"all": texture or f"{MOD}:block/{name}"}})
+        write_json(os.path.join(im, name + ".json"), {"parent": f"{MOD}:block/{name}"})
+
+    def pillar(name, side, top):
+        write_json(os.path.join(bs, name + ".json"), {"variants": {
+            "axis=y": {"model": f"{MOD}:block/{name}"},
+            "axis=x": {"model": f"{MOD}:block/{name}", "x": 90, "y": 90},
+            "axis=z": {"model": f"{MOD}:block/{name}", "x": 90}}})
+        write_json(os.path.join(bm, name + ".json"), {"parent": "minecraft:block/cube_column", "textures": {"end": top, "side": side}})
+        write_json(os.path.join(im, name + ".json"), {"parent": f"{MOD}:block/{name}"})
+
+    for name, title in blocks.items():
+        cube(name, f"{MOD}:block/dargon_stone" if name == "kraken_king_spawner" else None)
+        lang[f"block.{MOD}.{name}"] = title
+        # The block that wakes the King gives nothing back, or it could wake him for ever.
+        write_json(os.path.join(loot_blocks, name + ".json"), {"type": "minecraft:block", "pools": []} if name == "kraken_king_spawner" else self_drop(name))
+    cube("doom_sand", "minecraft:block/sand")
+    lang[f"block.{MOD}.doom_sand"] = "Doom Sand"
+    write_json(os.path.join(loot_blocks, "doom_sand.json"), self_drop("doom_sand"))
+    pillar("dark_log", f"{MOD}:block/dark_log", f"{MOD}:block/dark_log_top")
+    lang[f"block.{MOD}.dark_log"] = "Dark Log"
+    write_json(os.path.join(loot_blocks, "dark_log.json"), self_drop("dark_log"))
+    pillar("doom_log", f"{MOD}:block/doom_log", f"{MOD}:block/doom_log")
+    lang[f"block.{MOD}.doom_log"] = "Doom Tree Log"
+    write_json(os.path.join(loot_blocks, "doom_log.json"), self_drop("doom_log"))
+    for name, title in (("dark_leaves", "Dark Leaves"), ("doom_leaves", "Doom Tree Leaves")):
+        write_json(os.path.join(bs, name + ".json"), {"variants": {"": {"model": f"{MOD}:block/{name}"}}})
+        write_json(os.path.join(bm, name + ".json"), {"parent": "minecraft:block/cube_all", "render_type": "minecraft:cutout", "textures": {"all": f"{MOD}:block/dark_leaves"}})
+        write_json(os.path.join(im, name + ".json"), {"parent": f"{MOD}:block/{name}"})
+        lang[f"block.{MOD}.{name}"] = title
+    write_json(os.path.join(loot_blocks, "dark_leaves.json"), {"type": "minecraft:block", "pools": []})
+    # Its leaves are where Worm Food comes from.
+    write_json(os.path.join(loot_blocks, "doom_leaves.json"), {"type": "minecraft:block", "pools": [{"rolls": 1, "entries": [{"type": "minecraft:item", "name": f"{MOD}:worm_food"}],
+                                                                                                      "conditions": [{"condition": "minecraft:random_chance", "chance": 0.5}]}]})
+    write_json(os.path.join(bs, "extreme_torch.json"), {"variants": {"": {"model": f"{MOD}:block/extreme_torch"}}})
+    write_json(os.path.join(bm, "extreme_torch.json"), {"parent": "minecraft:block/template_torch", "render_type": "minecraft:cutout", "textures": {"torch": f"{MOD}:block/extreme_torch"}})
+    write_json(os.path.join(im, "extreme_torch.json"), {"parent": "minecraft:item/generated", "textures": {"layer0": f"{MOD}:block/extreme_torch"}})
+    lang[f"block.{MOD}.extreme_torch"] = "Extreme Torch"
+    write_json(os.path.join(loot_blocks, "extreme_torch.json"), self_drop("extreme_torch"))
+
+    tags = os.path.join(DATA, "..", "minecraft", "tags")
+    write_json(os.path.join(tags, "block/mineable/pickaxe.json"), {"values": [f"{MOD}:{b}" for b in ("dark_stone", "fossil_bone", "dragons_eye_stone", "dargon_stone", "dargon_stone_dark", "kraken_king_spawner")]})
+    write_json(os.path.join(tags, "block/mineable/shovel.json"), {"values": [f"{MOD}:dark_dirt", f"{MOD}:doom_sand"]})
+    write_json(os.path.join(tags, "block/mineable/axe.json"), {"values": [f"{MOD}:dark_log", f"{MOD}:doom_log"]})
+    write_json(os.path.join(tags, "block/logs.json"), {"values": [f"{MOD}:dark_log", f"{MOD}:doom_log"]})
+    write_json(os.path.join(tags, "block/leaves.json"), {"values": [f"{MOD}:dark_leaves", f"{MOD}:doom_leaves"]})
+
+    models = os.path.join(ASSETS, "models/item")
+    for item in ("earth_staff", "wind_staff", "fire_staff", "water_staff", "lightning_staff", "plant_staff"):
+        write_json(os.path.join(models, item + ".json"), item_model(item, "minecraft:item/handheld"))
+        lang[f"item.{MOD}.{item}"] = item.replace("_", " ").title()
+    write_json(os.path.join(models, "worm_food.json"), item_model("worm_food"))
+    lang[f"item.{MOD}.worm_food"] = "Worm Food"
+    for egg in ("chaos_demon", "baby_sitter", "kraken_king", "squid_guard", "dargon", "element_dragon", "doom_worm", "doom_ant", "drant"):
+        write_json(os.path.join(models, egg + "_spawn_egg.json"), item_model(egg + "_spawn_egg"))
+    names = {"chaos_demon": "Chaos Demon", "baby_sitter": "The Baby Sitter", "kraken_king": "King of the Kraken", "squid_guard": "Squid Guard", "dargon": "Dargon",
+             "element_dragon": "Element Dragon", "doom_worm": "Doom Worm", "doom_ant": "Doom Ant", "drant": "Drant"}
+    for key, title in names.items():
+        lang[f"entity.{MOD}.{key}"] = title
+        lang[f"item.{MOD}.{key}_spawn_egg"] = title + " Egg"
+    # DangerZone's own name for this egg.
+    lang[f"item.{MOD}.kraken_king_spawn_egg"] = "Uh, seriously. No. Don't."
+    lang[f"entity.{MOD}.delayed_event"] = "Something's Coming"
+    lang[f"entity.{MOD}.element_shot"] = "Element Shot"
+    lang[f"entity.{MOD}.purple_fireball"] = "Purple Fireball"
+
+    recipes = os.path.join(DATA, "recipe")
+    write_json(os.path.join(recipes, "extreme_torch.json"), {"type": "minecraft:crafting_shapeless", "category": "misc",
+        "ingredients": [{"item": "minecraft:torch"}, {"item": f"{MOD}:dragons_eye"}], "result": {"id": f"{MOD}:extreme_torch", "count": 1}})
+    write_json(os.path.join(recipes, "dragons_eye.json"), {"type": "minecraft:smelting", "category": "misc", "ingredient": {"item": f"{MOD}:dragons_eye_stone"},
+        "result": {"id": f"{MOD}:dragons_eye"}, "experience": 2.0, "cookingtime": 200})
+
+    tables = os.path.join(DATA, "loot_table/entities")
+    write_json(os.path.join(tables, "chaos_demon.json"), loot(pool("minecraft:beef", 3, 8), pool("minecraft:bone", 3, 8), pool("orespawn:ruby", 2, 6), pool("minecraft:diamond", 1, 3)))
+    foods = ["minecraft:bread", "minecraft:cooked_beef", "minecraft:cooked_porkchop", "minecraft:cooked_chicken", "minecraft:cookie", "minecraft:pumpkin_pie", "minecraft:cake", "minecraft:golden_carrot", "orespawn:crabby_patty", "orespawn:cooked_crab_meat"]
+    write_json(os.path.join(tables, "baby_sitter.json"), loot({"rolls": {"type": "minecraft:uniform", "min": 15, "max": 30}, "entries": [{"type": "minecraft:item", "name": f} for f in foods if f.split(":")[0] != "orespawn" or f.split(":")[1] in PORT_ITEMS]}))
+    write_json(os.path.join(tables, "squid_guard.json"), loot(pool("minecraft:ink_sac", 1, 3), pool("orespawn:raw_crab_meat", 1, 3)))
+    rare = [r for r in ("worm_tooth", "kraken_tooth", "vortex_eye", "ultimate_sword", "ultimate_bow", "trex_tooth", "sea_monster_scale", "nightmare_scale", "queen_scale", "godzilla_scale") if r in PORT_ITEMS]
+    write_json(os.path.join(tables, "kraken_king.json"), loot(pool(f"{MOD}:dimension_staff"), pool(f"{MOD}:kraken_king_spawn_egg", chance=0.25), pool("minecraft:cod", 60, 99), pool("minecraft:feather", 20, 40), pool("minecraft:bone", 20, 40),
+        {"rolls": {"type": "minecraft:uniform", "min": 8, "max": 16}, "entries": [{"type": "minecraft:item", "name": "orespawn:" + r} for r in rare]}))
+    write_json(os.path.join(tables, "dargon.json"), loot(pool(f"{MOD}:dragons_eye", 4, 8), pool("orespawn:queen_scale", 40, 55), pool("minecraft:diamond", 16, 32),
+        {"rolls": {"type": "minecraft:uniform", "min": 8, "max": 16}, "entries": [{"type": "minecraft:item", "name": "orespawn:" + r} for r in rare]}))
+    write_json(os.path.join(tables, "element_dragon.json"), loot(pool("minecraft:beef", 3, 8), pool("minecraft:bone", 2, 6), pool("minecraft:feather", 2, 6)))
+    write_json(os.path.join(tables, "doom_worm.json"), loot(pool("minecraft:beef", 40, 79), pool("minecraft:bone", 20, 39), pool(f"{MOD}:doom_worm_spawn_egg", 1, 2), pool("orespawn:worm_tooth", 2, 5), pool("orespawn:ruby", 20, 39), pool("orespawn:amethyst_gem", 20, 39), pool("orespawn:ingot_titanium", 20, 39), pool("orespawn:ingot_uranium", 20, 39)))
+    for ant in ("doom_ant", "drant"):
+        write_json(os.path.join(tables, ant + ".json"), loot(pool("minecraft:string", chance=0.2)))
+
+    # The castle's chests. DangerZone's Gem list works out at about forty staffs a castle: here, one or two.
+    chests = os.path.join(DATA, "loot_table/chests")
+    staffs = [f"{MOD}:{s}" for s in ("earth_staff", "wind_staff", "fire_staff", "water_staff", "lightning_staff", "plant_staff")]
+    entries = lambda items: [{"type": "minecraft:item", "name": i} for i in items]
+    write_json(os.path.join(chests, "gemstuff.json"), {"type": "minecraft:chest", "pools": [
+        {"rolls": {"type": "minecraft:uniform", "min": 3, "max": 7}, "entries": entries(["minecraft:diamond", "minecraft:emerald", "minecraft:gold_ingot", "minecraft:amethyst_shard", "orespawn:ruby", "orespawn:amethyst_gem", "orespawn:ingot_titanium", "orespawn:ingot_uranium"])},
+        {"rolls": 1, "conditions": [{"condition": "minecraft:random_chance", "chance": 0.03}], "entries": entries(staffs)}]})
+    write_json(os.path.join(chests, "foodstuff.json"), {"type": "minecraft:chest", "pools": [
+        {"rolls": {"type": "minecraft:uniform", "min": 3, "max": 8}, "entries": entries([f for f in foods if f.split(":")[0] != "orespawn" or f.split(":")[1] in PORT_ITEMS])}]})
+    write_json(os.path.join(chests, "elementstuff.json"), {"type": "minecraft:chest", "pools": [
+        {"rolls": {"type": "minecraft:uniform", "min": 3, "max": 7}, "entries": entries(["minecraft:diamond", "minecraft:gold_ingot", "minecraft:blaze_rod", "minecraft:ender_pearl", f"{MOD}:dragons_eye"])},
+        {"rolls": 1, "conditions": [{"condition": "minecraft:random_chance", "chance": 0.25}], "entries": entries(staffs)}]})
+
+    # ---- the dimensions
+    dimension_type("realm")
+    dimension_type("doom", min_y=0, height=256, logical=256)
+    bedrock = {"type": "minecraft:condition", "if_true": {"type": "minecraft:vertical_gradient", "random_name": "minecraft:bedrock_floor",
+               "true_at_and_below": {"above_bottom": 0}, "false_at_and_above": {"above_bottom": 5}}, "then_run": {"type": "minecraft:block", "result_state": {"Name": "minecraft:bedrock"}}}
+    dark_surface = {"type": "minecraft:sequence", "sequence": [bedrock, {"type": "minecraft:condition", "if_true": {"type": "minecraft:above_preliminary_surface"}, "then_run": {
+        "type": "minecraft:condition", "if_true": {"type": "minecraft:stone_depth", "offset": 3, "surface_type": "floor", "add_surface_depth": True, "secondary_depth_range": 0},
+        "then_run": {"type": "minecraft:block", "result_state": {"Name": f"{MOD}:dark_dirt"}}}}]}
+    element_noise("dragons_lair", f"{MOD}:dark_stone", "minecraft:water", 60, dark_surface)
+    element_noise("kraken_realm", "minecraft:stone", "minecraft:water", 70, None)
+
+    tree = lambda log, leaves, height: {"type": "minecraft:tree", "config": {
+        "ignore_vines": True, "force_dirt": False, "minimum_size": {"type": "minecraft:two_layers_feature_size", "limit": 1, "lower_size": 0, "upper_size": 1},
+        "dirt_provider": {"type": "minecraft:simple_state_provider", "state": {"Name": f"{MOD}:dark_dirt"}},
+        "trunk_provider": {"type": "minecraft:simple_state_provider", "state": {"Name": f"{MOD}:{log}", "Properties": {"axis": "y"}}},
+        "foliage_provider": {"type": "minecraft:simple_state_provider", "state": {"Name": f"{MOD}:{leaves}", "Properties": {"distance": "7", "persistent": "false", "waterlogged": "false"}}},
+        "trunk_placer": {"type": "minecraft:straight_trunk_placer", "base_height": height, "height_rand_a": 2, "height_rand_b": 2},
+        "foliage_placer": {"type": "minecraft:blob_foliage_placer", "radius": 2, "offset": 0, "height": 3},
+        "decorators": []}}
+    configured = os.path.join(DATA, "worldgen/configured_feature")
+    write_json(os.path.join(configured, "dark_tree.json"), tree("dark_log", "dark_leaves", 7))
+    write_json(os.path.join(configured, "doom_tree.json"), tree("doom_log", "doom_leaves", 3))
+    write_json(os.path.join(configured, "fossil_cross.json"), {"type": f"{MOD}:fossil_cross", "config": {}})
+    write_json(os.path.join(configured, "element_pillar.json"), {"type": f"{MOD}:element_pillar", "config": {}})
+    surface = [{"type": "minecraft:in_square"}, {"type": "minecraft:heightmap", "heightmap": "OCEAN_FLOOR_WG"}, {"type": "minecraft:biome"}]
+    survives = lambda block: {"type": "minecraft:block_predicate_filter", "predicate": {"type": "minecraft:would_survive", "state": {"Name": block}}}
+    placed("dark_tree", f"{MOD}:dark_tree", [{"type": "minecraft:rarity_filter", "chance": 6}] + surface)
+    placed("doom_tree", f"{MOD}:doom_tree", [{"type": "minecraft:rarity_filter", "chance": 32}] + surface)
+    placed("fossil_cross", f"{MOD}:fossil_cross", [{"type": "minecraft:count", "count": {"type": "minecraft:uniform", "min_inclusive": 1, "max_inclusive": 3}}, {"type": "minecraft:in_square"},
+        {"type": "minecraft:height_range", "height": {"type": "minecraft:uniform", "min_inclusive": {"absolute": 0}, "max_inclusive": {"absolute": 45}}}, {"type": "minecraft:biome"}])
+    placed("element_pillar", f"{MOD}:element_pillar", [{"type": "minecraft:rarity_filter", "chance": 150}] + surface)
+    # The generation steps a biome lists are by index; decoration goes where trees and underground ornaments go.
+    steps = lambda under, veg: [[], [], [], [], under, [], [], [], [], veg]
+    # The Kraken, Attack Squid and Terrible Terror come by way of ExtraSpawns: the port's spawn rules turn these places down.
+    biome("kraken_realm", {"monster": [("orespawn_dangerzone:squid_guard", 8, 1, 3)], "creature": [("orespawn_dangerzone:doom_ant", 1, 1, 1)]},
+          [], 0x78A7FF, 0xC0D8FF, 0x3F76E4, grass=0x79C05A)
+    biome("dragons_lair", {"creature": [("orespawn_dangerzone:drant", 3, 1, 2)]},
+          steps([f"{MOD}:fossil_cross"], [f"{MOD}:dark_tree", f"{MOD}:element_pillar"]), 0x5959BF, 0x2A2A40, 0x20203F, grass=0x202030)
+    biome("doom", {"monster": [("orespawn_dangerzone:doom_worm", 2, 1, 1)], "creature": [("orespawn_dangerzone:doom_ant", 4, 1, 2)]},
+          steps([], [f"{MOD}:doom_tree"]), 0xC9B27A, 0xD8C690, 0x3F76E4, temperature=2.0, downfall=0.0)
+    dim = os.path.join(DATA, "dimension")
+    write_json(os.path.join(dim, "kraken_realm.json"), {"type": f"{MOD}:realm", "generator": {"type": "minecraft:noise", "settings": f"{MOD}:kraken_realm", "biome_source": {"type": "minecraft:fixed", "biome": f"{MOD}:kraken_realm"}}})
+    write_json(os.path.join(dim, "dragons_lair.json"), {"type": f"{MOD}:realm", "generator": {"type": "minecraft:noise", "settings": f"{MOD}:dragons_lair", "biome_source": {"type": "minecraft:fixed", "biome": f"{MOD}:dragons_lair"}}})
+    write_json(os.path.join(dim, "doom.json"), {"type": f"{MOD}:doom", "generator": {"type": "minecraft:flat", "settings": {"biome": f"{MOD}:doom", "lakes": False, "features": True, "structure_overrides": [],
+        "layers": [{"block": "minecraft:bedrock", "height": 1}, {"block": "minecraft:obsidian", "height": 2}, {"block": f"{MOD}:doom_sand", "height": 47}]}}})
+
+    def spawns(name, biomes, *entries):
+        write_json(os.path.join(DATA, f"neoforge/biome_modifier/{name}.json"), {"type": "neoforge:add_spawns", "biomes": biomes,
+            "spawners": [{"type": f"{MOD}:{e}", "weight": w, "minCount": a, "maxCount": b} for e, w, a, b in entries]})
+
+    # Dargon, like the UFO, is too big for the game's spawn loop: see ExtraSpawns.
+    spawns("chaos_m3", "orespawn:chaos_biome", ("chaos_demon", 2, 1, 1), ("doom_worm", 1, 1, 1))
+    spawns("windswept_m3", "#c:is_windswept", ("chaos_demon", 1, 1, 1), ("drant", 2, 1, 2))
+    spawns("portal_ants", "#minecraft:is_overworld", ("doom_ant", 3, 1, 3))
 
 
 def main():
@@ -384,6 +603,9 @@ def main():
     write_json(os.path.join(tables, "ant_queen.json"), loot(*queen))
 
     write_json(os.path.join(tables, "tower_flag.json"), loot(pool(f"{MOD}:tower_flag")))
+    # As the port's Teen and Adult Prince leave his egg.
+    write_json(os.path.join(tables, "princess_teen.json"), loot(pool("orespawn:the_princess_spawn_egg")))
+    write_json(os.path.join(tables, "princess_young_adult.json"), loot(pool("orespawn:the_princess_spawn_egg")))
     write_json(os.path.join(tables, "baby_nope.json"), loot(pool("minecraft:spider_eye", 1, 2)))
     nope_eggs = [f"{MOD}:nope_spawn_egg", f"{MOD}:baby_nope_spawn_egg"]
     nope = [pool("orespawn:raw_crab_meat", 50, 99), pool("minecraft:bone", 37, 62), pool(nope_eggs[0], chance=0.25), pool(nope_eggs[1], 2, 5)]
@@ -401,10 +623,10 @@ def main():
     optional = lambda name: {"id": name, "required": False}
     write_json(os.path.join(DATA, "tags/entity_type/no_trophy.json"), {"values": [optional("orespawn:" + e) for e in (
         "island", "island_too", "elevator", "skate", "coin", "tshirt", "rock_base", "king_head", "queen_head", "godzilla_head", "butterfly", "cage", "shoes")]
-        + [f"{MOD}:tower_flag", f"{MOD}:volcano"]})
+        + [f"{MOD}:tower_flag", f"{MOD}:volcano", f"{MOD}:delayed_event"]})
     write_json(os.path.join(DATA, "tags/entity_type/shrink_immune.json"), {"values": [
         f"{MOD}:nastysaurus_prime", f"{MOD}:ant_queen", f"{MOD}:nope", f"{MOD}:ufo", f"{MOD}:tower_flag", f"{MOD}:volcano",
-        f"{MOD}:princess_young_adult", "minecraft:wither", "minecraft:ender_dragon", {"id": "#c:bosses", "required": False}]
+        f"{MOD}:princess_young_adult", f"{MOD}:kraken_king", f"{MOD}:dargon", f"{MOD}:doom_worm", f"{MOD}:baby_sitter", f"{MOD}:chaos_demon", f"{MOD}:element_dragon", "minecraft:wither", "minecraft:ender_dragon", {"id": "#c:bosses", "required": False}]
         + [optional("orespawn:" + b) for b in (
             "the_king", "king_head", "the_queen", "queen_head", "godzilla", "godzilla_head", "kraken", "mothra", "basilisk", "alien_boss",
             "the_prince_adult", "giant_robot", "jeffery", "emperor_scorpion", "sea_monster", "water_dragon", "worm_large", "ender_reaper", "nastysaurus")]})
@@ -424,11 +646,11 @@ def main():
     add_spawns("windswept", "#c:is_windswept", ("ant_queen", 1, 1, 1), ("bloodlust_ant", 3, 1, 5))
     add_spawns("nurses", ["orespawn:crystal_plains", "orespawn:island_biome"], ("nurse_bug", 3, 1, 1))
     # DangerZone keeps Nopes and UFOs in its Misfit dimension and volcanoes in its mountains, which the port doesn't have.
-    add_spawns("chaos_m2", "orespawn:chaos_biome", ("nope", 1, 1, 1), ("ufo", 1, 1, 1), ("volcano", 1, 1, 1))
+    add_spawns("chaos_m2", "orespawn:chaos_biome", ("nope", 1, 1, 1), ("volcano", 1, 1, 1))
     add_spawns("mining_m2", "orespawn:mining_biome", ("volcano", 1, 1, 1))
-    add_spawns("village_m2", "orespawn:village_biome", ("ufo", 1, 1, 1))
     add_spawns("forests", "#minecraft:is_forest", ("nurse_bug", 1, 1, 1))
 
+    milestone_three(lang)
     advancements(lang)
     write_json(os.path.join(ASSETS, "lang/en_us.json"), lang)
 

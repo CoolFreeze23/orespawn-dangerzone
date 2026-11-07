@@ -3,11 +3,13 @@
 Creatures, items and things to do from **DangerZone**, the game TheyCallMeDanger built after OreSpawn,
 brought to the [OreSpawn port](https://github.com/CoolFreeze23/Orespawn) for NeoForge 1.21.1.
 
-**Version:** 0.2.0 · **Minecraft:** 1.21.1 · **Loader:** NeoForge 21.1+ · **Requires:** OreSpawn 2.0.0-beta.15 and GeckoLib
+**Version:** 0.3.0 · **Minecraft:** 1.21.1 · **Loader:** NeoForge 21.1+ · **Requires:** OreSpawn 2.0.0-beta.15 and GeckoLib
 
 ![The creatures, in game](docs/creatures.png)
 
 ![More creatures and trophies, in game](docs/milestone2.png)
+
+![The bosses and places, in game](docs/milestone3.png)
 
 ## What's in it
 
@@ -22,13 +24,17 @@ brought to the [OreSpawn port](https://github.com/CoolFreeze23/Orespawn) for Neo
 | **Dragon's Eye Sword** | Every hit blinks you to a safe spot near the target, facing it. |
 | **A Freakin' Shrink Ray!!!** | Shrinks anything but a boss to a quarter of its size, with a sixteenth of its bite and a quarter of its armour. Players grow back after a minute; creatures don't. Shrunk creatures drop nothing. |
 | **Duct Tape repair** | The port's Duct Tape plus any damaged unstackable item, in a crafting grid, repairs it fully and keeps its enchantments. |
-| **Tower Defense Flag** | Plant it and hold it. Every 30 seconds a new species comes for it, weakest first, climbing a ladder of 54 creatures; it spins and smokes faster as it's hurt. Players can't damage it during the event. Survive and it pays out and comes back. Clears blocks around it unless `mobGriefing` or the config says otherwise. |
+| **Tower Defense Flag** | Plant it and hold it. Every 30 seconds a new species comes for it, weakest first, climbing a ladder of 57 creatures; it spins and smokes faster as it's hurt. Players can't damage it. Survive and it pays out and comes back. Clears blocks around it unless `mobGriefing` or the config says otherwise. |
 | **Trophies** | A rare drop of a tiny, spinning model of the creature that dropped it, for every creature in this mod and OreSpawn. Place one on a block; hit or use it to pick it up. |
 | **NOPE!!! and Baby Nope** | A nine-block bug that spits acid, spawns babies and leaps. Chaos. |
 | **Teen and Young Adult Princess** | The Princess's missing stages. Feed your baby Princess a diamond block to grow her, again to grow her more, and a diamond to take her back a stage. Tameable and rideable, and a Young Adult is nearly twelve blocks tall. |
 | **Swarms** | Every so often a horde crosses the map, after a warning in chat, depending on your dimension and the time of day. |
 | **Volcano** | An invisible point that builds its own mountain, throwing burning rock, lava, diamond ore and live explosives. Chaos and Mining. Follows `mobGriefing`. |
 | **UFO, Carrier, Fighter, Martian** | A mothership hangs at height 200 and launches Fighters, which fire lasers, and Carriers, which land and let out ten Martians with ray guns and bows. Chaos and Village. |
+| **The Kraken King's chain** | Kill a Chaos Demon, in Chaos, and the Baby Sitter comes for you: fourteen blocks tall, and both of them teleport to whoever hits them. Beat her and you're warped to the Kraken King's realm, a sea of islands with a castle every 2,048 blocks. The castle holds 96 chests, an army, and something that wakes the King. The first hit on him brings the Young Adult Princess to his side, and he drops the Dimension Staff. |
+| **Dragon's Lair** | A dark dimension, reached by right-clicking a Drant. Mine its fossils for Dragon's Eye Stone, put an Extreme Torch on a 3x3 of it, and a void of over four million blocks opens around you, with a bridge to Dargon's castle. Dargon breathes volleys of purple fireballs; bring him under a quarter of his health and an empty hand tames him, and you ride him. His six Element Dragons each drop a staff of their element. |
+| **Doom and the Doom Worm** | A desert dimension, reached by right-clicking a Doom Ant, that refills itself with sand rain. The hundred-segment Doom Worm swims through the ground at you, tearing off armour and whatever you're holding. Holding Worm Food, from Doom Tree leaves, keeps it off. It dies if it hits bedrock or obsidian, exploding along its length and leaving no loot. |
+| **Elemental staffs** | Earth, wind, fire, water, lightning and plant. Recharge them at an anvil with a Dragon's Eye. |
 | **Things To Do** | DangerZone's task list as an advancement tab, with its own titles, wherever the item or creature exists in the port. |
 
 ## Getting the items
@@ -37,6 +43,7 @@ brought to the [OreSpawn port](https://github.com/CoolFreeze23/Orespawn) for Neo
 - **Dragon's Eye Sword:** two Dragon's Eyes on a stick. Nastysaurus Primes drop the eyes, and so do Dragons, Water Dragons, Spyros and Leonopteryxes.
 - **Shrink Ray:** a Ray Gun surrounded by eight Amethyst Shards. Recharge it at an anvil with more shards.
 - **Tower Defense Flag:** a banner on two Diamond Blocks.
+- **Extreme Torch:** a torch and a Dragon's Eye. Dragon's Eye Stone, from the Lair's fossils, smelts into a Dragon's Eye.
 
 ## Faithful, with these differences
 
@@ -47,6 +54,10 @@ brought to the [OreSpawn port](https://github.com/CoolFreeze23/Orespawn) for Neo
 - Nopes, UFOs and Volcanoes live in Chaos, Mining and Village, since the port has no Misfit dimension. Swarms use OreSpawn creatures where DangerZone's own aren't here.
 - The Teen and Young Adult Princess fight and ride as the port's Teen and Adult Prince do, and grow by diamond block only.
 - Martians fire ray guns and bows but don't show them in hand. Volcanoes make no thunderclouds.
+- The Kraken King carries his prey and brings a storm as the port's Kraken does. Castle chests hold one or two staffs rather than about forty.
+- Dargon rides and fights as the port's Adult Prince does, with his fireballs added. His captive Girlfriend has no Royal Tiara or Morph Staff, which aren't in this mod. Terrible Terrors stand in for his castle's Vermin and Varmints.
+- The new dimensions have Minecraft-shaped terrain with DangerZone's materials, rather than its own heightmaps. Doom is its flat desert, as in the original.
+- The Doom Worm's dying explosion is smaller: every ninth segment instead of every third, at a third of the power.
 - The Dimension Staff lands you safely, and has a recipe, since Kraken Kings don't exist here yet.
 - Amethyst replaces Shrink Berries in the Shrink Ray recipe, and Dragons replace the Dragon's Lair as the source of Dragon's Eyes.
 - Real-world political jokes from the original are left out.

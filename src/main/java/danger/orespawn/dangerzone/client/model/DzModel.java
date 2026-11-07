@@ -20,6 +20,7 @@ import java.util.Map;
  */
 public abstract class DzModel<T extends Entity> extends EntityModel<T> {
     private static final int FULL_BRIGHT = 0xF000F0;
+    private static final float DZ_WORM_SCALE = 2.0F;
 
     private T entity;
     private float ticks;
@@ -73,6 +74,72 @@ public abstract class DzModel<T extends Entity> extends EntityModel<T> {
             tint = (a << 24) | (tint & 0xFFFFFF);
         }
         part.render(this.poseStack, this.consumer, this.bright ? FULL_BRIGHT : this.light, this.overlay, tint);
+    }
+
+    // DangerZone's matrix stack, which works in its own space: y up, z the other way, pixels for units.
+    protected final void dzPush() {
+        this.poseStack.pushPose();
+    }
+
+    protected final void dzPop() {
+        this.poseStack.popPose();
+    }
+
+    protected final void dzTranslate(float x, float y, float z) {
+        this.poseStack.translate(x / 16.0F, -y / 16.0F, -z / 16.0F);
+    }
+
+    protected final void dzRotate(float degrees, float x, float y, float z) {
+        this.poseStack.mulPose(new org.joml.Quaternionf().rotationAxis((float) Math.toRadians(degrees), -x, y, z));
+    }
+
+    protected final void dzScale(float x, float y, float z) {
+        this.poseStack.scale(x, y, z);
+    }
+
+    protected final boolean staying() {
+        return this.entity instanceof danger.orespawn.dangerzone.entity.DzAnimated animated && animated.dzStaying();
+    }
+
+    protected final boolean armsUp() {
+        return this.entity instanceof danger.orespawn.dangerzone.entity.BabySitter sitter && sitter.armsUp();
+    }
+
+    /**
+     * The Doom Worm's trailing body: one part drawn at each remembered position, turned to face the one ahead. Works
+     * from world offsets, undoing the entity renderer's turn and flip, since the trail doesn't turn with the head.
+     */
+    protected final void drawSegments(danger.orespawn.dangerzone.entity.DoomWorm worm, ModelPart part) {
+        float bodyYaw = (float) Math.toRadians(180.0F - worm.yBodyRot);
+        double cos = Math.cos(-bodyYaw);
+        double sin = Math.sin(-bodyYaw);
+        double aheadX = worm.getX();
+        double aheadY = worm.getY();
+        double aheadZ = worm.getZ();
+        for (int i = 0; i < danger.orespawn.dangerzone.entity.DoomWorm.SEGMENTS; i++) {
+            double wx = worm.trailX[i];
+            double wy = worm.trailY[i];
+            double wz = worm.trailZ[i];
+            double dx = wx - worm.getX();
+            double dy = wy - worm.getY();
+            double dz = wz - worm.getZ();
+            float lx = (float) (dx * cos + dz * sin);
+            float lz = (float) (-dx * sin + dz * cos);
+            float travelYaw = (float) Math.atan2(aheadX - wx, aheadZ - wz);
+            float travelPitch = (float) Math.atan2(aheadY - wy, Math.sqrt((aheadX - wx) * (aheadX - wx) + (aheadZ - wz) * (aheadZ - wz)));
+            float taper = i > 25 ? (75.0F - (i - 25)) / 75.0F : 1.0F;
+            taper = Math.max(0.01F, taper * (float) (2.0 - Math.cos(Math.toRadians(i * 3.0))));
+            this.poseStack.pushPose();
+            this.poseStack.translate(-lx / DZ_WORM_SCALE, 1.5F - (float) dy / DZ_WORM_SCALE - part.y / 16.0F, lz / DZ_WORM_SCALE);
+            this.poseStack.mulPose(new org.joml.Quaternionf().rotationY(travelYaw - bodyYaw));
+            this.poseStack.mulPose(new org.joml.Quaternionf().rotationX(travelPitch));
+            this.poseStack.scale(taper, taper, 1.5F);
+            draw(part);
+            this.poseStack.popPose();
+            aheadX = wx;
+            aheadY = wy;
+            aheadZ = wz;
+        }
     }
 
     /** DangerZone's "setBrightness": parts drawn while this is on glow. */

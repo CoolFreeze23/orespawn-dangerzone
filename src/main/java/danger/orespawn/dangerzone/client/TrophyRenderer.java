@@ -10,6 +10,7 @@ import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.Level;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,6 +26,7 @@ public class TrophyRenderer extends EntityRenderer<Trophy> {
 
     private final Map<String, Entity> subjects = new HashMap<>();
     private final Set<String> broken = new HashSet<>();
+    private Level seenIn;
 
     public TrophyRenderer(EntityRendererProvider.Context context) {
         super(context);
@@ -36,8 +38,13 @@ public class TrophyRenderer extends EntityRenderer<Trophy> {
         if (id.isEmpty() || this.broken.contains(id)) {
             return;
         }
+        // Every cached creature holds on to its world, so none of them outlives it.
+        if (this.seenIn != trophy.level()) {
+            this.seenIn = trophy.level();
+            this.subjects.clear();
+        }
         Entity subject = this.subjects.get(id);
-        if (subject == null || subject.level() != trophy.level()) {
+        if (subject == null) {
             ResourceLocation location = ResourceLocation.tryParse(id);
             subject = location == null ? null : BuiltInRegistries.ENTITY_TYPE.get(location).create(trophy.level());
             if (subject == null) {

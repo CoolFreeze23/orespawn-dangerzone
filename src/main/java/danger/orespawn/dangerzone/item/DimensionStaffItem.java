@@ -71,6 +71,15 @@ public class DimensionStaffItem extends Item {
         return server.getLevel(ring.get(next));
     }
 
+    /** Sends the player to a set spot, with the staff's smoke and sound. */
+    public static void jumpTo(ServerPlayer player, ServerLevel target, int x, int y, int z) {
+        ServerLevel origin = player.serverLevel();
+        origin.sendParticles(ParticleTypes.LARGE_SMOKE, player.getX(), player.getY() + 1.0, player.getZ(), 12, 0.3, 0.8, 0.3, 0.01);
+        origin.playSound(null, player.blockPosition(), ModContent.SND_TELEPORT.get(), SoundSource.PLAYERS, 0.75f, 1.0f);
+        player.changeDimension(new DimensionTransition(target, new Vec3(x + 0.5, y, z + 0.5), Vec3.ZERO,
+                player.getYRot(), player.getXRot(), DimensionTransition.DO_NOTHING));
+    }
+
     /** Sends the player across and returns where they stand. */
     public static BlockPos jump(ServerPlayer player, ServerLevel target) {
         ServerLevel origin = player.serverLevel();

@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "minecraft:torch"
+    },
+    {
+      "item": "orespawn_dangerzone:dragons_eye"
+    }
+  ],
+  "result": {
+    "id": "orespawn_dangerzone:extreme_torch",
+    "count": 1
+  }
+}

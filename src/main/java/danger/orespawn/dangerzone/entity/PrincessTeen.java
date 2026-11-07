@@ -46,6 +46,10 @@ public class PrincessTeen extends ThePrinceTeen implements DzAnimated {
     public InteractionResult mobInteract(Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
         boolean owner = isTame() && isOwnedBy(player);
+        // The port's Teen Prince goes to whoever hands him a diamond block, even if he's someone else's. She doesn't.
+        if (isTame() && !owner) {
+            return InteractionResult.PASS;
+        }
         if (owner && stack.is(Blocks.DIAMOND_BLOCK.asItem())) {
             return PrincessGrowth.become(this, ModContent.PRINCESS_YOUNG_ADULT.get(), player, stack);
         }

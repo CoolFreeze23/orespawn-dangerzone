@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "orespawn_dangerzone:block/dark_log_top",
+    "side": "orespawn_dangerzone:block/dark_log"
+  }
+}

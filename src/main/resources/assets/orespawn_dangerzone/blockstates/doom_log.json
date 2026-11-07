@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=y": {
+      "model": "orespawn_dangerzone:block/doom_log"
+    },
+    "axis=x": {
+      "model": "orespawn_dangerzone:block/doom_log",
+      "x": 90,
+      "y": 90
+    },
+    "axis=z": {
+      "model": "orespawn_dangerzone:block/doom_log",
+      "x": 90
+    }
+  }
+}

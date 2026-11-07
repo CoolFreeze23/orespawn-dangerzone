@@ -156,6 +156,12 @@ public final class Swarms {
         });
     }
 
+    /** The tracker holds entities, and in singleplayer the same game can go on to open another world. */
+    @SubscribeEvent
+    public static void onServerStopped(net.neoforged.neoforge.event.server.ServerStoppedEvent event) {
+        ACTIVE.clear();
+    }
+
     /** Whether the swarm tracker has anyone. Public for the tests. */
     public static int activeCount() {
         return ACTIVE.size();

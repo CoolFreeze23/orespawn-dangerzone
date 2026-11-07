@@ -10,7 +10,11 @@ import net.neoforged.neoforge.common.NeoForge;
 public final class TestsMod {
     public TestsMod() {
         if (FMLEnvironment.dist == Dist.CLIENT && Boolean.getBoolean("orespawn_dangerzone.shots")) {
-            NeoForge.EVENT_BUS.register(ShotsClient.class);
+            if (Boolean.getBoolean("orespawn_dangerzone.drive")) {
+                NeoForge.EVENT_BUS.register(TestDrive.class);
+            } else {
+                NeoForge.EVENT_BUS.register(ShotsClient.class);
+            }
         }
     }
 }

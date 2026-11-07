@@ -9,12 +9,6 @@
       "maxCount": 1
     },
     {
-      "type": "orespawn_dangerzone:ufo",
-      "weight": 1,
-      "minCount": 1,
-      "maxCount": 1
-    },
-    {
       "type": "orespawn_dangerzone:volcano",
       "weight": 1,
       "minCount": 1,

@@ -37,7 +37,7 @@ public class UfoFighter extends Monster implements DzAnimated {
     @Override
     public void tick() {
         super.tick();
-        if (isNoAi() || !(level() instanceof ServerLevel level)) {
+        if (isNoAi() || isDeadOrDying() || !(level() instanceof ServerLevel level)) {
             return;
         }
         if (this.reload > 0) {
