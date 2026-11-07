@@ -3,7 +3,7 @@
 Creatures, items and things to do from **DangerZone**, the game TheyCallMeDanger built after OreSpawn,
 brought to the [OreSpawn port](https://github.com/CoolFreeze23/Orespawn) for NeoForge 1.21.1.
 
-**Version:** 0.4.0 · **Minecraft:** 1.21.1 · **Loader:** NeoForge 21.1+ · **Requires:** OreSpawn 2.0.0-beta.15 and GeckoLib
+**Version:** 0.4.1 · **Minecraft:** 1.21.1 · **Loader:** NeoForge 21.1+ · **Requires:** OreSpawn 2.0.0-beta.15 and GeckoLib · **Languages:** English, Português (Brasil)
 
 ![The creatures, in game](docs/creatures.png)
 

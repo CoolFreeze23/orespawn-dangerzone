@@ -704,7 +704,18 @@ def main():
     milestone_three(lang)
     milestone_four(lang, add_spawns)
     advancements(lang)
+    lang[f"entity.{MOD}.princess_young_adult.scene.0"] = "No!!! Stop!!! Don't hurt him!!!"
+    lang[f"entity.{MOD}.princess_young_adult.scene.1"] = "I love him!!!"
+    lang[f"entity.{MOD}.princess_young_adult.scene.2"] = "We are a family now."
     write_json(os.path.join(ASSETS, "lang/en_us.json"), lang)
+    # Other languages are written by hand and kept in step: every English key needs one, and none can go stale.
+    for other in sorted(os.listdir(os.path.join(ASSETS, "lang"))):
+        if other == "en_us.json":
+            continue
+        theirs = json.load(open(os.path.join(ASSETS, "lang", other), encoding="utf8"))
+        missing = sorted(set(lang) - set(theirs))
+        stale = sorted(set(theirs) - set(lang))
+        print(f"lang {other}: {len(theirs)} keys, missing {len(missing)} {missing[:5]}, stale {len(stale)} {stale[:5]}")
 
 
 main()

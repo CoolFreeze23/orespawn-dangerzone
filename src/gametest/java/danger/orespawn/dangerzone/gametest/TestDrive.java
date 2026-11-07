@@ -288,6 +288,10 @@ public final class TestDrive {
             return;
         }
         acceptPrompts(mc);
+        // A screen that pauses the game stops the server's ticks on purpose: only a stop without one is a hang.
+        if (mc.isPaused()) {
+            lastServerTick = System.currentTimeMillis();
+        }
         if (built && !reloading && !reloadRequested && lastServerTick != 0L && System.currentTimeMillis() - lastServerTick > HUNG_AFTER_MS) {
             fails++;
             log("FAIL the server hasn't ticked for " + HUNG_AFTER_MS / 1000 + "s, at step " + current);
@@ -350,9 +354,19 @@ public final class TestDrive {
         }
     }
 
+    private static volatile String clientShot;
+    private static volatile int clientShotIn;
+
     @SubscribeEvent
     public static void onClientTickPre(ClientTickEvent.Pre event) {
         Minecraft mc = Minecraft.getInstance();
+        if (clientShot != null && --clientShotIn <= 0) {
+            net.minecraft.client.Screenshot.grab(mc.gameDirectory, clientShot, mc.getMainRenderTarget(), m -> {
+            });
+            clientShot = null;
+            clientShotIn = 0;
+            mc.setScreen(null);
+        }
         if (holdKeys) {
             mc.options.keyUp.setDown(true);
             mc.options.keyJump.setDown(true);
@@ -364,7 +378,7 @@ public final class TestDrive {
     }
 
     private static void openStartingWorld(Minecraft mc) {
-        if (PHASE.equals("all") || PHASE.equals("interrupt") || PHASE.equals("focus") || PHASE.equals("dargon") || PHASE.equals("gallery") || PHASE.equals("probe") || PHASE.equals("doom") || PHASE.equals("soak3") || PHASE.equals("flag30") || PHASE.equals("soak")) {
+        if (PHASE.equals("all") || PHASE.equals("interrupt") || PHASE.equals("focus") || PHASE.equals("dargon") || PHASE.equals("gallery") || PHASE.equals("probe") || PHASE.equals("ptbr") || PHASE.equals("doom") || PHASE.equals("soak3") || PHASE.equals("flag30") || PHASE.equals("soak")) {
             worldName = "drive" + PHASE;
             deleteWorldNamed(mc, worldName);
             GameRules rules = new GameRules();
@@ -467,6 +481,7 @@ public final class TestDrive {
             case "focus" -> focusScript();
             case "gallery" -> galleryScript();
             case "probe" -> probeScript();
+            case "ptbr" -> ptbrScript();
             case "doom" -> {
                 once("set up", () -> {
                     survival();
@@ -2179,6 +2194,120 @@ public final class TestDrive {
             note("  around now: " + near);
             clearAround();
         });
+    }
+
+    // ---- the game in Brazilian Portuguese: every string in place, and how it looks
+
+    private static final boolean[] RELOADED = new boolean[1];
+
+    private static void ptbrScript() {
+        once("to Portuguese", () -> {
+            survival();
+            overworld().setDayTime(6000L);
+            Minecraft mc = Minecraft.getInstance();
+            mc.execute(() -> {
+                mc.getLanguageManager().setSelected("pt_br");
+                mc.options.languageCode = "pt_br";
+                mc.reloadResourcePacks().thenRun(() -> RELOADED[0] = true);
+            });
+        });
+        until("languages reloaded", 1200, () -> RELOADED[0]);
+        pause(20);
+        once("every string", () -> {
+            Minecraft mc = Minecraft.getInstance();
+            var english = new java.util.LinkedHashMap<String, String>();
+            try (var reader = mc.getResourceManager().getResourceOrThrow(OreSpawnDangerZone.id("lang/en_us.json")).openAsReader()) {
+                com.google.gson.JsonParser.parseReader(reader).getAsJsonObject().entrySet().forEach(e -> english.put(e.getKey(), e.getValue().getAsString()));
+            } catch (java.io.IOException e) {
+                throw new java.io.UncheckedIOException(e);
+            }
+            Language lang = Language.getInstance();
+            List<String> untranslated = new ArrayList<>();
+            for (var entry : english.entrySet()) {
+                String shown = lang.getOrDefault(entry.getKey());
+                if (shown.equals(entry.getValue()) && !java.util.Set.of("itemGroup.orespawn_dangerzone", "entity.orespawn_dangerzone.dargon", "entity.orespawn_dangerzone.v").contains(entry.getKey())) {
+                    untranslated.add(entry.getKey());
+                }
+            }
+            ok(untranslated.isEmpty(), "all " + english.size() + " strings show in Portuguese; still English: " + untranslated);
+            note("a sample: " + Component.translatable("item.orespawn_dangerzone.shrink_ray").getString() + " | " + ModContent.DRANT_EGG.get().getDescription().getString()
+                    + " | " + Component.translatable("advancement.orespawn_dangerzone.task40.desc").getString());
+            ok(Component.translatable("item.orespawn_dangerzone.trophy.of", Component.translatable("entity.orespawn_dangerzone.dargon")).getString().equals("Troféu de Dargon"), "a trophy's name reads naturally: " + Component.translatable("item.orespawn_dangerzone.trophy.of", Component.translatable("entity.orespawn_dangerzone.dargon")).getString());
+            mc.execute(() -> mc.setScreen(new NameGrid(0)));
+        });
+        pause(30);
+        shot("dzt_ptbr_names_1.png");
+        once("names 2", () -> Minecraft.getInstance().execute(() -> Minecraft.getInstance().setScreen(new NameGrid(1))));
+        pause(30);
+        shot("dzt_ptbr_names_2.png");
+        once("the Princess speaks", () -> {
+            Minecraft.getInstance().execute(() -> Minecraft.getInstance().setScreen(null));
+            ServerPlayer p = player();
+            KrakenKing king = spawn(ModContent.KRAKEN_KING.get(), p.serverLevel(), p.getX() + 10.0, p.getY() + 3.0, p.getZ());
+            king.setNoAi(false);
+            king.hurt(p.damageSources().playerAttack(p), 1.0f);
+        });
+        pause(200);
+        once("open chat", () -> Minecraft.getInstance().execute(() -> Minecraft.getInstance().setScreen(new net.minecraft.client.gui.screens.ChatScreen(""))));
+        pause(20);
+        shot("dzt_ptbr_chat.png");
+        // The advancements screen pauses the game, server and all: the client takes this picture by itself.
+        once("advancements", () -> {
+            clearAround();
+            Minecraft mc = Minecraft.getInstance();
+            mc.execute(() -> {
+                mc.setScreen(new net.minecraft.client.gui.screens.advancements.AdvancementsScreen(mc.player.connection.getAdvancements()));
+                var root = mc.player.connection.getAdvancements().get(OreSpawnDangerZone.id("things_to_do/root"));
+                if (root != null) {
+                    mc.player.connection.getAdvancements().setSelectedTab(root, true);
+                }
+                clientShot = "dzt_ptbr_advancements.png";
+                clientShotIn = 40;
+            });
+        });
+        until("advancements shot", 2400, () -> clientShotIn == 0 && clientShot == null);
+        once("back to English", () -> {
+            RELOADED[0] = false;
+            Minecraft mc = Minecraft.getInstance();
+            mc.execute(() -> {
+                mc.setScreen(null);
+                mc.getLanguageManager().setSelected("en_us");
+                mc.options.languageCode = "en_us";
+                mc.options.save();
+                mc.reloadResourcePacks().thenRun(() -> RELOADED[0] = true);
+            });
+        });
+        until("English again", 1200, () -> RELOADED[0]);
+    }
+
+    /** Every item's name as the game draws it, in whatever language is chosen. */
+    private static final class NameGrid extends net.minecraft.client.gui.screens.Screen {
+        private static final int PER_PAGE = 60;
+        private final int page;
+
+        NameGrid(int page) {
+            super(Component.literal("Names"));
+            this.page = page;
+        }
+
+        @Override
+        public boolean isPauseScreen() {
+            return false;
+        }
+
+        @Override
+        public void render(net.minecraft.client.gui.GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
+            graphics.fill(0, 0, this.width, this.height, 0xFF202020);
+            List<? extends net.neoforged.neoforge.registries.DeferredHolder<Item, ? extends Item>> items = List.copyOf(ModContent.ITEMS.getEntries());
+            int index = 0;
+            for (int i = this.page * PER_PAGE; i < items.size() && index < PER_PAGE; i++, index++) {
+                int x = 4 + (index / 20) * 140;
+                int y = 4 + (index % 20) * 11;
+                ItemStack stack = new ItemStack(items.get(i).get());
+                graphics.renderFakeItem(stack, x, y - 4);
+                graphics.drawString(this.font, stack.getHoverName(), x + 18, y, 0xFFFFFF);
+            }
+        }
     }
 
     // ---- why a creature that passes every rule isn't arriving: asks the game's own spawner at spots chosen by hand

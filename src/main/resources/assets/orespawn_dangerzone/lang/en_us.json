@@ -470,5 +470,8 @@
   "advancement.orespawn_dangerzone.task233": "OMG! Yes! Do it!",
   "advancement.orespawn_dangerzone.task233.desc": "Plant a Magic Apple Tree.",
   "advancement.orespawn_dangerzone.task234": "Johnny Appleseed!",
-  "advancement.orespawn_dangerzone.task234.desc": "Plant 10 Magic Apple Trees!"
+  "advancement.orespawn_dangerzone.task234.desc": "Plant 10 Magic Apple Trees!",
+  "entity.orespawn_dangerzone.princess_young_adult.scene.0": "No!!! Stop!!! Don't hurt him!!!",
+  "entity.orespawn_dangerzone.princess_young_adult.scene.1": "I love him!!!",
+  "entity.orespawn_dangerzone.princess_young_adult.scene.2": "We are a family now."
 }

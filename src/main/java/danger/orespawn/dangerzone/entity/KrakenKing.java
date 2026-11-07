@@ -26,7 +26,9 @@ import java.util.List;
 public class KrakenKing extends Kraken implements DzAnimated {
     private static final java.lang.reflect.Field LONG_ENOUGH = PrincessGrowth.field(Kraken.class, "longEnough");
     private static final int STAY = 3600;
-    private static final List<String> SCENE = List.of("No!!! Stop!!! Don't hurt him!!!", "I love him!!!", "We are a family now.");
+    /** What she says, in each player's own language. */
+    private static final List<String> SCENE = List.of("entity.orespawn_dangerzone.princess_young_adult.scene.0",
+            "entity.orespawn_dangerzone.princess_young_adult.scene.1", "entity.orespawn_dangerzone.princess_young_adult.scene.2");
 
     private final ServerBossEvent bossBar = new ServerBossEvent(getDisplayName(), BossEvent.BossBarColor.BLUE, BossEvent.BossBarOverlay.NOTCHED_10);
     private boolean princessCame;
@@ -91,7 +93,7 @@ public class KrakenKing extends Kraken implements DzAnimated {
         this.bossBar.setProgress(getHealth() / getMaxHealth());
         if (this.scene >= 0 && this.scene < SCENE.size() && --this.sceneWait <= 0 && level() instanceof ServerLevel server) {
             server.getServer().getPlayerList().broadcastSystemMessage(
-                    Component.translatable("entity.orespawn_dangerzone.princess_young_adult").append(": " + SCENE.get(this.scene)), false);
+                    Component.translatable("entity.orespawn_dangerzone.princess_young_adult").append(": ").append(Component.translatable(SCENE.get(this.scene))), false);
             this.scene++;
             this.sceneWait = 60;
         }
