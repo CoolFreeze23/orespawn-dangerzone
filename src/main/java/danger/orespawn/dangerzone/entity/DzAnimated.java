@@ -5,6 +5,11 @@ public interface DzAnimated {
     /** The spinner's angle in radians; DangerZone advances it each time it draws. */
     float getNewangle();
 
+    /** The second spinner of a model that has two. */
+    default float getHeadNewangle() {
+        return 0.0f;
+    }
+
     /** Whether light number i is lit. */
     default boolean getBlink(int i) {
         return false;

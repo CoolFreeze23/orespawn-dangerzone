@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "orespawn_dangerzone:item/rolly_ouchy_spawn_egg"
+  }
+}

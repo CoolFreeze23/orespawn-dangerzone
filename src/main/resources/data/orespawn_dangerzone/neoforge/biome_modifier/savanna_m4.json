@@ -1,0 +1,18 @@
+{
+  "type": "neoforge:add_spawns",
+  "biomes": "#c:is_savanna",
+  "spawners": [
+    {
+      "type": "orespawn_dangerzone:hyena",
+      "weight": 3,
+      "minCount": 2,
+      "maxCount": 4
+    },
+    {
+      "type": "orespawn_dangerzone:warthog",
+      "weight": 3,
+      "minCount": 1,
+      "maxCount": 3
+    }
+  ]
+}

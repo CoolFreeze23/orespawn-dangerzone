@@ -18,3 +18,7 @@ runmods/
 .idea/
 *.iml
 .vscode/
+run-server/
+run-client-a/
+run-client-b/
+.gradle-b/

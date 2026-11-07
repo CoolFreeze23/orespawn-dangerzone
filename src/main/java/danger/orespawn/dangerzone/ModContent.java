@@ -81,7 +81,21 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.function.Supplier;
+import danger.orespawn.dangerzone.entity.Annoyance;
+import danger.orespawn.dangerzone.entity.DzBeast;
+import danger.orespawn.dangerzone.entity.Varmint;
+import danger.orespawn.dangerzone.item.MorphStaffItem;
+import danger.orespawn.dangerzone.morph.Morph;
+import net.minecraft.world.entity.EquipmentSlotGroup;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.item.ArmorMaterial;
+import net.minecraft.world.item.component.ItemAttributeModifiers;
 
 public final class ModContent {
     private static final String MOD = OreSpawnDangerZone.MOD_ID;
@@ -94,6 +108,8 @@ public final class ModContent {
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(MOD);
     public static final DeferredRegister<Feature<?>> FEATURES = DeferredRegister.create(Registries.FEATURE, MOD);
     public static final DeferredRegister<CreativeModeTab> TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MOD);
+    public static final DeferredRegister<ArmorMaterial> ARMOR_MATERIALS = DeferredRegister.create(Registries.ARMOR_MATERIAL, MOD);
+    private static final Map<DzBeast.Spec, DeferredHolder<EntityType<?>, EntityType<DzBeast>>> BEASTS = new LinkedHashMap<>();
 
     // Sizes are DangerZone's.
     public static final DeferredHolder<EntityType<?>, EntityType<NastysaurusPrime>> NASTYSAURUS_PRIME = ENTITIES.register("nastysaurus_prime",
@@ -157,6 +173,25 @@ public final class ModContent {
     public static final DeferredHolder<EntityType<?>, EntityType<PortalAnt>> DRANT = ENTITIES.register("drant",
             () -> EntityType.Builder.<PortalAnt>of((type, level) -> new PortalAnt(type, level, DzPlaces.DRAGONS_LAIR), MobCategory.CREATURE).sized(0.5f, 0.3f).clientTrackingRange(8).build("drant"));
 
+    public static final DeferredHolder<EntityType<?>, EntityType<Annoyance>> ANNOYANCE = ENTITIES.register("annoyance",
+            () -> EntityType.Builder.of(Annoyance::new, MobCategory.MONSTER).sized(0.95f, 0.85f).fireImmune().clientTrackingRange(10).build("annoyance"));
+    public static final DeferredHolder<EntityType<?>, EntityType<Varmint>> VARMINT = ENTITIES.register("varmint",
+            () -> EntityType.Builder.<Varmint>of(Varmint::varmint, MobCategory.MONSTER).sized(0.95f, 0.85f).fireImmune().clientTrackingRange(10).build("varmint"));
+    public static final DeferredHolder<EntityType<?>, EntityType<Varmint>> VERMIN = ENTITIES.register("vermin",
+            () -> EntityType.Builder.<Varmint>of(Varmint::vermin, MobCategory.MONSTER).sized(0.65f, 0.55f).fireImmune().clientTrackingRange(10).build("vermin"));
+    public static final DeferredHolder<EntityType<?>, EntityType<DzBeast>> FLATTOP = beast(DzBeast.FLATTOP);
+    public static final DeferredHolder<EntityType<?>, EntityType<DzBeast>> HYENA = beast(DzBeast.HYENA);
+    public static final DeferredHolder<EntityType<?>, EntityType<DzBeast>> LAVA_LIZARD = beast(DzBeast.LAVA_LIZARD);
+    public static final DeferredHolder<EntityType<?>, EntityType<DzBeast>> LAZER_LIZARD = beast(DzBeast.LAZER_LIZARD);
+    public static final DeferredHolder<EntityType<?>, EntityType<DzBeast>> LIGHTNING_LIZARD = beast(DzBeast.LIGHTNING_LIZARD);
+    public static final DeferredHolder<EntityType<?>, EntityType<DzBeast>> RAGING_BULL = beast(DzBeast.RAGING_BULL);
+    public static final DeferredHolder<EntityType<?>, EntityType<DzBeast>> RATTLESNAKE = beast(DzBeast.RATTLESNAKE);
+    public static final DeferredHolder<EntityType<?>, EntityType<DzBeast>> ROLLY_OUCHY = beast(DzBeast.ROLLY_OUCHY);
+    public static final DeferredHolder<EntityType<?>, EntityType<DzBeast>> SKINNY_THING = beast(DzBeast.SKINNY_THING);
+    public static final DeferredHolder<EntityType<?>, EntityType<DzBeast>> V = beast(DzBeast.V);
+    public static final DeferredHolder<EntityType<?>, EntityType<DzBeast>> WARTHOG = beast(DzBeast.WARTHOG);
+    public static final DeferredHolder<EntityType<?>, EntityType<DzBeast>> WOOLLY_MAMMOTH = beast(DzBeast.WOOLLY_MAMMOTH);
+
     public static final DeferredHolder<MobEffect, ShrunkEffect> SHRUNK = EFFECTS.register("shrunk", ShrunkEffect::new);
 
     public static final DeferredHolder<SoundEvent, SoundEvent> SND_NEEDLENOSE_AMBIENT = sound("needlenose.ambient");
@@ -183,6 +218,26 @@ public final class ModContent {
     public static final DeferredHolder<SoundEvent, SoundEvent> SND_ELEMENT_HURT = sound("element_dragon.hurt");
     public static final DeferredHolder<SoundEvent, SoundEvent> SND_ELEMENT_DEATH = sound("element_dragon.death");
     public static final DeferredHolder<SoundEvent, SoundEvent> SND_WORM_AMBIENT = sound("doom_worm.ambient");
+    public static final DeferredHolder<SoundEvent, SoundEvent> SND_ANNOYANCE_AMBIENT = sound("annoyance.ambient");
+    public static final DeferredHolder<SoundEvent, SoundEvent> SND_ANNOYANCE_HURT = sound("annoyance.hurt");
+    public static final DeferredHolder<SoundEvent, SoundEvent> SND_ANNOYANCE_DEATH = sound("annoyance.death");
+    public static final DeferredHolder<SoundEvent, SoundEvent> SND_VARMINT_AMBIENT = sound("varmint.ambient");
+    public static final DeferredHolder<SoundEvent, SoundEvent> SND_VARMINT_HURT = sound("varmint.hurt");
+    public static final DeferredHolder<SoundEvent, SoundEvent> SND_VARMINT_DEATH = sound("varmint.death");
+    public static final DeferredHolder<SoundEvent, SoundEvent> SND_MORPH = sound("item.morph");
+    public static final DeferredHolder<SoundEvent, SoundEvent> SND_UNMORPH = sound("item.unmorph");
+    static {
+        java.util.Set<String> voices = new java.util.HashSet<>();
+        for (DzBeast.Spec spec : DzBeast.ALL) {
+            if (voices.add(spec.voice())) {
+                sound(spec.voice() + ".hurt");
+                sound(spec.voice() + ".death");
+                if (spec.ambient()) {
+                    sound(spec.voice() + ".ambient");
+                }
+            }
+        }
+    }
 
     public static final DeferredBlock<Block> DARK_STONE = BLOCKS.registerSimpleBlock("dark_stone", stone(1.5f, 6.0f));
     public static final DeferredBlock<Block> DARK_DIRT = BLOCKS.registerSimpleBlock("dark_dirt", BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BLACK).strength(0.5f).sound(SoundType.GRAVEL));
@@ -242,6 +297,26 @@ public final class ModContent {
     public static final DeferredItem<ElementStaffItem> LIGHTNING_STAFF = staff("lightning_staff", ElementShot.LIGHTNING);
     public static final DeferredItem<ElementStaffItem> PLANT_STAFF = staff("plant_staff", ElementShot.PLANT);
 
+    /** DangerZone's 65 protection and 80000 uses, with protection on the port's scale, just above its Ultimate Helmet. */
+    public static final DeferredHolder<ArmorMaterial, ArmorMaterial> ROYAL_MATERIAL = ARMOR_MATERIALS.register("royal", () -> new ArmorMaterial(
+            Map.of(ArmorItem.Type.HELMET, 7, ArmorItem.Type.CHESTPLATE, 7, ArmorItem.Type.LEGGINGS, 7, ArmorItem.Type.BOOTS, 7, ArmorItem.Type.BODY, 7), 20,
+            net.minecraft.sounds.SoundEvents.ARMOR_EQUIP_GOLD, () -> Ingredient.of(ModContent.DRAGONS_EYE.get()),
+            List.of(new ArmorMaterial.Layer(OreSpawnDangerZone.id("royal_tiara"))), 4.0f, 0.0f));
+    public static final DeferredItem<ArmorItem> ROYAL_TIARA = ITEMS.register("royal_tiara",
+            () -> new ArmorItem(ROYAL_MATERIAL, ArmorItem.Type.HELMET, new Item.Properties().durability(80000).rarity(Rarity.EPIC)));
+    /** DangerZone's 25 damage on the port's scale, and its hundred uses. */
+    public static final DeferredItem<MorphStaffItem> MORPH_STAFF = ITEMS.register("morph_staff",
+            () -> new MorphStaffItem(new Item.Properties().durability(100).rarity(Rarity.EPIC).attributes(ItemAttributeModifiers.builder()
+                    .add(Attributes.ATTACK_DAMAGE, new AttributeModifier(Item.BASE_ATTACK_DAMAGE_ID, 8.0, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)
+                    .build())));
+
+    public static final DeferredItem<DeferredSpawnEggItem> ANNOYANCE_EGG = egg("annoyance", ANNOYANCE);
+    public static final DeferredItem<DeferredSpawnEggItem> VARMINT_EGG = egg("varmint", VARMINT);
+    public static final DeferredItem<DeferredSpawnEggItem> VERMIN_EGG = egg("vermin", VERMIN);
+    static {
+        BEASTS.forEach((spec, holder) -> egg(spec.name(), holder));
+    }
+
     public static final DeferredItem<DeferredSpawnEggItem> CHAOS_DEMON_EGG = egg("chaos_demon", CHAOS_DEMON);
     public static final DeferredItem<DeferredSpawnEggItem> BABY_SITTER_EGG = egg("baby_sitter", BABY_SITTER);
     public static final DeferredItem<DeferredSpawnEggItem> KRAKEN_KING_EGG = egg("kraken_king", KRAKEN_KING);
@@ -291,6 +366,19 @@ public final class ModContent {
     private ModContent() {
     }
 
+    private static DeferredHolder<EntityType<?>, EntityType<DzBeast>> beast(DzBeast.Spec spec) {
+        DeferredHolder<EntityType<?>, EntityType<DzBeast>> holder = ENTITIES.register(spec.name(), () -> {
+            EntityType.Builder<DzBeast> builder = EntityType.Builder.<DzBeast>of((type, level) -> new DzBeast(type, level, spec), MobCategory.MONSTER)
+                    .sized(spec.width(), spec.height()).clientTrackingRange(spec.width() >= 4.0f ? 16 : 10);
+            if (spec.fireproof()) {
+                builder.fireImmune();
+            }
+            return builder.build(spec.name());
+        });
+        BEASTS.put(spec, holder);
+        return holder;
+    }
+
     private static BlockBehaviour.Properties stone(float hardness, float resistance) {
         return BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BLACK).strength(hardness, resistance).requiresCorrectToolForDrops().sound(SoundType.STONE);
     }
@@ -321,6 +409,8 @@ public final class ModContent {
         SOUNDS.register(modBus);
         RECIPES.register(modBus);
         TABS.register(modBus);
+        ARMOR_MATERIALS.register(modBus);
+        Morph.register(modBus);
         modBus.addListener(ModContent::attributes);
         modBus.addListener(ModContent::placements);
     }
@@ -331,6 +421,10 @@ public final class ModContent {
         event.put(NURSE_BUG.get(), NurseBug.createAttributes().build());
         event.put(ANT_QUEEN.get(), AntQueen.createAttributes().build());
         event.put(BLOODLUST_ANT.get(), BloodlustAnt.createAttributes().build());
+        event.put(ANNOYANCE.get(), Annoyance.createAttributes().build());
+        event.put(VARMINT.get(), Varmint.varmintAttributes().build());
+        event.put(VERMIN.get(), Varmint.verminAttributes().build());
+        BEASTS.forEach((spec, holder) -> event.put(holder.get(), DzBeast.attributes(spec).build()));
         event.put(TOWER_FLAG.get(), TowerFlag.createAttributes().build());
         event.put(NOPE.get(), Nope.createAttributes().build());
         event.put(BABY_NOPE.get(), BabyNope.createAttributes().build());
@@ -353,6 +447,8 @@ public final class ModContent {
     }
 
     private static void placements(RegisterSpawnPlacementsEvent event) {
+        BEASTS.forEach((spec, holder) -> event.register(holder.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
+                spec.byDay() ? Mob::checkMobSpawnRules : Monster::checkMonsterSpawnRules, RegisterSpawnPlacementsEvent.Operation.REPLACE));
         event.register(NASTYSAURUS_PRIME.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
                 Monster::checkMonsterSpawnRules, RegisterSpawnPlacementsEvent.Operation.REPLACE);
         event.register(NEEDLENOSE.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,

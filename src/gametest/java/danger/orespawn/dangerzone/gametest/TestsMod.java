@@ -9,8 +9,13 @@ import net.neoforged.neoforge.common.NeoForge;
 @Mod("orespawn_dangerzone_tests")
 public final class TestsMod {
     public TestsMod() {
+        if (FMLEnvironment.dist == Dist.DEDICATED_SERVER && Boolean.getBoolean("orespawn_dangerzone.twoplayer")) {
+            NeoForge.EVENT_BUS.register(TwoPlayerServer.class);
+        }
         if (FMLEnvironment.dist == Dist.CLIENT && Boolean.getBoolean("orespawn_dangerzone.shots")) {
-            if (Boolean.getBoolean("orespawn_dangerzone.drive")) {
+            if (System.getProperty("orespawn_dangerzone.connect") != null) {
+                NeoForge.EVENT_BUS.register(TwoPlayerClient.class);
+            } else if (Boolean.getBoolean("orespawn_dangerzone.drive")) {
                 NeoForge.EVENT_BUS.register(TestDrive.class);
             } else {
                 NeoForge.EVENT_BUS.register(ShotsClient.class);

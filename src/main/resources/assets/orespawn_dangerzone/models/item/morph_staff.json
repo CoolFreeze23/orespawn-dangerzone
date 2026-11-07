@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "orespawn_dangerzone:item/morph_staff"
+  }
+}

@@ -86,6 +86,39 @@ TEXTURES = {
     "orespawnres/items/eggelementdragon.png": "item/element_dragon_spawn_egg.png",
     "orespawnres/items/eggkrakenking.png": "item/kraken_king_spawn_egg.png",
     "orespawnres/items/eggsquidguard.png": "item/squid_guard_spawn_egg.png",
+    "orespawnres/skins/Annoyance.png": "entity/annoyance.png",
+    "orespawnres/skins/Varminttexture.png": "entity/varmint.png",
+    "orespawnres/skins/Vermintexture.png": "entity/vermin.png",
+    "orespawnres/skins/Flattoptexture.png": "entity/flattop.png",
+    "orespawnres/skins/Hyeenatexture.png": "entity/hyena.png",
+    "orespawnres/skins/LavaLizardtexture.png": "entity/lava_lizard.png",
+    "orespawnres/skins/LazerLizardtexture.png": "entity/lazer_lizard.png",
+    "orespawnres/skins/LightningLizardtexture.png": "entity/lightning_lizard.png",
+    "orespawnres/skins/RagingBulltexture.png": "entity/raging_bull.png",
+    "orespawnres/skins/RattleSnaketexture.png": "entity/rattlesnake.png",
+    "orespawnres/skins/RollyOuchytexture.png": "entity/rolly_ouchy.png",
+    "orespawnres/skins/SkinnyThingtexture.png": "entity/skinny_thing.png",
+    "orespawnres/skins/Vtexture.png": "entity/v.png",
+    "orespawnres/skins/WartHogtexture.png": "entity/warthog.png",
+    "orespawnres/skins/WoollyMammothtexture.png": "entity/woolly_mammoth.png",
+    "orespawnres/items/eggannoyance.png": "item/annoyance_spawn_egg.png",
+    "orespawnres/items/eggvarmint.png": "item/varmint_spawn_egg.png",
+    "orespawnres/items/eggvermin.png": "item/vermin_spawn_egg.png",
+    "orespawnres/items/eggflattop.png": "item/flattop_spawn_egg.png",
+    "orespawnres/items/egghyeena.png": "item/hyena_spawn_egg.png",
+    "orespawnres/items/egglavalizard.png": "item/lava_lizard_spawn_egg.png",
+    "orespawnres/items/egglazerlizard.png": "item/lazer_lizard_spawn_egg.png",
+    "orespawnres/items/egglightninglizard.png": "item/lightning_lizard_spawn_egg.png",
+    "orespawnres/items/eggragingbull.png": "item/raging_bull_spawn_egg.png",
+    "orespawnres/items/eggrattlesnake.png": "item/rattlesnake_spawn_egg.png",
+    "orespawnres/items/eggrollyouchy.png": "item/rolly_ouchy_spawn_egg.png",
+    "orespawnres/items/eggskinnything.png": "item/skinny_thing_spawn_egg.png",
+    "orespawnres/items/eggv.png": "item/v_spawn_egg.png",
+    "orespawnres/items/eggwarthog.png": "item/warthog_spawn_egg.png",
+    "orespawnres/items/eggwoolymammoth.png": "item/woolly_mammoth_spawn_egg.png",
+    "orespawnres/items/tiara.png": "item/royal_tiara.png",
+    "orespawnres/items/staffofmorph.png": "item/morph_staff.png",
+    "orespawnres/skins/tiara_1.png": "models/armor/royal_tiara_layer_1.png",
     "orespawnres/blocks/darkstone.png": "block/dark_stone.png",
     "orespawnres/blocks/darkdirt.png": "block/dark_dirt.png",
     "orespawnres/blocks/darkwood.png": "block/dark_log.png",
@@ -113,12 +146,18 @@ MOD_SOUNDS = [
     "laser1", "laser2", "laser3", "laser4", "laser5", "laser6", "nope_living",
     "roar1", "roar2", "roar3", "roar4", "roar5", "roar6", "mothrawings1", "mothrawings2", "mothrawings3",
 ]
-GAME_SOUNDS = ["teleport1", "teleport2", "teleport3", "goose_living", "martian_hit", "martian_death"]
+GAME_SOUNDS = ["teleport1", "teleport2", "teleport3", "goose_living", "martian_hit", "martian_death", "moose_hit", "moose_death", "morph1", "morph2"]
 LATE_MOD_SOUNDS = [
     "babysitter_death1", "babysitter_death2", "babysitter_hit1", "babysitter_hit2", "babysitter_hit3", "babysitter_hit4", "babysitter_hit5",
     "babysitter_hit6", "babysitter_hit7", "babysitter_hit8", "babysitter_hit9", "babysitter_living1", "babysitter_living2",
     "elementdragon_death", "elementdragon_hit", "elementdragon_living",
     "caterkiller_living1", "caterkiller_living2", "caterkiller_living3", "caterkiller_living4",
+    "annoyance_living", "annoyance_hit", "annoyance_dead", "varmint_living", "varmint_hit", "varmint_death",
+    "creaky1", "creaky2", "creaky_hit", "creaky_death", "hyena1", "hyena2", "hyena3", "hyena4", "hyena5", "hyena_death",
+    "rattlesnake1", "rattlesnake2", "rattlesnake_hit", "rattlesnake_death",
+    "reel1", "reel2", "reel3", "reel4", "reel5", "reel6", "reel7", "gurglehit1", "gurglehit2", "gurglehit3", "drill1", "drill2", "drill3",
+    "honk1", "honk2", "honk3", "honk4", "squeeky", "cryo_hurt", "rimshot", "warthog_death1", "warthog_death2",
+    "mammoth_living1", "mammoth_living2", "mammoth_living3", "mammoth_living4", "mammoth_hit1", "mammoth_hit2", "mammoth_death",
 ]
 # sound event -> its variants
 SOUND_EVENTS = {
@@ -146,6 +185,39 @@ SOUND_EVENTS = {
     "element_dragon.hurt": ["elementdragon_hit"],
     "element_dragon.death": ["elementdragon_death"],
     "doom_worm.ambient": ["caterkiller_living1", "caterkiller_living2", "caterkiller_living3", "caterkiller_living4"],
+    "annoyance.ambient": ["annoyance_living"],
+    "annoyance.hurt": ["annoyance_hit"],
+    "annoyance.death": ["annoyance_dead"],
+    "varmint.ambient": ["varmint_living"],
+    "varmint.hurt": ["varmint_hit"],
+    "varmint.death": ["varmint_death"],
+    "flattop.ambient": ["creaky1", "creaky2"],
+    "flattop.hurt": ["creaky_hit"],
+    "flattop.death": ["creaky_death"],
+    "hyena.hurt": ["hyena1", "hyena2", "hyena3", "hyena4", "hyena5"],
+    "hyena.death": ["hyena_death"],
+    "raging_bull.hurt": ["moose_hit"],
+    "raging_bull.death": ["moose_death"],
+    "rattlesnake.ambient": ["rattlesnake1", "rattlesnake2"],
+    "rattlesnake.hurt": ["rattlesnake_hit"],
+    "rattlesnake.death": ["rattlesnake_death"],
+    "rolly_ouchy.ambient": ["reel1", "reel2", "reel3", "reel4", "reel5", "reel6", "reel7"],
+    "rolly_ouchy.hurt": ["gurglehit1", "gurglehit2", "gurglehit3"],
+    "rolly_ouchy.death": ["drill1", "drill2", "drill3"],
+    "skinny_thing.ambient": ["honk1", "honk2", "honk3", "honk4"],
+    "skinny_thing.hurt": ["gurglehit1", "gurglehit2", "gurglehit3"],
+    "skinny_thing.death": ["squeeky"],
+    "v.ambient": ["drill1", "drill2", "drill3"],
+    "v.hurt": ["cryo_hurt"],
+    "v.death": ["rimshot"],
+    "warthog.ambient": ["warthog_living1", "warthog_living2", "warthog_living3"],
+    "warthog.hurt": ["warthog_hit1", "warthog_hit2", "warthog_hit3"],
+    "warthog.death": ["warthog_death1", "warthog_death2"],
+    "woolly_mammoth.ambient": ["mammoth_living1", "mammoth_living2", "mammoth_living3", "mammoth_living4"],
+    "woolly_mammoth.hurt": ["mammoth_hit1", "mammoth_hit2"],
+    "woolly_mammoth.death": ["mammoth_death"],
+    "item.morph": ["morph1"],
+    "item.unmorph": ["morph2"],
     "princess.roar": ["roar1", "roar2", "roar3", "roar4", "roar5", "roar6"],
     "princess.wings": ["mothrawings1", "mothrawings2", "mothrawings3"],
 }
@@ -171,6 +243,18 @@ MODEL_CLASSES = {
     "ModelDoomWorm": "DzDoomWormModel",
     "ModelDrant": "DzDrantModel",
     "ModelAnt": "DzAntModel",
+    "ModelAnnoyance": "DzAnnoyanceModel",
+    "ModelVarmint": "DzVarmintModel",
+    "ModelFlattop": "DzFlattopModel",
+    "ModelHyena": "DzHyenaModel",
+    "ModelLizard": "DzLizardModel",
+    "ModelRagingBull": "DzRagingBullModel",
+    "ModelRattlesnake": "DzRattlesnakeModel",
+    "ModelRollyOuchy": "DzRollyOuchyModel",
+    "ModelSkinnyThing": "DzSkinnyThingModel",
+    "ModelV": "DzVModel",
+    "ModelWarthog": "DzWarthogModel",
+    "ModelWoolyMammoth": "DzWoollyMammothModel",
 }
 ENGINE_MODEL_CLASSES = {
     "ModelFlag": "DzTowerFlagModel",
@@ -179,7 +263,7 @@ ENGINE_MODEL_CLASSES = {
 # Models whose render method calls helper methods of their own, which come along.
 KEEP_HELPERS = {"ModelThePrincessAdult", "ModelKrakenKing", "ModelSquidGuard", "ModelDargon", "ModelChaosDemon", "ModelBabySitter", "ModelElementDragon"}
 # The real classes behind a model's cast of its entity.
-ENTITY_CASTS = {"NastysaurusPrime": "NastysaurusPrime", "ChaosDemon": "ChaosDemon", "KrakenKing": "KrakenKing", "SquidGuard": "SquidGuard", "Dargon": "Dargon", "ElementDragon": "ElementDragon", "DoomWorm": "DoomWorm"}
+ENTITY_CASTS = {"NastysaurusPrime": "NastysaurusPrime", "ChaosDemon": "ChaosDemon", "KrakenKing": "KrakenKing", "SquidGuard": "SquidGuard", "Dargon": "Dargon", "ElementDragon": "ElementDragon", "DoomWorm": "DoomWorm", "RollyOuchy": "DzBeast", "SkinnyThing": "DzBeast", "V": "DzBeast"}
 # DangerZone applies this model's extra scale only to other creatures that borrow it.
 SCALE_OVERRIDE = {"ModelThePrincessAdult": 1.0}
 
@@ -382,6 +466,9 @@ def convert_model(source_name, class_name, folder=ENTITIES):
     body = re.sub(r"(\w+) (\w+) = \((UFO|UFOFighter|ThePrincessTeen|ThePrincessYoungAdult)\)entity;",
                   lambda m: f"{entity_pkg}DzAnimated {m.group(2)} = ({entity_pkg}DzAnimated) entity;", body)
     body = body.replace("entity.getAttacking()", "attacking()")
+    body = body.replace("entity instanceof LazerLizard", f"entity instanceof {entity_pkg}DzBeast beast && beast.spec() == {entity_pkg}DzBeast.LAZER_LIZARD")
+    body = body.replace("entity.getOwnerName() != null", "(entity instanceof net.minecraft.world.entity.OwnableEntity pet && pet.getOwnerUUID() != null)")
+    body = body.replace("entity.motiony", "(float) entity.getDeltaMovement().y")
     body = body.replace("entity.world.rand.", "entity.level().random.")
     body = re.sub(r"NastysaurusPrime o = \(NastysaurusPrime\)entity;\s*RenderInfo r = o\.renderdata;",
                   "danger.orespawn.entity.client.RenderInfo r = ((danger.orespawn.entity.Nastysaurus) entity).getRenderInfo();", body)
@@ -445,7 +532,7 @@ PALETTE = {
     "dragoneyestone": "orespawn_dangerzone:dragons_eye_stone", "extremetorch": "orespawn_dangerzone:extreme_torch",
     "krakenkingspawner": "orespawn_dangerzone:kraken_king_spawner",
     # spawners: these three names only ever go through spawner()
-    "varmintspawner": "orespawn:terrible_terror", "verminspawner": "orespawn:terrible_terror", "annoyancespawner": "orespawn:terrible_terror",
+    "varmintspawner": "orespawn_dangerzone:varmint", "verminspawner": "orespawn_dangerzone:vermin", "annoyancespawner": "orespawn_dangerzone:annoyance",
 }
 DUNGEON_METHODS = ["public static void makeElementDungeon(", "public void makeDargonsLair(", "public void buildDargonDungeon(",
                    "public void makeKrakenKingCastle(", "private void makekrakentreasures(", "private void makekrakentreasure("]
@@ -565,6 +652,9 @@ def main():
     print("sounds", len(MOD_SOUNDS) + len(LATE_MOD_SOUNDS) + len(GAME_SOUNDS))
     terrain_base()
     events = {k: {"sounds": [f"{MOD}:{s}" for s in v]} for k, v in SOUND_EVENTS.items()}
+    # the lizards have the port's Alosaurus's voice
+    events["lizard.hurt"] = {"sounds": [{"name": "orespawn:alo_hurt", "type": "event"}]}
+    events["lizard.death"] = {"sounds": [{"name": "orespawn:alo_death", "type": "event"}]}
     write_file(os.path.join(ASSETS, "sounds.json"), json.dumps(events, indent=2).encode())
 
     for source, target in MODEL_CLASSES.items():

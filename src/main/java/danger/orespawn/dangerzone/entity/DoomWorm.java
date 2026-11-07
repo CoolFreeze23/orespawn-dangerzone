@@ -72,6 +72,12 @@ public class DoomWorm extends Monster implements DzAnimated {
         return player.isHolding(ModContent.WORM_FOOD.get()) || player.isHolding(ModContent.DOOM_WORM_EGG.get());
     }
 
+    /** A monster's own check turns down anywhere bright, whatever its spawn placement says. This one doesn't mind the sun. */
+    @Override
+    public boolean checkSpawnRules(net.minecraft.world.level.LevelAccessor level, net.minecraft.world.entity.MobSpawnType reason) {
+        return true;
+    }
+
     @Override
     public void tick() {
         super.tick();

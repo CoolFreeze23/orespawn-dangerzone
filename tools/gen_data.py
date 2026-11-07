@@ -26,11 +26,14 @@ OWN_ENTITIES = {"NastysaurusPrime": "nastysaurus_prime", "Needlenose": "needleno
                 "ThePrincessTeen": "princess_teen", "ThePrincessYoungAdult": "princess_young_adult", "UFO": "ufo",
                 "UFOCarrier": "ufo_carrier", "UFOFighter": "ufo_fighter", "Martian": "martian", "MyMartian": "martian",
                 "ChaosDemon": "chaos_demon", "BabySitter": "baby_sitter", "KrakenKing": "kraken_king", "SquidGuard": "squid_guard",
-                "Dargon": "dargon", "ElementDragon": "element_dragon", "DoomWorm": "doom_worm", "DoomAnt": "doom_ant", "Drant": "drant"}
+                "Dargon": "dargon", "ElementDragon": "element_dragon", "DoomWorm": "doom_worm", "DoomAnt": "doom_ant", "Drant": "drant",
+                "Annoyance": "annoyance", "Varmint": "varmint", "Vermin": "vermin", "Flattop": "flattop", "Hyena": "hyena", "LavaLizard": "lava_lizard",
+                "LazerLizard": "lazer_lizard", "LightningLizard": "lightning_lizard", "RagingBull": "raging_bull", "Rattlesnake": "rattlesnake",
+                "RollyOuchy": "rolly_ouchy", "SkinnyThing": "skinny_thing", "V": "v", "Warthog": "warthog", "WoolyMammoth": "woolly_mammoth"}
 OWN_ITEMS = {"dimensionstaff": "dimension_staff", "dragonseye": "dragons_eye", "dragonseyesword": "dragons_eye_sword",
              "shrinkray": "shrink_ray", "wormfood": "worm_food", "extremetorch": "extreme_torch", "firestaff": "fire_staff",
              "earthstaff": "earth_staff", "waterstaff": "water_staff", "windstaff": "wind_staff", "lightningstaff": "lightning_staff",
-             "plantstaff": "plant_staff", "dragoneyestone": "dragons_eye_stone", "darkstone": "dark_stone"}
+             "plantstaff": "plant_staff", "dragoneyestone": "dragons_eye_stone", "darkstone": "dark_stone", "tiara": "royal_tiara", "morphstaff": "morph_staff"}
 ENTITY_ALIAS = {
     "Beetle": "hercules_beetle", "Bird": "cockateil", "Criminal": "band_p", "FFrog": "frog", "Hoverboard": "elevator",
     "JumpyBug": "trooper_bug", "WTF": "gamma_metroid", "Moth": "luna_moth", "Nightmare": "pitch_black", "PowerOrb": "purple_power",
@@ -51,6 +54,51 @@ DIMENSIONS = {"utopiadimension": "utopia", "miningdimension": "mining", "chaosdi
 EXCLUDE = re.compile(r"Putin|Lavrov|Russian|Vaxx|Libtard|Pharma|Red-Pill|Whiner|Liberals|Deep State", re.I)
 # The original's text and its check disagree, so there's nothing faithful to carry over.
 BROKEN = {"task218"}
+
+
+def milestone_four(lang, add_spawns):
+    """The Lair's little flyers, the rest of the Tower Defense ladder, and what Dargon's captive carries."""
+    models = os.path.join(ASSETS, "models/item")
+    names = {"annoyance": "Annoyance", "varmint": "Varmint", "vermin": "Vermin", "flattop": "Flattop", "hyena": "Hyena", "lava_lizard": "Lava Lizard",
+             "lazer_lizard": "Lazer Lizard", "lightning_lizard": "Lightning Lizard", "raging_bull": "Raging Bull", "rattlesnake": "Rattlesnake",
+             "rolly_ouchy": "Rolly Ouchy", "skinny_thing": "Skinny Thing", "v": "V", "warthog": "Warthog", "woolly_mammoth": "Woolly Mammoth"}
+    for key, title in names.items():
+        lang[f"entity.{MOD}.{key}"] = title
+        lang[f"item.{MOD}.{key}_spawn_egg"] = title + " Egg"
+        write_json(os.path.join(models, key + "_spawn_egg.json"), item_model(key + "_spawn_egg"))
+    write_json(os.path.join(models, "royal_tiara.json"), item_model("royal_tiara"))
+    write_json(os.path.join(models, "morph_staff.json"), item_model("morph_staff", "minecraft:item/handheld"))
+    lang[f"item.{MOD}.royal_tiara"] = "Royal Tiara"
+    lang[f"item.{MOD}.morph_staff"] = "Morph Staff"
+
+    tables = os.path.join(DATA, "loot_table/entities")
+    meat = lambda: [pool("minecraft:beef", 3, 6), pool("minecraft:bone", 2, 4)]
+    drops = {
+        "annoyance": [pool("minecraft:spider_eye", 1, 2)],
+        "varmint": [pool("minecraft:spider_eye", 2, 3)],
+        "vermin": [pool("minecraft:spider_eye", chance=0.5)],
+        "flattop": meat() + [pool("minecraft:crafting_table", chance=0.5)],
+        "hyena": [pool("minecraft:beef", 1, 3), pool("minecraft:bone", 1, 2)],
+        "lava_lizard": meat() + [pool("minecraft:copper_ingot", 3, 7), pool("minecraft:copper_block", 1, 3), pool("minecraft:chainmail_chestplate", chance=0.25)],
+        "lazer_lizard": meat() + [pool("minecraft:iron_ingot", 3, 7), pool("minecraft:iron_block", 1, 3), pool("minecraft:iron_chestplate", chance=0.25)],
+        "lightning_lizard": meat() + [pool("minecraft:gold_ingot", 3, 7), pool("minecraft:gold_block", 1, 3), pool("minecraft:golden_chestplate", chance=0.25)],
+        "raging_bull": meat(),
+        "rattlesnake": [pool("minecraft:string", 1, 2)],
+        "rolly_ouchy": [pool("minecraft:iron_nugget", 1, 3)],
+        "skinny_thing": [pool("minecraft:stick", 1, 3)],
+        "v": [pool("minecraft:spider_eye", 1, 1)],
+        "warthog": [pool("minecraft:porkchop", 1, 3), pool("minecraft:bone", 1, 2)],
+        "woolly_mammoth": [pool("minecraft:beef", 8, 16), pool("minecraft:bone", 8, 16), pool("minecraft:leather", 4, 8)],
+    }
+    for key, pools in drops.items():
+        write_json(os.path.join(tables, key + ".json"), loot(*pools))
+
+    # DangerZone keeps these in its Misfit dimension and the Zoo, which the port doesn't have: Chaos, the mines and wild biomes instead.
+    add_spawns("chaos_m4", "orespawn:chaos_biome", ("flattop", 1, 1, 1), ("raging_bull", 1, 1, 1), ("rolly_ouchy", 3, 1, 3), ("skinny_thing", 3, 1, 3), ("v", 3, 1, 2))
+    add_spawns("mining_m4", "orespawn:mining_biome", ("lava_lizard", 1, 1, 1), ("lazer_lizard", 1, 1, 1), ("lightning_lizard", 1, 1, 1))
+    add_spawns("savanna_m4", "#c:is_savanna", ("hyena", 3, 2, 4), ("warthog", 3, 1, 3))
+    add_spawns("desert_m4", ["minecraft:desert", "minecraft:badlands", "minecraft:wooded_badlands"], ("rattlesnake", 3, 1, 2))
+    add_spawns("snow_m4", ["minecraft:snowy_plains", "minecraft:snowy_taiga"], ("woolly_mammoth", 1, 1, 1))
 
 
 def swarm_lines():
@@ -472,11 +520,14 @@ def milestone_three(lang):
     # The generation steps a biome lists are by index; decoration goes where trees and underground ornaments go.
     steps = lambda under, veg: [[], [], [], [], under, [], [], [], [], veg]
     # The Kraken, Attack Squid and Terrible Terror come by way of ExtraSpawns: the port's spawn rules turn these places down.
-    biome("kraken_realm", {"monster": [("orespawn_dangerzone:squid_guard", 8, 1, 3)], "creature": [("orespawn_dangerzone:doom_ant", 1, 1, 1)]},
+    # Its monsters come by way of ExtraSpawns too: on a list of its own, a Squid Guard filled the whole mob cap.
+    biome("kraken_realm", {"creature": [("orespawn_dangerzone:doom_ant", 1, 1, 1)]},
           [], 0x78A7FF, 0xC0D8FF, 0x3F76E4, grass=0x79C05A)
+    # Its monsters are in the air, by way of ExtraSpawns.
     biome("dragons_lair", {"creature": [("orespawn_dangerzone:drant", 3, 1, 2)]},
           steps([f"{MOD}:fossil_cross"], [f"{MOD}:dark_tree", f"{MOD}:element_pillar"]), 0x5959BF, 0x2A2A40, 0x20203F, grass=0x202030)
-    biome("doom", {"monster": [("orespawn_dangerzone:doom_worm", 2, 1, 1)], "creature": [("orespawn_dangerzone:doom_ant", 4, 1, 2)]},
+    # The worm comes by way of ExtraSpawns: as the only monster on a list it filled the whole mob cap, fifteen boss worms at once.
+    biome("doom", {"creature": [("orespawn_dangerzone:doom_ant", 4, 1, 2)]},
           steps([], [f"{MOD}:doom_tree"]), 0xC9B27A, 0xD8C690, 0x3F76E4, temperature=2.0, downfall=0.0)
     dim = os.path.join(DATA, "dimension")
     write_json(os.path.join(dim, "kraken_realm.json"), {"type": f"{MOD}:realm", "generator": {"type": "minecraft:noise", "settings": f"{MOD}:kraken_realm", "biome_source": {"type": "minecraft:fixed", "biome": f"{MOD}:kraken_realm"}}})
@@ -489,7 +540,7 @@ def milestone_three(lang):
             "spawners": [{"type": f"{MOD}:{e}", "weight": w, "minCount": a, "maxCount": b} for e, w, a, b in entries]})
 
     # Dargon, like the UFO, is too big for the game's spawn loop: see ExtraSpawns.
-    spawns("chaos_m3", "orespawn:chaos_biome", ("chaos_demon", 2, 1, 1), ("doom_worm", 1, 1, 1))
+    spawns("chaos_m3", "orespawn:chaos_biome", ("chaos_demon", 2, 1, 1))
     spawns("windswept_m3", "#c:is_windswept", ("chaos_demon", 1, 1, 1), ("drant", 2, 1, 2))
     spawns("portal_ants", "#minecraft:is_overworld", ("doom_ant", 3, 1, 3))
 
@@ -651,6 +702,7 @@ def main():
     add_spawns("forests", "#minecraft:is_forest", ("nurse_bug", 1, 1, 1))
 
     milestone_three(lang)
+    milestone_four(lang, add_spawns)
     advancements(lang)
     write_json(os.path.join(ASSETS, "lang/en_us.json"), lang)
 

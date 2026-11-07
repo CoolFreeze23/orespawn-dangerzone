@@ -1,0 +1,24 @@
+{
+  "type": "neoforge:add_spawns",
+  "biomes": "orespawn:mining_biome",
+  "spawners": [
+    {
+      "type": "orespawn_dangerzone:lava_lizard",
+      "weight": 1,
+      "minCount": 1,
+      "maxCount": 1
+    },
+    {
+      "type": "orespawn_dangerzone:lazer_lizard",
+      "weight": 1,
+      "minCount": 1,
+      "maxCount": 1
+    },
+    {
+      "type": "orespawn_dangerzone:lightning_lizard",
+      "weight": 1,
+      "minCount": 1,
+      "maxCount": 1
+    }
+  ]
+}

@@ -144,6 +144,203 @@
       "orespawn_dangerzone:caterkiller_living4"
     ]
   },
+  "annoyance.ambient": {
+    "sounds": [
+      "orespawn_dangerzone:annoyance_living"
+    ]
+  },
+  "annoyance.hurt": {
+    "sounds": [
+      "orespawn_dangerzone:annoyance_hit"
+    ]
+  },
+  "annoyance.death": {
+    "sounds": [
+      "orespawn_dangerzone:annoyance_dead"
+    ]
+  },
+  "varmint.ambient": {
+    "sounds": [
+      "orespawn_dangerzone:varmint_living"
+    ]
+  },
+  "varmint.hurt": {
+    "sounds": [
+      "orespawn_dangerzone:varmint_hit"
+    ]
+  },
+  "varmint.death": {
+    "sounds": [
+      "orespawn_dangerzone:varmint_death"
+    ]
+  },
+  "flattop.ambient": {
+    "sounds": [
+      "orespawn_dangerzone:creaky1",
+      "orespawn_dangerzone:creaky2"
+    ]
+  },
+  "flattop.hurt": {
+    "sounds": [
+      "orespawn_dangerzone:creaky_hit"
+    ]
+  },
+  "flattop.death": {
+    "sounds": [
+      "orespawn_dangerzone:creaky_death"
+    ]
+  },
+  "hyena.hurt": {
+    "sounds": [
+      "orespawn_dangerzone:hyena1",
+      "orespawn_dangerzone:hyena2",
+      "orespawn_dangerzone:hyena3",
+      "orespawn_dangerzone:hyena4",
+      "orespawn_dangerzone:hyena5"
+    ]
+  },
+  "hyena.death": {
+    "sounds": [
+      "orespawn_dangerzone:hyena_death"
+    ]
+  },
+  "raging_bull.hurt": {
+    "sounds": [
+      "orespawn_dangerzone:moose_hit"
+    ]
+  },
+  "raging_bull.death": {
+    "sounds": [
+      "orespawn_dangerzone:moose_death"
+    ]
+  },
+  "rattlesnake.ambient": {
+    "sounds": [
+      "orespawn_dangerzone:rattlesnake1",
+      "orespawn_dangerzone:rattlesnake2"
+    ]
+  },
+  "rattlesnake.hurt": {
+    "sounds": [
+      "orespawn_dangerzone:rattlesnake_hit"
+    ]
+  },
+  "rattlesnake.death": {
+    "sounds": [
+      "orespawn_dangerzone:rattlesnake_death"
+    ]
+  },
+  "rolly_ouchy.ambient": {
+    "sounds": [
+      "orespawn_dangerzone:reel1",
+      "orespawn_dangerzone:reel2",
+      "orespawn_dangerzone:reel3",
+      "orespawn_dangerzone:reel4",
+      "orespawn_dangerzone:reel5",
+      "orespawn_dangerzone:reel6",
+      "orespawn_dangerzone:reel7"
+    ]
+  },
+  "rolly_ouchy.hurt": {
+    "sounds": [
+      "orespawn_dangerzone:gurglehit1",
+      "orespawn_dangerzone:gurglehit2",
+      "orespawn_dangerzone:gurglehit3"
+    ]
+  },
+  "rolly_ouchy.death": {
+    "sounds": [
+      "orespawn_dangerzone:drill1",
+      "orespawn_dangerzone:drill2",
+      "orespawn_dangerzone:drill3"
+    ]
+  },
+  "skinny_thing.ambient": {
+    "sounds": [
+      "orespawn_dangerzone:honk1",
+      "orespawn_dangerzone:honk2",
+      "orespawn_dangerzone:honk3",
+      "orespawn_dangerzone:honk4"
+    ]
+  },
+  "skinny_thing.hurt": {
+    "sounds": [
+      "orespawn_dangerzone:gurglehit1",
+      "orespawn_dangerzone:gurglehit2",
+      "orespawn_dangerzone:gurglehit3"
+    ]
+  },
+  "skinny_thing.death": {
+    "sounds": [
+      "orespawn_dangerzone:squeeky"
+    ]
+  },
+  "v.ambient": {
+    "sounds": [
+      "orespawn_dangerzone:drill1",
+      "orespawn_dangerzone:drill2",
+      "orespawn_dangerzone:drill3"
+    ]
+  },
+  "v.hurt": {
+    "sounds": [
+      "orespawn_dangerzone:cryo_hurt"
+    ]
+  },
+  "v.death": {
+    "sounds": [
+      "orespawn_dangerzone:rimshot"
+    ]
+  },
+  "warthog.ambient": {
+    "sounds": [
+      "orespawn_dangerzone:warthog_living1",
+      "orespawn_dangerzone:warthog_living2",
+      "orespawn_dangerzone:warthog_living3"
+    ]
+  },
+  "warthog.hurt": {
+    "sounds": [
+      "orespawn_dangerzone:warthog_hit1",
+      "orespawn_dangerzone:warthog_hit2",
+      "orespawn_dangerzone:warthog_hit3"
+    ]
+  },
+  "warthog.death": {
+    "sounds": [
+      "orespawn_dangerzone:warthog_death1",
+      "orespawn_dangerzone:warthog_death2"
+    ]
+  },
+  "woolly_mammoth.ambient": {
+    "sounds": [
+      "orespawn_dangerzone:mammoth_living1",
+      "orespawn_dangerzone:mammoth_living2",
+      "orespawn_dangerzone:mammoth_living3",
+      "orespawn_dangerzone:mammoth_living4"
+    ]
+  },
+  "woolly_mammoth.hurt": {
+    "sounds": [
+      "orespawn_dangerzone:mammoth_hit1",
+      "orespawn_dangerzone:mammoth_hit2"
+    ]
+  },
+  "woolly_mammoth.death": {
+    "sounds": [
+      "orespawn_dangerzone:mammoth_death"
+    ]
+  },
+  "item.morph": {
+    "sounds": [
+      "orespawn_dangerzone:morph1"
+    ]
+  },
+  "item.unmorph": {
+    "sounds": [
+      "orespawn_dangerzone:morph2"
+    ]
+  },
   "princess.roar": {
     "sounds": [
       "orespawn_dangerzone:roar1",
@@ -159,6 +356,22 @@
       "orespawn_dangerzone:mothrawings1",
       "orespawn_dangerzone:mothrawings2",
       "orespawn_dangerzone:mothrawings3"
+    ]
+  },
+  "lizard.hurt": {
+    "sounds": [
+      {
+        "name": "orespawn:alo_hurt",
+        "type": "event"
+      }
+    ]
+  },
+  "lizard.death": {
+    "sounds": [
+      {
+        "name": "orespawn:alo_death",
+        "type": "event"
+      }
     ]
   }
 }

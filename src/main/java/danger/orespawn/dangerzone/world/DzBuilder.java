@@ -13,8 +13,10 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -53,6 +55,8 @@ public final class DzBuilder {
         final double y;
         final double z;
         int variant;
+        Held wearing;
+        Held holding;
 
         Creature(String name, double x, double y, double z) {
             this.name = name;
@@ -75,9 +79,11 @@ public final class DzBuilder {
         }
 
         public void setArmor(int slot, Held held) {
+            this.wearing = held;
         }
 
         public void setHotbar(int slot, Held held) {
+            this.holding = held;
         }
     }
 
@@ -242,12 +248,28 @@ public final class DzBuilder {
             mob.moveTo(creature.x, creature.y, creature.z, this.random.nextFloat() * 360.0f, 0.0f);
             mob.finalizeSpawn(this.level, this.level.getCurrentDifficultyAt(mob.blockPosition()), MobSpawnType.STRUCTURE, null);
             mob.setPersistenceRequired();
+            equip(mob, EquipmentSlot.HEAD, creature.wearing);
+            equip(mob, EquipmentSlot.MAINHAND, creature.holding);
             if (mob instanceof ElementDragon dragon) {
                 dragon.setElement(creature.variant);
                 dragon.guardHome(mob.blockPosition());
             }
             this.level.addFreshEntity(mob);
         }
+    }
+
+    /** The castle's captive has things worth having: take them from her if she's yours, or from her if she's dead. */
+    private static void equip(Mob mob, EquipmentSlot slot, Held held) {
+        if (held == null) {
+            return;
+        }
+        ItemStack stack = switch (held.name()) {
+            case "OreSpawn:Royal Tiara" -> new ItemStack(ModContent.ROYAL_TIARA.get());
+            case "OreSpawn:Morph Staff" -> new ItemStack(ModContent.MORPH_STAFF.get());
+            default -> ItemStack.EMPTY;
+        };
+        mob.setItemSlot(slot, stack);
+        mob.setGuaranteedDrop(slot);
     }
 
     /** A build never outlives its world: in singleplayer the same game can go on to open another. */

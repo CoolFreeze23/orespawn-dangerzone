@@ -364,7 +364,7 @@ public final class TestDrive {
     }
 
     private static void openStartingWorld(Minecraft mc) {
-        if (PHASE.equals("all") || PHASE.equals("interrupt") || PHASE.equals("focus") || PHASE.equals("dargon")) {
+        if (PHASE.equals("all") || PHASE.equals("interrupt") || PHASE.equals("focus") || PHASE.equals("dargon") || PHASE.equals("gallery") || PHASE.equals("probe") || PHASE.equals("doom") || PHASE.equals("soak3") || PHASE.equals("flag30") || PHASE.equals("soak")) {
             worldName = "drive" + PHASE;
             deleteWorldNamed(mc, worldName);
             GameRules rules = new GameRules();
@@ -465,6 +465,18 @@ public final class TestDrive {
             case "resume" -> resumeScript();
             case "oldworld" -> oldWorldScript();
             case "focus" -> focusScript();
+            case "gallery" -> galleryScript();
+            case "probe" -> probeScript();
+            case "doom" -> {
+                once("set up", () -> {
+                    survival();
+                    server().getGameRules().getRule(GameRules.RULE_MOBGRIEFING).set(true, server());
+                });
+                doomPlaythrough();
+            }
+            case "flag30" -> flagAtRealPace();
+            case "soak" -> soakScript();
+            case "soak3" -> soakScript(List.of("orespawn:village", "orespawn_dangerzone:dragons_lair", "orespawn_dangerzone:doom"));
             case "dargon" -> {
                 once("set up", () -> {
                     survival();
@@ -569,7 +581,7 @@ public final class TestDrive {
                         .create(LootContextParamSets.ENTITY);
                 LootTable table = server().reloadableRegistries().getLootTable(living.getLootTable());
                 boolean any = false;
-                for (int i = 0; i < 20 && !any; i++) {
+                for (int i = 0; i < 100 && !any; i++) {
                     any = !table.getRandomItems(params).isEmpty();
                 }
                 rolled++;
@@ -732,10 +744,29 @@ public final class TestDrive {
         fight("element_dragon", ModContent.ELEMENT_DRAGON.get(), 20, 400, true);
         fight("doom_worm", ModContent.DOOM_WORM.get(), 30, 500, true);
         fight("ufo_fighter", ModContent.UFO_FIGHTER.get(), 30, 300, true);
+        newFights();
         fight("martian with a bow", ModContent.MARTIAN.get(), 12, 300, true, mob -> martian(mob, false));
         fight("martian with a ray gun", ModContent.MARTIAN.get(), 12, 300, true, mob -> martian(mob, true));
         // The mothership never fires itself: what matters is that its craft come.
         fight("ufo", ModContent.UFO.get(), 30, 400, false);
+    }
+
+    private static void newFights() {
+        fight("annoyance", ModContent.ANNOYANCE.get(), 12, 300, true);
+        fight("varmint", ModContent.VARMINT.get(), 12, 300, true);
+        fight("vermin", ModContent.VERMIN.get(), 12, 300, true);
+        fight("flattop", ModContent.FLATTOP.get(), 12, 300, true);
+        fight("hyena", ModContent.HYENA.get(), 12, 300, true);
+        fight("lava_lizard", ModContent.LAVA_LIZARD.get(), 20, 300, true);
+        fight("lazer_lizard", ModContent.LAZER_LIZARD.get(), 20, 300, true);
+        fight("lightning_lizard", ModContent.LIGHTNING_LIZARD.get(), 20, 300, true);
+        fight("raging_bull", ModContent.RAGING_BULL.get(), 12, 300, true);
+        fight("rattlesnake", ModContent.RATTLESNAKE.get(), 8, 300, true);
+        fight("rolly_ouchy", ModContent.ROLLY_OUCHY.get(), 7, 300, true);
+        fight("skinny_thing", ModContent.SKINNY_THING.get(), 10, 300, true);
+        fight("v", ModContent.V.get(), 12, 300, true);
+        fight("warthog", ModContent.WARTHOG.get(), 12, 300, true);
+        fight("woolly_mammoth", ModContent.WOOLLY_MAMMOTH.get(), 16, 400, true);
     }
 
     private static void martian(Mob mob, boolean rayGun) {
@@ -754,6 +785,7 @@ public final class TestDrive {
         Mob[] enemy = new Mob[1];
         double[] closest = {1e9};
         double[] maxY = {-1e9};
+        boolean[] sawPoison = new boolean[1];
         once(name + " set up", () -> {
             clearAround();
             BlockPos at = newArena();
@@ -774,6 +806,7 @@ public final class TestDrive {
                 closest[0] = Math.min(closest[0], enemy[0].distanceTo(p));
             }
             maxY[0] = Math.max(maxY[0], p.getY());
+            sawPoison[0] |= p.hasEffect(net.minecraft.world.effect.MobEffects.POISON);
             if (TRACE.contains(name) && left[0] % 40 == 0 && enemy[0].isAlive()) {
                 if (enemy[0] instanceof Dargon d) {
                     note(String.format("  dargon activity=%d sit=%s balls=%d y=%.1f hits=%d ground=%s", d.getActivity(), d.isOrderedToSit(),
@@ -789,6 +822,9 @@ public final class TestDrive {
             fightOn = false;
             ServerPlayer p = player();
             note(String.format("fight %s | %s | %d | %.0f | %.0f | %.1f | %.0f", name, firstHitTick < 0 ? "never" : String.format("%.1f", firstHitTick / 20.0), hits, totalDamage, biggestHit, closest[0], maxY[0]));
+            if (name.equals("rattlesnake")) {
+                ok(sawPoison[0], "and its bite poisoned them");
+            }
             if (mustHurt) {
                 ok(hits > 0, name + " hurt a player standing still within " + ticks / 20 + "s");
             } else {
@@ -1215,6 +1251,8 @@ public final class TestDrive {
         BlockPos[] eye = new BlockPos[1];
         BlockPos[] pad = new BlockPos[1];
         Dargon[] dargon = new Dargon[1];
+        danger.orespawn.entity.Girlfriend[] captive = new danger.orespawn.entity.Girlfriend[1];
+        Cow[] morphMark = new Cow[1];
         var drant = new danger.orespawn.dangerzone.entity.PortalAnt[1];
         once("drant", () -> {
             survival();
@@ -1339,6 +1377,108 @@ public final class TestDrive {
             ok(elements.size() == 6, "one of each element: " + elements);
             dargon[0] = lair.getEntitiesOfClass(Dargon.class, box).stream().findFirst().orElse(null);
             ok(dargon[0] != null, "and Dargon is there");
+            int annoyances = 0;
+            int varmints = 0;
+            int vermin = 0;
+            for (int dx = -40; dx <= 40; dx++) {
+                for (int dz = -20; dz <= 170; dz++) {
+                    for (int dy = -20; dy <= 60; dy++) {
+                        BlockPos at = pad[0].offset(dx, dy, dz);
+                        if (lair.getBlockState(at).is(Blocks.SPAWNER) && lair.getBlockEntity(at) instanceof net.minecraft.world.level.block.entity.SpawnerBlockEntity spawner) {
+                            Entity shown = spawner.getSpawner().getOrCreateDisplayEntity(lair, at);
+                            if (shown != null && shown.getType() == ModContent.ANNOYANCE.get()) {
+                                annoyances++;
+                            } else if (shown != null && shown.getType() == ModContent.VARMINT.get()) {
+                                varmints++;
+                            } else if (shown != null && shown.getType() == ModContent.VERMIN.get()) {
+                                vermin++;
+                            }
+                        }
+                    }
+                }
+            }
+            ok(annoyances == 4, "the platform has its four Annoyance spawners: " + annoyances);
+            ok(varmints == 4 && vermin == 4, "and the castle its Varmint and Vermin spawners: " + varmints + ", " + vermin);
+            captive[0] = lair.getEntitiesOfClass(danger.orespawn.entity.Girlfriend.class, box).stream().findFirst().orElse(null);
+            ok(captive[0] != null, "and there's a captive");
+            ok(captive[0] != null && captive[0].getItemBySlot(EquipmentSlot.HEAD).is(ModContent.ROYAL_TIARA.get()), "wearing the Royal Tiara");
+            ok(captive[0] != null && captive[0].getMainHandItem().is(ModContent.MORPH_STAFF.get()), "and holding the Morph Staff");
+            ok(captive[0] != null && captive[0].isPersistenceRequired(), "who won't wander off into nothing");
+        });
+        once("free the captive", () -> {
+            ServerPlayer p = player();
+            lairMobsAway(captive[0]);
+            p.teleportTo(p.serverLevel(), captive[0].getX() + 1.0, captive[0].getY(), captive[0].getZ(), 0.0f, 0.0f);
+            for (int i = 0; i < 100 && !captive[0].isTame(); i++) {
+                p.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Items.POPPY));
+                p.interactOn(captive[0], InteractionHand.MAIN_HAND);
+            }
+            ok(captive[0].isOwnedBy(p), "poppies won her over");
+            holdNothing();
+            p.interactOn(captive[0], InteractionHand.MAIN_HAND);
+            ok(p.getMainHandItem().is(ModContent.MORPH_STAFF.get()), "and she handed over the Morph Staff");
+            p.getInventory().add(p.getMainHandItem().copy());
+            holdNothing();
+            p.interactOn(captive[0], InteractionHand.MAIN_HAND);
+            ok(p.getMainHandItem().is(ModContent.ROYAL_TIARA.get()), "and the Royal Tiara");
+            ItemStack tiara = p.getMainHandItem().copy();
+            holdNothing();
+            p.setItemSlot(EquipmentSlot.HEAD, tiara);
+            p.inventoryMenu.broadcastChanges();
+        });
+        pause(5);
+        once("wear the tiara", () -> {
+            ServerPlayer p = player();
+            note("armour with the Tiara on: " + p.getArmorValue());
+            ok(p.getArmorValue() == 7, "the Royal Tiara gives 7 armour");
+            p.setItemSlot(EquipmentSlot.HEAD, ItemStack.EMPTY);
+        });
+        once("morph", () -> {
+            ServerPlayer p = player();
+            Cow mark = spawn(EntityType.COW, p.serverLevel(), p.getX() + 2.0, p.getY(), p.getZ());
+            mark.setPersistenceRequired();
+            morphMark[0] = mark;
+            p.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(ModContent.MORPH_STAFF.get()));
+        });
+        pause(5);
+        once("morph into a cow", () -> {
+            ServerPlayer p = player();
+            p.interactOn(morphMark[0], InteractionHand.MAIN_HAND);
+            ok(danger.orespawn.dangerzone.morph.Morph.form(p).equals("minecraft:cow"), "right-clicking a cow with the staff became one: " + danger.orespawn.dangerzone.morph.Morph.form(p));
+        });
+        pause(40);
+        once("the client saw it", () -> {
+            ok(danger.orespawn.dangerzone.client.MorphClient.form(player().getId()).equals("minecraft:cow"), "the client got told: " + danger.orespawn.dangerzone.client.MorphClient.form(player().getId()));
+            morphMark[0].discard();
+            danger.orespawn.dangerzone.morph.Morph.set(player(), "orespawn_dangerzone:woolly_mammoth");
+        });
+        pause(20);
+        once("morph picture", () -> {
+            Minecraft mc = Minecraft.getInstance();
+            mc.execute(() -> {
+                mc.options.setCameraType(net.minecraft.client.CameraType.THIRD_PERSON_BACK);
+            });
+        });
+        pause(40);
+        once("morph shot", () -> {
+            Minecraft mc = Minecraft.getInstance();
+            mc.execute(() -> {
+                net.minecraft.client.Screenshot.grab(mc.gameDirectory, "dzt_morph.png", mc.getMainRenderTarget(), m -> {
+                });
+                mc.options.setCameraType(net.minecraft.client.CameraType.FIRST_PERSON);
+            });
+        });
+        pause(10);
+        once("back from the morph", () -> {
+            ServerPlayer p = player();
+            p.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(ModContent.MORPH_STAFF.get()));
+            p.gameMode.useItem(p, p.serverLevel(), p.getMainHandItem(), InteractionHand.MAIN_HAND);
+            ok(danger.orespawn.dangerzone.morph.Morph.form(p).isEmpty(), "using the staff on nothing went back");
+        });
+        pause(10);
+        once("client saw that too", () -> {
+            ok(danger.orespawn.dangerzone.client.MorphClient.form(player().getId()).isEmpty(), "and the client got told");
+            holdNothing();
         });
         once("tame Dargon", () -> {
             ServerPlayer p = player();
@@ -1406,6 +1546,8 @@ public final class TestDrive {
         once("worm ignored food", () -> {
             ok(hits == 0, "holding Worm Food, thirty seconds next to a Doom Worm did nothing: " + hits + " hits");
             ok(worm[0].isAlive(), "and it lived through thirty seconds of its own desert, at " + worm[0].blockPosition().toShortString());
+            // Left alone it wanders, and may go past the 128 blocks it searches: brought back within sight for the next part.
+            worm[0].teleportTo(player().getX() + 20.0, 45.0, player().getZ());
             ServerPlayer p = player();
             p.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Items.DIAMOND_SWORD));
             p.setItemSlot(EquipmentSlot.HEAD, new ItemStack(Items.DIAMOND_HELMET));
@@ -1541,15 +1683,16 @@ public final class TestDrive {
     // ---- natural spawning: stand in each place and count what turns up
 
     private static void naturalSpawning() {
-        spawnCheck("orespawn:mining", List.of("nastysaurus_prime", "needlenose", "nurse_bug", "volcano"));
-        spawnCheck("orespawn:chaos", List.of("nastysaurus_prime", "ant_queen", "bloodlust_ant", "nope", "chaos_demon", "volcano", "doom_worm"));
-        spawnCheck("orespawn_dangerzone:kraken_realm", List.of("squid_guard", "doom_ant"), 4);
+        spawnCheck("orespawn:mining", List.of("nastysaurus_prime", "needlenose", "nurse_bug", "volcano", "lava_lizard", "lazer_lizard", "lightning_lizard"));
+        spawnCheck("orespawn:chaos", List.of("nastysaurus_prime", "ant_queen", "bloodlust_ant", "nope", "chaos_demon", "volcano", "flattop", "raging_bull", "rolly_ouchy", "skinny_thing", "v"));
+        spawnCheck("orespawn_dangerzone:kraken_realm", List.of("doom_ant"), 4);
         spawnCheck("orespawn_dangerzone:dragons_lair", List.of("drant"));
-        spawnCheck("orespawn_dangerzone:doom", List.of("doom_worm", "doom_ant"));
-        extraSpawns("orespawn:chaos", List.of("ufo", "dargon"));
+        spawnCheck("orespawn_dangerzone:doom", List.of("doom_ant"));
+        extraSpawns("orespawn_dangerzone:doom", List.of("doom_worm"));
+        extraSpawns("orespawn:chaos", List.of("ufo", "dargon", "doom_worm"));
         extraSpawns("orespawn:village", List.of("ufo"));
-        extraSpawns("orespawn_dangerzone:kraken_realm", List.of("kraken", "attack_squid"));
-        extraSpawns("orespawn_dangerzone:dragons_lair", List.of("terrible_terror"));
+        extraSpawns("orespawn_dangerzone:kraken_realm", List.of("squid_guard", "kraken", "attack_squid"));
+        extraSpawns("orespawn_dangerzone:dragons_lair", List.of("vermin", "annoyance", "varmint"));
         once("spawn check over", () -> {
             player().getAbilities().mayfly = false;
             player().getAbilities().flying = false;
@@ -1612,6 +1755,8 @@ public final class TestDrive {
         });
     }
 
+    private static final java.util.Set<String> BY_DAY = java.util.Set.of("ant_queen", "chaos_demon", "nope", "flattop", "raging_bull", "rolly_ouchy", "lava_lizard", "lazer_lizard", "lightning_lizard");
+
     private static EntityType<?> typeNamed(String name) {
         ResourceLocation own = OreSpawnDangerZone.id(name);
         return BuiltInRegistries.ENTITY_TYPE.containsKey(own) ? BuiltInRegistries.ENTITY_TYPE.get(own) : BuiltInRegistries.ENTITY_TYPE.get(ResourceLocation.fromNamespaceAndPath("orespawn", name));
@@ -1629,6 +1774,7 @@ public final class TestDrive {
     /** More than one spot for a place where any one of them may be open sea. */
     private static void spawnCheck(String dimension, List<String> names, int spots) {
         Map<String, int[]> found = new TreeMap<>();
+        Map<String, Integer> nightOnly = new TreeMap<>();
         for (int spot = 0; spot < spots; spot++) {
             once("go to " + dimension, () -> {
                 survival();
@@ -1647,9 +1793,18 @@ public final class TestDrive {
             once("night check " + dimension, () -> spawnTries(names, found));
             once("to day", () -> overworld().setDayTime(6000L));
             pause(120);
-            once("day check " + dimension, () -> spawnTries(names, found));
+            once("day check " + dimension, () -> {
+                found.forEach((name, n) -> nightOnly.put(name, n[3]));
+                spawnTries(names, found);
+            });
         }
         once("spawn verdict " + dimension, () -> {
+            for (String name : names) {
+                if (BY_DAY.contains(name)) {
+                    int[] n = found.get(name);
+                    ok(n != null && n[3] > nightOnly.getOrDefault(name, 0), name + " can come out by day in " + dimension);
+                }
+            }
             found.forEach((name, n) -> {
                 note(String.format("spawn %s %s: listed=%s placement=%d rules=%d fits=%d of %d tries", dimension, name, n[0] > 0, n[1], n[2], n[3], n[4]));
                 ok(n[0] > 0, name + " is on the spawn list in " + dimension);
@@ -1789,6 +1944,293 @@ public final class TestDrive {
         });
     }
 
+    // ---- how it all looks: each new creature, a morphed player, and every item as the inventory draws it
+
+    private static void galleryScript() {
+        List<EntityType<?>> subjects = new ArrayList<>(List.of(ModContent.ANNOYANCE.get(), ModContent.VARMINT.get(), ModContent.VERMIN.get()));
+        for (var spec : danger.orespawn.dangerzone.entity.DzBeast.ALL) {
+            subjects.add(BuiltInRegistries.ENTITY_TYPE.get(OreSpawnDangerZone.id(spec.name())));
+        }
+        BlockPos[] at = new BlockPos[1];
+        once("set up", () -> {
+            survival();
+            overworld().setDayTime(6000L);
+            player().getAbilities().mayfly = true;
+            player().getAbilities().flying = true;
+            player().onUpdateAbilities();
+            at[0] = newArena();
+        });
+        pause(40);
+        for (EntityType<?> type : subjects) {
+            String name = BuiltInRegistries.ENTITY_TYPE.getKey(type).getPath();
+            Entity[] subject = new Entity[1];
+            once("show " + name, () -> {
+                clearAround();
+                subject[0] = spawn(type, overworld(), at[0].getX() + 0.5, ARENA_Y, at[0].getZ() + 0.5);
+                ((Mob) subject[0]).setNoAi(true);
+                subject[0].setYRot(180.0f);
+                ((Mob) subject[0]).yBodyRot = 150.0f;
+                ((Mob) subject[0]).yHeadRot = 150.0f;
+                double back = Math.max(3.5, Math.max(type.getWidth(), type.getHeight()) * 1.6);
+                double y = ARENA_Y + type.getHeight() * 0.5;
+                player().teleportTo(overworld(), at[0].getX() + 0.5, y, at[0].getZ() + 0.5 + back, 180.0f, 8.0f);
+            });
+            pause(50);
+            shot("dzt_" + name + ".png");
+        }
+        once("the tiara on", () -> {
+            clearAround();
+            player().setItemSlot(EquipmentSlot.HEAD, new ItemStack(ModContent.ROYAL_TIARA.get()));
+            player().teleportTo(overworld(), at[0].getX() + 0.5, ARENA_Y, at[0].getZ() + 0.5, 180.0f, 5.0f);
+            Minecraft.getInstance().execute(() -> Minecraft.getInstance().options.setCameraType(net.minecraft.client.CameraType.THIRD_PERSON_FRONT));
+        });
+        pause(40);
+        shot("dzt_tiara.png");
+        once("morphed", () -> {
+            clearAround();
+            player().setItemSlot(EquipmentSlot.HEAD, ItemStack.EMPTY);
+            danger.orespawn.dangerzone.morph.Morph.set(player(), "orespawn_dangerzone:woolly_mammoth");
+            player().teleportTo(overworld(), at[0].getX() + 0.5, ARENA_Y, at[0].getZ() + 0.5, 180.0f, 10.0f);
+            player().getAbilities().flying = false;
+            player().onUpdateAbilities();
+            Minecraft.getInstance().execute(() -> Minecraft.getInstance().options.setCameraType(net.minecraft.client.CameraType.THIRD_PERSON_BACK));
+        });
+        pause(60);
+        shot("dzt_morph_mammoth.png");
+        once("morphed small", () -> danger.orespawn.dangerzone.morph.Morph.set(player(), "orespawn_dangerzone:hyena"));
+        pause(40);
+        shot("dzt_morph_hyena.png");
+        once("unmorphed", () -> {
+            danger.orespawn.dangerzone.morph.Morph.set(player(), "");
+            Minecraft.getInstance().execute(() -> {
+                Minecraft mc = Minecraft.getInstance();
+                mc.options.setCameraType(net.minecraft.client.CameraType.FIRST_PERSON);
+                mc.setScreen(new ItemGrid(0));
+            });
+        });
+        pause(30);
+        shot("dzt_icons_1.png");
+        once("next page", () -> Minecraft.getInstance().execute(() -> Minecraft.getInstance().setScreen(new ItemGrid(1))));
+        pause(30);
+        shot("dzt_icons_2.png");
+        once("wear them", () -> Minecraft.getInstance().execute(() -> Minecraft.getInstance().setScreen(null)));
+        pause(10);
+    }
+
+    private static void shot(String file) {
+        once("shoot " + file, () -> Minecraft.getInstance().execute(() ->
+                net.minecraft.client.Screenshot.grab(Minecraft.getInstance().gameDirectory, file, Minecraft.getInstance().getMainRenderTarget(), m -> {
+                })));
+        pause(8);
+    }
+
+    /** Every item the mod has, at the size and through the path the inventory draws them. */
+    private static final class ItemGrid extends net.minecraft.client.gui.screens.Screen {
+        private static final int PER_PAGE = 112;
+        private final int page;
+
+        ItemGrid(int page) {
+            super(Component.literal("Items"));
+            this.page = page;
+        }
+
+        @Override
+        public boolean isPauseScreen() {
+            return false;
+        }
+
+        @Override
+        public void render(net.minecraft.client.gui.GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
+            graphics.fill(0, 0, this.width, this.height, 0xFF8B8B8B);
+            List<? extends net.neoforged.neoforge.registries.DeferredHolder<Item, ? extends Item>> items = List.copyOf(ModContent.ITEMS.getEntries());
+            int index = 0;
+            for (int i = this.page * PER_PAGE; i < items.size() && index < PER_PAGE; i++, index++) {
+                int x = 6 + (index % 16) * 26;
+                int y = 6 + (index / 16) * 26;
+                graphics.pose().pushPose();
+                graphics.pose().translate(x, y, 0.0f);
+                graphics.pose().scale(1.4f, 1.4f, 1.0f);
+                graphics.renderItem(new ItemStack(items.get(i).get()), 0, 0);
+                graphics.pose().popPose();
+            }
+        }
+    }
+
+    // ---- the flag as it really is: a wave every 30 seconds, nothing cleared away, and nobody defending it
+
+    private static void flagAtRealPace() {
+        TowerFlag[] flag = new TowerFlag[1];
+        BlockPos[] at = new BlockPos[1];
+        int[] lastRung = {-1};
+        double[] worst = {0.0};
+        int[] mostMobs = {0};
+        long[] ticks = {0L};
+        double[] tickTotal = {0.0};
+        once("set up", () -> {
+            survival();
+            overworld().setDayTime(6000L);
+            at[0] = newArena();
+        });
+        pause(40);
+        once("plant it", () -> {
+            flag[0] = spawn(ModContent.TOWER_FLAG.get(), overworld(), at[0].getX() + 0.5, ARENA_Y, at[0].getZ() + 0.5);
+            ServerPlayer p = player();
+            p.getAbilities().mayfly = true;
+            p.getAbilities().flying = true;
+            p.getAbilities().invulnerable = true;
+            p.onUpdateAbilities();
+            p.teleportTo(overworld(), at[0].getX() + 0.5, ARENA_Y + 60.0, at[0].getZ() - 60.5, 0.0f, 30.0f);
+            note("flag30: " + TowerFlag.ladder().size() + " rungs at " + DzConfig.FLAG_WAVE_SECONDS.get() + "s");
+        });
+        until("the whole ladder", 72 * 620 + 4000, () -> {
+            double ms = server().getCurrentSmoothedTickTime();
+            worst[0] = Math.max(worst[0], ms);
+            tickTotal[0] += ms;
+            ticks[0]++;
+            if (!flag[0].isAlive()) {
+                note(String.format("flag30: the flag fell on rung %d after %d minutes", flag[0].rung(), ticks[0] / 1200));
+                return true;
+            }
+            if (flag[0].rung() != lastRung[0]) {
+                lastRung[0] = flag[0].rung();
+                ServerPlayer p = player();
+                var mobs = p.serverLevel().getEntitiesOfClass(Mob.class, flag[0].getBoundingBox().inflate(128.0), m -> m != flag[0]);
+                mostMobs[0] = Math.max(mostMobs[0], mobs.size());
+                if (lastRung[0] % 4 == 0) {
+                    Map<String, Integer> kinds = new TreeMap<>();
+                    mobs.forEach(m -> kinds.merge(BuiltInRegistries.ENTITY_TYPE.getKey(m.getType()).getPath(), 1, Integer::sum));
+                    var biggest = kinds.entrySet().stream().sorted((a, b) -> b.getValue() - a.getValue()).limit(3).toList();
+                    note(String.format("flag30 rung %d: health %.0f of %.0f, %d mobs near (most: %s), tick now %.0f ms, worst %.0f ms", lastRung[0], flag[0].getHealth(), flag[0].getMaxHealth(), mobs.size(), biggest, ms, worst[0]));
+                }
+            }
+            return flag[0].finished();
+        });
+        once("result", () -> {
+            note(String.format("flag30: finished=%s alive=%s, most mobs at once %d, average tick %.0f ms, worst %.0f ms, %d minutes", flag[0].finished(), flag[0].isAlive(), mostMobs[0], tickTotal[0] / Math.max(1L, ticks[0]), worst[0], ticks[0] / 1200));
+            ok(true, "the server came through the flag at its real pace");
+        });
+    }
+
+    // ---- what actually turns up, by the game's own spawning, over real time
+
+    private static final Map<String, Integer> JOINED = new TreeMap<>();
+    private static boolean counting;
+
+    @SubscribeEvent
+    public static void onJoin(net.neoforged.neoforge.event.entity.EntityJoinLevelEvent event) {
+        // New arrivals only, whatever brought them: not ones loaded back in from disk.
+        if (counting && !event.getLevel().isClientSide() && !event.loadedFromDisk() && event.getEntity() instanceof Mob) {
+            ResourceLocation id = BuiltInRegistries.ENTITY_TYPE.getKey(event.getEntity().getType());
+            if (id.getNamespace().equals(OreSpawnDangerZone.MOD_ID)) {
+                JOINED.merge(id.getPath(), 1, Integer::sum);
+            }
+        }
+    }
+
+    private static void soakScript() {
+        soakScript(List.of("orespawn:chaos", "orespawn:mining", "orespawn:village", "orespawn_dangerzone:kraken_realm", "orespawn_dangerzone:dragons_lair", "orespawn_dangerzone:doom", "minecraft:overworld"));
+    }
+
+    private static void soakScript(List<String> places) {
+        once("set up", () -> {
+            survival();
+            server().getGameRules().getRule(GameRules.RULE_DOMOBSPAWNING).set(true, server());
+            server().getGameRules().getRule(GameRules.RULE_DAYLIGHT).set(true, server());
+            ServerPlayer p = player();
+            p.getAbilities().invulnerable = true;
+            p.onUpdateAbilities();
+        });
+        for (String dimension : places) {
+            soakAt(dimension, 4800);
+        }
+    }
+
+    private static void soakAt(String dimension, int ticks) {
+        double[] worst = {0.0};
+        once("to " + dimension, () -> {
+            ServerLevel level = server().getLevel(ResourceKey.create(Registries.DIMENSION, ResourceLocation.parse(dimension)));
+            nextArena += 1200;
+            danger.orespawn.dangerzone.item.DimensionStaffItem.jumpTo(player(), level, nextArena, level.getMaxBuildHeight() - 40, 0);
+            ServerPlayer p = player();
+            p.getAbilities().mayfly = true;
+            p.getAbilities().flying = true;
+            p.onUpdateAbilities();
+            p.teleportTo(p.getX(), level.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, p.getBlockX(), p.getBlockZ()) + 3.0, p.getZ());
+            JOINED.clear();
+            counting = true;
+        });
+        int[] left = {ticks};
+        until("soak " + dimension, ticks + 2, () -> {
+            worst[0] = Math.max(worst[0], server().getCurrentSmoothedTickTime());
+            // Stays by the ground: the game's spawning works around a player and despawns what's far from one.
+            ServerPlayer p = player();
+            if (left[0] % 200 == 0) {
+                p.teleportTo(p.getX(), p.serverLevel().getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, p.getBlockX(), p.getBlockZ()) + 3.0, p.getZ());
+            }
+            return --left[0] <= 0;
+        });
+        once("count " + dimension, () -> {
+            counting = false;
+            ServerPlayer p = player();
+            Map<String, Integer> near = new TreeMap<>();
+            p.serverLevel().getEntitiesOfClass(Mob.class, p.getBoundingBox().inflate(128.0, 400.0, 128.0)).forEach(m -> near.merge(BuiltInRegistries.ENTITY_TYPE.getKey(m.getType()).getPath(), 1, Integer::sum));
+            note(String.format("soak %s, %d minutes, worst tick %.0f ms", dimension, ticks / 1200, worst[0]));
+            note("  add-on arrivals: " + JOINED);
+            note("  around now: " + near);
+            clearAround();
+        });
+    }
+
+    // ---- why a creature that passes every rule isn't arriving: asks the game's own spawner at spots chosen by hand
+
+    private static void probeScript() {
+        for (String dimension : List.of("orespawn_dangerzone:doom", "orespawn:chaos")) {
+            once("probe go " + dimension, () -> {
+                survival();
+                server().getGameRules().getRule(GameRules.RULE_DOMOBSPAWNING).set(true, server());
+                ServerLevel level = server().getLevel(ResourceKey.create(Registries.DIMENSION, ResourceLocation.parse(dimension)));
+                nextArena += 1500;
+                danger.orespawn.dangerzone.item.DimensionStaffItem.jumpTo(player(), level, nextArena, level.getMaxBuildHeight() - 40, 0);
+                player().getAbilities().mayfly = true;
+                player().getAbilities().flying = true;
+                player().getAbilities().invulnerable = true;
+                player().onUpdateAbilities();
+                player().teleportTo(player().getX(), level.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, player().getBlockX(), player().getBlockZ()) + 3.0, player().getZ());
+                JOINED.clear();
+                counting = true;
+            });
+            pause(100);
+            once("probe by hand " + dimension, () -> {
+                ServerPlayer p = player();
+                ServerLevel level = p.serverLevel();
+                var category = net.minecraft.world.entity.MobCategory.MONSTER;
+                int before = JOINED.getOrDefault("doom_worm", 0);
+                BlockPos probe = p.blockPosition().offset(40, 0, 0);
+                probe = new BlockPos(probe.getX(), level.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, probe.getX(), probe.getZ()), probe.getZ());
+                var list = level.getChunkSource().getGenerator().getMobsAt(level.getBiome(probe), level.structureManager(), category, probe);
+                note("probe " + dimension + " at " + probe.toShortString() + ": monsters listed " + list.unwrap().stream().map(d -> BuiltInRegistries.ENTITY_TYPE.getKey(d.type).getPath() + "x" + d.getWeight().asInt()).toList()
+                        + ", difficulty " + level.getDifficulty() + ", spawning monsters " + server().isSpawningMonsters() + ", natural allowed " + level.isNaturalSpawningAllowed(probe));
+                var random = level.random;
+                for (int i = 0; i < 300; i++) {
+                    int x = p.getBlockX() + 30 + random.nextInt(60);
+                    int z = p.getBlockZ() + random.nextInt(60) - 30;
+                    net.minecraft.world.level.NaturalSpawner.spawnCategoryForPosition(category, level, new BlockPos(x, level.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, x, z), z));
+                }
+                note("probe " + dimension + ": 300 direct asks at ground level gave " + (JOINED.getOrDefault("doom_worm", 0) - before) + " worms; all arrivals " + JOINED);
+                JOINED.clear();
+            });
+            pause(1200);
+            once("probe natural " + dimension, () -> {
+                note("probe " + dimension + ": a minute of the game's own spawning gave " + JOINED);
+                Map<String, Integer> near = new TreeMap<>();
+                player().serverLevel().getEntitiesOfClass(Mob.class, player().getBoundingBox().inflate(128.0, 400.0, 128.0)).forEach(m -> near.merge(BuiltInRegistries.ENTITY_TYPE.getKey(m.getType()).getPath(), 1, Integer::sum));
+                note("probe " + dimension + ": around now " + near);
+                counting = false;
+                clearAround();
+            });
+        }
+    }
+
     // ---- the quick round for what's being worked on
 
     private static void focusScript() {
@@ -1796,11 +2238,10 @@ public final class TestDrive {
             survival();
             overworld().setDayTime(6000L);
         });
-        fight("bloodlust_ant", ModContent.BLOODLUST_ANT.get(), 10, 300, true);
-        fight("baby_sitter", ModContent.BABY_SITTER.get(), 16, 400, true);
-        fight("chaos_demon", ModContent.CHAOS_DEMON.get(), 12, 300, true);
-        fight("martian with a ray gun", ModContent.MARTIAN.get(), 12, 300, true, mob -> martian(mob, true));
+        newFights();
+        trophiesOfEverything();
         advancementsFire();
+        lairPlaythrough();
         naturalSpawning();
         Dargon[] dargon = new Dargon[1];
         Vec3[] from = new Vec3[1];

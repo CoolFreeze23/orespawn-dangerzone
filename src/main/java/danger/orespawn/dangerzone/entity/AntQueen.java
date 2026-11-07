@@ -66,6 +66,12 @@ public class AntQueen extends Monster {
                 .add(Attributes.STEP_HEIGHT, 3.0);
     }
 
+    /** A monster's own check turns down anywhere bright, whatever its spawn placement says. This one doesn't mind the sun. */
+    @Override
+    public boolean checkSpawnRules(net.minecraft.world.level.LevelAccessor level, net.minecraft.world.entity.MobSpawnType reason) {
+        return true;
+    }
+
     @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new FloatGoal(this));

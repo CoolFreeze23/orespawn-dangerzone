@@ -193,6 +193,10 @@
       "required": false
     },
     {
+      "id": "orespawn_dangerzone:annoyance",
+      "required": false
+    },
+    {
       "id": "orespawn_dangerzone:ant_queen",
       "required": false
     },
@@ -213,6 +217,26 @@
       "required": false
     },
     {
+      "id": "orespawn_dangerzone:flattop",
+      "required": false
+    },
+    {
+      "id": "orespawn_dangerzone:hyena",
+      "required": false
+    },
+    {
+      "id": "orespawn_dangerzone:lava_lizard",
+      "required": false
+    },
+    {
+      "id": "orespawn_dangerzone:lazer_lizard",
+      "required": false
+    },
+    {
+      "id": "orespawn_dangerzone:lightning_lizard",
+      "required": false
+    },
+    {
       "id": "orespawn_dangerzone:nastysaurus_prime",
       "required": false
     },
@@ -225,7 +249,43 @@
       "required": false
     },
     {
+      "id": "orespawn_dangerzone:raging_bull",
+      "required": false
+    },
+    {
+      "id": "orespawn_dangerzone:rattlesnake",
+      "required": false
+    },
+    {
+      "id": "orespawn_dangerzone:rolly_ouchy",
+      "required": false
+    },
+    {
+      "id": "orespawn_dangerzone:skinny_thing",
+      "required": false
+    },
+    {
       "id": "orespawn_dangerzone:squid_guard",
+      "required": false
+    },
+    {
+      "id": "orespawn_dangerzone:v",
+      "required": false
+    },
+    {
+      "id": "orespawn_dangerzone:varmint",
+      "required": false
+    },
+    {
+      "id": "orespawn_dangerzone:vermin",
+      "required": false
+    },
+    {
+      "id": "orespawn_dangerzone:warthog",
+      "required": false
+    },
+    {
+      "id": "orespawn_dangerzone:woolly_mammoth",
       "required": false
     }
   ]

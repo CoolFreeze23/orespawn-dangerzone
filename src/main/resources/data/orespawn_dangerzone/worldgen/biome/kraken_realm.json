@@ -17,14 +17,7 @@
     "foliage_color": 7979098
   },
   "spawners": {
-    "monster": [
-      {
-        "type": "orespawn_dangerzone:squid_guard",
-        "weight": 8,
-        "minCount": 1,
-        "maxCount": 3
-      }
-    ],
+    "monster": [],
     "creature": [
       {
         "type": "orespawn_dangerzone:doom_ant",

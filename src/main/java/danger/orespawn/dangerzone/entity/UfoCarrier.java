@@ -31,6 +31,15 @@ public class UfoCarrier extends Monster {
                 .add(Attributes.FOLLOW_RANGE, 190.0);
     }
 
+    /**
+     * Launched from 200 blocks up, well past the distance at which a creature far from every player is cleared away: it
+     * would be gone the moment it was made, and the mothership would launch another, and another. A minute to come down.
+     */
+    @Override
+    public boolean removeWhenFarAway(double distance) {
+        return this.tickCount > 1200;
+    }
+
     @Override
     public void tick() {
         super.tick();

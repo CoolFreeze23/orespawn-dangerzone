@@ -27,8 +27,8 @@ import java.util.List;
 
 /**
  * Creatures the game's own spawn loop can't place. It only tries positions near the ground, where a sixteen-block UFO
- * or a twenty-three-block Dargon almost never fits, and the port's Kraken, Attack Squid and Terrible Terror each have a
- * spawn rule of the port's own that the new dimensions don't meet. So these are rolled for here, near each player.
+ * or a twenty-three-block Dargon almost never fits, the port's Kraken and Attack Squid each have a spawn rule of the
+ * port's own that the realm doesn't meet, and the Lair's little flyers belong in its air. So these are rolled for here.
  */
 @EventBusSubscriber(modid = OreSpawnDangerZone.MOD_ID)
 public final class ExtraSpawns {
@@ -48,14 +48,20 @@ public final class ExtraSpawns {
     private static final ResourceKey<Biome> VILLAGE = biome("orespawn", "village_biome");
     private static final ResourceKey<Biome> REALM = biome(OreSpawnDangerZone.MOD_ID, "kraken_realm");
     private static final ResourceKey<Biome> LAIR = biome(OreSpawnDangerZone.MOD_ID, "dragons_lair");
+    private static final ResourceKey<Biome> DOOM = biome(OreSpawnDangerZone.MOD_ID, "doom");
 
     private static final List<Entry> ENTRIES = List.of(
             new Entry(CHAOS, OreSpawnDangerZone.id("ufo"), 60, 1, Where.SKY),
             new Entry(VILLAGE, OreSpawnDangerZone.id("ufo"), 60, 1, Where.SKY),
             new Entry(CHAOS, OreSpawnDangerZone.id("dargon"), 180, 1, Where.SKY),
+            new Entry(CHAOS, OreSpawnDangerZone.id("doom_worm"), 60, 1, Where.LAND),
+            new Entry(DOOM, OreSpawnDangerZone.id("doom_worm"), 6, 2, Where.LAND),
+            new Entry(REALM, OreSpawnDangerZone.id("squid_guard"), 2, 8, Where.SKY),
             new Entry(REALM, port("kraken"), 30, 2, Where.SKY),
             new Entry(REALM, port("attack_squid"), 3, 6, Where.WATER),
-            new Entry(LAIR, port("terrible_terror"), 2, 6, Where.LAND));
+            new Entry(LAIR, OreSpawnDangerZone.id("vermin"), 2, 6, Where.SKY),
+            new Entry(LAIR, OreSpawnDangerZone.id("annoyance"), 2, 4, Where.SKY),
+            new Entry(LAIR, OreSpawnDangerZone.id("varmint"), 3, 3, Where.SKY));
 
     private ExtraSpawns() {
     }

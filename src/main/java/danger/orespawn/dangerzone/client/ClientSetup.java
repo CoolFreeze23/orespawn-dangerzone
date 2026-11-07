@@ -49,6 +49,21 @@ import danger.orespawn.dangerzone.entity.BloodlustAnt;
 import danger.orespawn.dangerzone.entity.NastysaurusPrime;
 import danger.orespawn.dangerzone.entity.Needlenose;
 import danger.orespawn.dangerzone.entity.NurseBug;
+import danger.orespawn.dangerzone.client.model.DzAnnoyanceModel;
+import danger.orespawn.dangerzone.client.model.DzVarmintModel;
+import danger.orespawn.dangerzone.client.model.DzFlattopModel;
+import danger.orespawn.dangerzone.client.model.DzHyenaModel;
+import danger.orespawn.dangerzone.client.model.DzLizardModel;
+import danger.orespawn.dangerzone.client.model.DzRagingBullModel;
+import danger.orespawn.dangerzone.client.model.DzRattlesnakeModel;
+import danger.orespawn.dangerzone.client.model.DzRollyOuchyModel;
+import danger.orespawn.dangerzone.client.model.DzSkinnyThingModel;
+import danger.orespawn.dangerzone.client.model.DzVModel;
+import danger.orespawn.dangerzone.client.model.DzWarthogModel;
+import danger.orespawn.dangerzone.client.model.DzWoollyMammothModel;
+import danger.orespawn.dangerzone.entity.Annoyance;
+import danger.orespawn.dangerzone.entity.DzBeast;
+import danger.orespawn.dangerzone.entity.Varmint;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
@@ -85,6 +100,18 @@ public final class ClientSetup {
     private static final ModelLayerLocation DOOM_WORM = layer("doom_worm");
     private static final ModelLayerLocation DOOM_ANT = layer("doom_ant");
     private static final ModelLayerLocation DRANT = layer("drant");
+    private static final ModelLayerLocation ANNOYANCE_LAYER = layer("annoyance");
+    private static final ModelLayerLocation VARMINT_LAYER = layer("varmint");
+    private static final ModelLayerLocation FLATTOP_LAYER = layer("flattop");
+    private static final ModelLayerLocation HYENA_LAYER = layer("hyena");
+    private static final ModelLayerLocation LIZARD_LAYER = layer("lizard");
+    private static final ModelLayerLocation RAGING_BULL_LAYER = layer("raging_bull");
+    private static final ModelLayerLocation RATTLESNAKE_LAYER = layer("rattlesnake");
+    private static final ModelLayerLocation ROLLY_OUCHY_LAYER = layer("rolly_ouchy");
+    private static final ModelLayerLocation SKINNY_THING_LAYER = layer("skinny_thing");
+    private static final ModelLayerLocation V_LAYER = layer("v");
+    private static final ModelLayerLocation WARTHOG_LAYER = layer("warthog");
+    private static final ModelLayerLocation WOOLLY_MAMMOTH_LAYER = layer("woolly_mammoth");
     private static final String[] ELEMENT_TEXTURES = {"element_dragon_earth", "element_dragon_wind", "element_dragon_fire",
             "element_dragon_water", "element_dragon_lightning", "element_dragon_plant"};
 
@@ -120,6 +147,18 @@ public final class ClientSetup {
         event.registerLayerDefinition(DOOM_WORM, DzDoomWormModel::createBodyLayer);
         event.registerLayerDefinition(DOOM_ANT, DzAntModel::createBodyLayer);
         event.registerLayerDefinition(DRANT, DzDrantModel::createBodyLayer);
+        event.registerLayerDefinition(ANNOYANCE_LAYER, DzAnnoyanceModel::createBodyLayer);
+        event.registerLayerDefinition(VARMINT_LAYER, DzVarmintModel::createBodyLayer);
+        event.registerLayerDefinition(FLATTOP_LAYER, DzFlattopModel::createBodyLayer);
+        event.registerLayerDefinition(HYENA_LAYER, DzHyenaModel::createBodyLayer);
+        event.registerLayerDefinition(LIZARD_LAYER, DzLizardModel::createBodyLayer);
+        event.registerLayerDefinition(RAGING_BULL_LAYER, DzRagingBullModel::createBodyLayer);
+        event.registerLayerDefinition(RATTLESNAKE_LAYER, DzRattlesnakeModel::createBodyLayer);
+        event.registerLayerDefinition(ROLLY_OUCHY_LAYER, DzRollyOuchyModel::createBodyLayer);
+        event.registerLayerDefinition(SKINNY_THING_LAYER, DzSkinnyThingModel::createBodyLayer);
+        event.registerLayerDefinition(V_LAYER, DzVModel::createBodyLayer);
+        event.registerLayerDefinition(WARTHOG_LAYER, DzWarthogModel::createBodyLayer);
+        event.registerLayerDefinition(WOOLLY_MAMMOTH_LAYER, DzWoollyMammothModel::createBodyLayer);
     }
 
     @SubscribeEvent
@@ -157,6 +196,36 @@ public final class ClientSetup {
                 new DzRenderer<>(c, new DzAntModel<>(c.bakeLayer(DOOM_ANT)), "doom_ant", 0.2f, DzAntModel.SCALE));
         event.registerEntityRenderer(ModContent.DRANT.get(), (EntityRendererProvider<PortalAnt>) c ->
                 new DzRenderer<>(c, new DzDrantModel<>(c.bakeLayer(DRANT)), "drant", 0.2f, DzDrantModel.SCALE));
+        event.registerEntityRenderer(ModContent.ANNOYANCE.get(), (EntityRendererProvider<Annoyance>) c ->
+                new DzRenderer<>(c, new DzAnnoyanceModel<>(c.bakeLayer(ANNOYANCE_LAYER)), "annoyance", 0.0f, DzAnnoyanceModel.SCALE));
+        event.registerEntityRenderer(ModContent.VARMINT.get(), (EntityRendererProvider<Varmint>) c ->
+                new DzRenderer<>(c, new DzVarmintModel<>(c.bakeLayer(VARMINT_LAYER)), "varmint", 0.0f, DzVarmintModel.SCALE));
+        event.registerEntityRenderer(ModContent.VERMIN.get(), (EntityRendererProvider<Varmint>) c ->
+                new DzRenderer<>(c, new DzVarmintModel<>(c.bakeLayer(VARMINT_LAYER)), "vermin", 0.0f, DzVarmintModel.SCALE * 0.5f));
+        event.registerEntityRenderer(ModContent.FLATTOP.get(), (EntityRendererProvider<DzBeast>) c ->
+                new DzRenderer<>(c, new DzFlattopModel<>(c.bakeLayer(FLATTOP_LAYER)), "flattop", 1.1f, DzFlattopModel.SCALE));
+        event.registerEntityRenderer(ModContent.HYENA.get(), (EntityRendererProvider<DzBeast>) c ->
+                new DzRenderer<>(c, new DzHyenaModel<>(c.bakeLayer(HYENA_LAYER)), "hyena", 0.4f, DzHyenaModel.SCALE));
+        event.registerEntityRenderer(ModContent.LAVA_LIZARD.get(), (EntityRendererProvider<DzBeast>) c ->
+                new DzRenderer<>(c, new DzLizardModel<>(c.bakeLayer(LIZARD_LAYER)), "lava_lizard", 0.7f, DzLizardModel.SCALE));
+        event.registerEntityRenderer(ModContent.LAZER_LIZARD.get(), (EntityRendererProvider<DzBeast>) c ->
+                new DzRenderer<>(c, new DzLizardModel<>(c.bakeLayer(LIZARD_LAYER)), "lazer_lizard", 0.7f, DzLizardModel.SCALE));
+        event.registerEntityRenderer(ModContent.LIGHTNING_LIZARD.get(), (EntityRendererProvider<DzBeast>) c ->
+                new DzRenderer<>(c, new DzLizardModel<>(c.bakeLayer(LIZARD_LAYER)), "lightning_lizard", 0.7f, DzLizardModel.SCALE));
+        event.registerEntityRenderer(ModContent.RAGING_BULL.get(), (EntityRendererProvider<DzBeast>) c ->
+                new DzRenderer<>(c, new DzRagingBullModel<>(c.bakeLayer(RAGING_BULL_LAYER)), "raging_bull", 0.7f, DzRagingBullModel.SCALE));
+        event.registerEntityRenderer(ModContent.RATTLESNAKE.get(), (EntityRendererProvider<DzBeast>) c ->
+                new DzRenderer<>(c, new DzRattlesnakeModel<>(c.bakeLayer(RATTLESNAKE_LAYER)), "rattlesnake", 0.3f, DzRattlesnakeModel.SCALE));
+        event.registerEntityRenderer(ModContent.ROLLY_OUCHY.get(), (EntityRendererProvider<DzBeast>) c ->
+                new DzRenderer<>(c, new DzRollyOuchyModel<>(c.bakeLayer(ROLLY_OUCHY_LAYER)), "rolly_ouchy", 0.4f, DzRollyOuchyModel.SCALE));
+        event.registerEntityRenderer(ModContent.SKINNY_THING.get(), (EntityRendererProvider<DzBeast>) c ->
+                new DzRenderer<>(c, new DzSkinnyThingModel<>(c.bakeLayer(SKINNY_THING_LAYER)), "skinny_thing", 0.4f, DzSkinnyThingModel.SCALE));
+        event.registerEntityRenderer(ModContent.V.get(), (EntityRendererProvider<DzBeast>) c ->
+                new DzRenderer<>(c, new DzVModel<>(c.bakeLayer(V_LAYER)), "v", 0.6f, DzVModel.SCALE));
+        event.registerEntityRenderer(ModContent.WARTHOG.get(), (EntityRendererProvider<DzBeast>) c ->
+                new DzRenderer<>(c, new DzWarthogModel<>(c.bakeLayer(WARTHOG_LAYER)), "warthog", 0.5f, DzWarthogModel.SCALE));
+        event.registerEntityRenderer(ModContent.WOOLLY_MAMMOTH.get(), (EntityRendererProvider<DzBeast>) c ->
+                new DzRenderer<>(c, new DzWoollyMammothModel<>(c.bakeLayer(WOOLLY_MAMMOTH_LAYER)), "woolly_mammoth", 2.5f, DzWoollyMammothModel.SCALE));
         event.registerEntityRenderer(ModContent.TROPHY_ENTITY.get(), TrophyRenderer::new);
         event.registerEntityRenderer(ModContent.TOWER_FLAG.get(), (EntityRendererProvider<TowerFlag>) c ->
                 new DzRenderer<>(c, new DzTowerFlagModel<>(c.bakeLayer(FLAG)), "tower_flag", 0.5f, DzTowerFlagModel.SCALE));

@@ -1,0 +1,38 @@
+{
+  "display": {
+    "icon": {
+      "id": "orespawn_dangerzone:royal_tiara"
+    },
+    "title": {
+      "translate": "advancement.orespawn_dangerzone.task217"
+    },
+    "description": {
+      "translate": "advancement.orespawn_dangerzone.task217.desc"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "orespawn_dangerzone:royal_tiara"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "done"
+    ]
+  ],
+  "parent": "orespawn_dangerzone:things_to_do/finders/task216",
+  "rewards": {
+    "experience": 111
+  }
+}

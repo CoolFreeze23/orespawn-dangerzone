@@ -49,9 +49,30 @@ runs {
         workingDirectory project.file('run-gametest')
         jvmArguments.addAll('-Xmx3G', '-Xms1G')
     }
+    clientA {
+        runType 'client'
+        workingDirectory project.file('run-client-a')
+        arguments.addAll('--username', 'Alpha')
+        jvmArguments.addAll('-Xmx2G', '-Xms1G', '-Dorespawn_dangerzone.shots=true', "-Dorespawn_dangerzone.connect=${project.findProperty('dzserver') ?: 'localhost:25599'}")
+    }
+    clientB {
+        runType 'client'
+        workingDirectory project.file('run-client-b')
+        arguments.addAll('--username', 'Beta')
+        jvmArguments.addAll('-Xmx2G', '-Xms1G', '-Dorespawn_dangerzone.shots=true', "-Dorespawn_dangerzone.connect=${project.findProperty('dzserver') ?: 'localhost:25599'}")
+    }
     client {
         workingDirectory project.file('run-client')
         jvmArguments.addAll('-Xmx4G', '-Xms1G', '-Dorespawn_dangerzone.shots=true', "-Dorespawn_dangerzone.fast=${project.hasProperty('dzfast')}", "-Dorespawn_dangerzone.drive=${project.hasProperty('dzdrive')}", "-Dorespawn_dangerzone.phase=${project.findProperty('dzphase') ?: 'all'}")
+    }
+}
+
+// A second Gradle can't start while a client runs, because every start rewrites jars the client holds open. So a second
+// client is started from the first one's command line, and needs the environment Gradle gives it, which goes in this file.
+tasks.matching { it.name == 'runClientA' }.configureEach { task ->
+    task.doFirst {
+        project.file('build/client-env.txt').text = task.environment.findAll { key, value -> !(key.toString().equalsIgnoreCase('PATH')) }
+                .collect { key, value -> "${key}=${value}" }.join(System.lineSeparator())
     }
 }
 

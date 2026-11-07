@@ -411,4 +411,116 @@ public final class MilestoneThreeTests {
         teen.discard();
         helper.succeed();
     }
+
+    // ------------------------------------------------------------------ the Lair's flyers and the Morph Staff
+
+    @GameTest(template = "empty8")
+    public static void aVarmintTakesMeatFromAPlayerAndStaysTheirs(GameTestHelper helper) {
+        floor(helper);
+        ServerPlayer player = MockPlayers.inLevel(helper);
+        ServerPlayer stranger = MockPlayers.inLevel(helper);
+        var varmint = helper.spawn(ModContent.VARMINT.get(), new BlockPos(4, 3, 4));
+        for (int i = 0; i < 200 && !varmint.isTame(); i++) {
+            player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Items.BEEF, 2));
+            varmint.mobInteract(player, InteractionHand.MAIN_HAND);
+        }
+        check(helper, varmint.isOwnedBy(player), "enough meat should have tamed it");
+        float before = varmint.getHealth();
+        varmint.setHealth(1.0f);
+        stranger.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Items.BEEF));
+        varmint.mobInteract(stranger, InteractionHand.MAIN_HAND);
+        check(helper, varmint.isOwnedBy(player) && varmint.getHealth() == 1.0f && stranger.getMainHandItem().getCount() == 1, "a stranger's meat should do nothing");
+        player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Items.BEEF));
+        varmint.mobInteract(player, InteractionHand.MAIN_HAND);
+        check(helper, varmint.getHealth() > 1.0f, "its owner's should heal it");
+        varmint.discard();
+        helper.succeed();
+    }
+
+    @GameTest(template = "empty8")
+    public static void theMorphStaffChangesAPlayerWithinItsLimits(GameTestHelper helper) {
+        floor(helper);
+        ServerPlayer player = MockPlayers.inLevel(helper);
+        var attack = net.minecraft.world.entity.ai.attributes.Attributes.ATTACK_DAMAGE;
+        var armor = net.minecraft.world.entity.ai.attributes.Attributes.ARMOR;
+        double plainAttack = player.getAttributeValue(attack);
+        double plainArmor = player.getAttributeValue(armor);
+        var staff = new ItemStack(ModContent.MORPH_STAFF.get());
+        player.setItemInHand(InteractionHand.MAIN_HAND, staff);
+        var dargon = helper.spawn(ModContent.DARGON.get(), new BlockPos(4, 1, 4));
+        staff.getItem().interactLivingEntity(staff, player, dargon, InteractionHand.MAIN_HAND);
+        check(helper, danger.orespawn.dangerzone.morph.Morph.form(player).equals("orespawn_dangerzone:dargon"), "should be Dargon, was " + danger.orespawn.dangerzone.morph.Morph.form(player));
+        check(helper, player.getAttributeValue(attack) - plainAttack == danger.orespawn.dangerzone.morph.Morph.MAX_ATTACK, "his 200 damage should be cut to the limit: " + player.getAttributeValue(attack));
+        check(helper, player.getAttributeValue(armor) - plainArmor == danger.orespawn.dangerzone.morph.Morph.MAX_ARMOR, "and his armour: " + player.getAttributeValue(armor));
+        check(helper, player.getMainHandItem().getDamageValue() == 1, "it should cost a use");
+        danger.orespawn.dangerzone.morph.Morph.set(player, "orespawn_dangerzone:vermin");
+        check(helper, player.getAttributeValue(attack) - plainAttack == 2.0, "changing form should replace the bonus, not stack it");
+        staff.getItem().use(helper.getLevel(), player, InteractionHand.MAIN_HAND);
+        check(helper, danger.orespawn.dangerzone.morph.Morph.form(player).isEmpty(), "using it on nothing goes back");
+        check(helper, player.getAttributeValue(attack) == plainAttack && player.getAttributeValue(armor) == plainArmor, "and takes the stats off");
+        var flag = helper.spawn(ModContent.TOWER_FLAG.get(), new BlockPos(1, 1, 1));
+        check(helper, !danger.orespawn.dangerzone.morph.Morph.canBecome(flag), "a flag isn't a creature");
+        flag.discard();
+        dargon.discard();
+        helper.succeed();
+    }
+
+    @GameTest(template = "empty8")
+    public static void milkEndsAMorph(GameTestHelper helper) {
+        ServerPlayer player = MockPlayers.inLevel(helper);
+        danger.orespawn.dangerzone.morph.Morph.set(player, "orespawn_dangerzone:hyena");
+        ItemStack milk = new ItemStack(Items.MILK_BUCKET);
+        net.neoforged.neoforge.event.EventHooks.onItemUseFinish(player, milk, 0, new ItemStack(Items.BUCKET));
+        check(helper, danger.orespawn.dangerzone.morph.Morph.form(player).isEmpty(), "milk should clear it");
+        helper.succeed();
+    }
+
+    @GameTest(template = "empty8")
+    public static void allTheNewCreaturesAreOnTheLadderAndHaveLoot(GameTestHelper helper) {
+        var ladder = danger.orespawn.dangerzone.entity.TowerFlag.ladder();
+        ServerLevel level = helper.getLevel();
+        for (var spec : danger.orespawn.dangerzone.entity.DzBeast.ALL) {
+            var type = net.minecraft.core.registries.BuiltInRegistries.ENTITY_TYPE.get(danger.orespawn.dangerzone.OreSpawnDangerZone.id(spec.name()));
+            check(helper, ladder.contains(type), spec.name() + " should be on the Tower Defense ladder");
+            check(helper, type.create(level) != null, spec.name() + " should be creatable");
+        }
+        check(helper, ladder.contains(ModContent.ANNOYANCE.get()) && ladder.contains(ModContent.VARMINT.get()) && ladder.contains(ModContent.VERMIN.get()), "so should the flyers");
+        check(helper, ladder.size() == 72, "the ladder should be 72 strong, was " + ladder.size());
+        helper.succeed();
+    }
+
+    @GameTest(template = "empty8")
+    public static void aRattlesnakeIsVenomous(GameTestHelper helper) {
+        floor(helper);
+        var snake = helper.spawn(ModContent.RATTLESNAKE.get(), new BlockPos(4, 1, 4));
+        Cow cow = helper.spawn(EntityType.COW, new BlockPos(5, 1, 4));
+        snake.doHurtTarget(cow);
+        check(helper, cow.hasEffect(net.minecraft.world.effect.MobEffects.POISON), "the bite should poison");
+        snake.discard();
+        cow.discard();
+        helper.succeed();
+    }
+
+    @GameTest(template = "empty8")
+    public static void aKilledCaptiveDropsTheTiaraAndTheStaff(GameTestHelper helper) {
+        floor(helper);
+        ServerLevel level = helper.getLevel();
+        ServerPlayer player = MockPlayers.inLevel(helper);
+        // Dressed as the castle's builder dresses her.
+        var type = net.minecraft.core.registries.BuiltInRegistries.ENTITY_TYPE.get(net.minecraft.resources.ResourceLocation.fromNamespaceAndPath("orespawn", "girlfriend"));
+        var girl = (net.minecraft.world.entity.Mob) helper.spawn(type, new BlockPos(4, 1, 4));
+        girl.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ModContent.ROYAL_TIARA.get()));
+        girl.setGuaranteedDrop(EquipmentSlot.HEAD);
+        girl.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(ModContent.MORPH_STAFF.get()));
+        girl.setGuaranteedDrop(EquipmentSlot.MAINHAND);
+        // The port caps her at 10 damage a hit.
+        girl.setHealth(1.0f);
+        girl.hurt(level.damageSources().playerAttack(player), 10.0f);
+        check(helper, !girl.isAlive(), "she should be dead");
+        var left = level.getEntitiesOfClass(ItemEntity.class, girl.getBoundingBox().inflate(4.0));
+        check(helper, left.stream().anyMatch(e -> e.getItem().is(ModContent.ROYAL_TIARA.get())), "she should drop the Royal Tiara: " + left);
+        check(helper, left.stream().anyMatch(e -> e.getItem().is(ModContent.MORPH_STAFF.get())), "and the Morph Staff");
+        left.forEach(net.minecraft.world.entity.Entity::discard);
+        helper.succeed();
+    }
 }

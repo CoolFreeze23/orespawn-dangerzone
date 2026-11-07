@@ -73,7 +73,7 @@ public class TowerFlag extends Mob {
     public static AttributeSupplier.Builder createAttributes() {
         return Mob.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, 5000.0)
-                .add(Attributes.ARMOR, 8.0)
+                .add(Attributes.ARMOR, 12.0)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 1.0)
                 .add(Attributes.MOVEMENT_SPEED, 0.0);
     }

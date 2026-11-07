@@ -28,9 +28,9 @@ public final class DzDungeons {
             Map.entry("dragoneyestone", "orespawn_dangerzone:dragons_eye_stone"),
             Map.entry("extremetorch", "orespawn_dangerzone:extreme_torch"),
             Map.entry("krakenkingspawner", "orespawn_dangerzone:kraken_king_spawner"),
-            Map.entry("varmintspawner", "orespawn:terrible_terror"),
-            Map.entry("verminspawner", "orespawn:terrible_terror"),
-            Map.entry("annoyancespawner", "orespawn:terrible_terror"));
+            Map.entry("varmintspawner", "orespawn_dangerzone:varmint"),
+            Map.entry("verminspawner", "orespawn_dangerzone:vermin"),
+            Map.entry("annoyancespawner", "orespawn_dangerzone:annoyance"));
 
     private DzDungeons() {
     }

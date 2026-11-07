@@ -15,14 +15,7 @@
     }
   },
   "spawners": {
-    "monster": [
-      {
-        "type": "orespawn_dangerzone:doom_worm",
-        "weight": 2,
-        "minCount": 1,
-        "maxCount": 1
-      }
-    ],
+    "monster": [],
     "creature": [
       {
         "type": "orespawn_dangerzone:doom_ant",

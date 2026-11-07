@@ -1,0 +1,36 @@
+{
+  "type": "neoforge:add_spawns",
+  "biomes": "orespawn:chaos_biome",
+  "spawners": [
+    {
+      "type": "orespawn_dangerzone:flattop",
+      "weight": 1,
+      "minCount": 1,
+      "maxCount": 1
+    },
+    {
+      "type": "orespawn_dangerzone:raging_bull",
+      "weight": 1,
+      "minCount": 1,
+      "maxCount": 1
+    },
+    {
+      "type": "orespawn_dangerzone:rolly_ouchy",
+      "weight": 3,
+      "minCount": 1,
+      "maxCount": 3
+    },
+    {
+      "type": "orespawn_dangerzone:skinny_thing",
+      "weight": 3,
+      "minCount": 1,
+      "maxCount": 3
+    },
+    {
+      "type": "orespawn_dangerzone:v",
+      "weight": 3,
+      "minCount": 1,
+      "maxCount": 2
+    }
+  ]
+}
