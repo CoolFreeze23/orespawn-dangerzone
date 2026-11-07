@@ -1,0 +1,62 @@
+{
+  "display": {
+    "icon": {
+      "id": "orespawn:crab_spawn_egg"
+    },
+    "title": {
+      "translate": "advancement.orespawn_dangerzone.task75"
+    },
+    "description": {
+      "translate": "advancement.orespawn_dangerzone.task75.desc"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "orespawn:crab"
+            }
+          }
+        ],
+        "player": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type_specific": {
+                "type": "minecraft:player",
+                "stats": [
+                  {
+                    "type": "minecraft:killed",
+                    "stat": "orespawn:crab",
+                    "value": {
+                      "min": 2
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "done"
+    ]
+  ],
+  "parent": "orespawn_dangerzone:things_to_do/slayer/task74",
+  "rewards": {
+    "experience": 111
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "display": {
+    "icon": {
+      "id": "orespawn:big_bertha"
+    },
+    "title": {
+      "translate": "advancement.orespawn_dangerzone.task24"
+    },
+    "description": {
+      "translate": "advancement.orespawn_dangerzone.task24.desc"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "orespawn:big_bertha"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "done"
+    ]
+  ],
+  "parent": "orespawn_dangerzone:things_to_do/makers",
+  "rewards": {
+    "experience": 111
+  }
+}

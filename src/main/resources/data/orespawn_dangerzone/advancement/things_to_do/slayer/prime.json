@@ -1,0 +1,42 @@
+{
+  "display": {
+    "icon": {
+      "id": "orespawn_dangerzone:nastysaurus_prime_spawn_egg"
+    },
+    "title": {
+      "translate": "advancement.orespawn_dangerzone.prime"
+    },
+    "description": {
+      "translate": "advancement.orespawn_dangerzone.prime.desc"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "orespawn_dangerzone:nastysaurus_prime"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "done"
+    ]
+  ],
+  "parent": "orespawn_dangerzone:things_to_do/slayer/task146",
+  "rewards": {
+    "experience": 111
+  }
+}

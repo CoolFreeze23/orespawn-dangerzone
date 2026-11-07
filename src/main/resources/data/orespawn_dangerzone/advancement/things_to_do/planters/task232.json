@@ -1,0 +1,41 @@
+{
+  "display": {
+    "icon": {
+      "id": "orespawn:experience_tree_seed"
+    },
+    "title": {
+      "translate": "advancement.orespawn_dangerzone.task232"
+    },
+    "description": {
+      "translate": "advancement.orespawn_dangerzone.task232.desc"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:item_used_on_block",
+      "conditions": {
+        "location": [
+          {
+            "condition": "minecraft:match_tool",
+            "predicate": {
+              "items": "orespawn:experience_tree_seed"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "done"
+    ]
+  ],
+  "parent": "orespawn_dangerzone:things_to_do/planters/task230",
+  "rewards": {
+    "experience": 111
+  }
+}

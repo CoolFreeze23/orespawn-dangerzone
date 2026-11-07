@@ -1,0 +1,20 @@
+# Gradle
+.gradle/
+.gradle-home/
+build/
+
+# Run directories
+run/
+runs/
+run-gametest/
+run-client/
+logs/
+
+# Compile and run dependencies; see libs/README.md
+libs/*.jar
+runmods/
+
+# IDE
+.idea/
+*.iml
+.vscode/

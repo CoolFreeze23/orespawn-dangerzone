@@ -1,0 +1,38 @@
+{
+  "display": {
+    "icon": {
+      "id": "orespawn:sea_viper_tongue"
+    },
+    "title": {
+      "translate": "advancement.orespawn_dangerzone.task163"
+    },
+    "description": {
+      "translate": "advancement.orespawn_dangerzone.task163.desc"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "orespawn:sea_viper_tongue"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "done"
+    ]
+  ],
+  "parent": "orespawn_dangerzone:things_to_do/finders/task162",
+  "rewards": {
+    "experience": 111
+  }
+}

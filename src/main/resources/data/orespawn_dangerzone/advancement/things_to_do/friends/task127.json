@@ -1,0 +1,44 @@
+{
+  "display": {
+    "icon": {
+      "id": "orespawn:spider_robot_spawn_egg"
+    },
+    "title": {
+      "translate": "advancement.orespawn_dangerzone.task127"
+    },
+    "description": {
+      "translate": "advancement.orespawn_dangerzone.task127.desc"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:started_riding",
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "vehicle": {
+                "type": "orespawn:spider_robot"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "done"
+    ]
+  ],
+  "parent": "orespawn_dangerzone:things_to_do/friends/task126",
+  "rewards": {
+    "experience": 111
+  }
+}

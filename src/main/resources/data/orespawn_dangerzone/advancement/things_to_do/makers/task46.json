@@ -1,0 +1,38 @@
+{
+  "display": {
+    "icon": {
+      "id": "orespawn:ultimate_boots"
+    },
+    "title": {
+      "translate": "advancement.orespawn_dangerzone.task46"
+    },
+    "description": {
+      "translate": "advancement.orespawn_dangerzone.task46.desc"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "orespawn:ultimate_boots"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "done"
+    ]
+  ],
+  "parent": "orespawn_dangerzone:things_to_do/makers/task45",
+  "rewards": {
+    "experience": 111
+  }
+}

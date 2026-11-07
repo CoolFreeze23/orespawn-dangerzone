@@ -1,0 +1,24 @@
+{
+  "type": "neoforge:add_spawns",
+  "biomes": "orespawn:mining_biome",
+  "spawners": [
+    {
+      "type": "orespawn_dangerzone:nastysaurus_prime",
+      "weight": 3,
+      "minCount": 1,
+      "maxCount": 2
+    },
+    {
+      "type": "orespawn_dangerzone:needlenose",
+      "weight": 5,
+      "minCount": 2,
+      "maxCount": 5
+    },
+    {
+      "type": "orespawn_dangerzone:nurse_bug",
+      "weight": 2,
+      "minCount": 1,
+      "maxCount": 1
+    }
+  ]
+}

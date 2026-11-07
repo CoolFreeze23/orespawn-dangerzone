@@ -1,0 +1,38 @@
+{
+  "display": {
+    "icon": {
+      "id": "orespawn:titanium_nugget"
+    },
+    "title": {
+      "translate": "advancement.orespawn_dangerzone.task16"
+    },
+    "description": {
+      "translate": "advancement.orespawn_dangerzone.task16.desc"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "orespawn:titanium_nugget"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "done"
+    ]
+  ],
+  "parent": "orespawn_dangerzone:things_to_do/makers/task15",
+  "rewards": {
+    "experience": 111
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "display": {
+    "icon": {
+      "id": "orespawn_dangerzone:dimension_staff"
+    },
+    "title": {
+      "translate": "advancement.orespawn_dangerzone.root"
+    },
+    "description": {
+      "translate": "advancement.orespawn_dangerzone.root.desc"
+    },
+    "frame": "task",
+    "show_toast": false,
+    "announce_to_chat": false,
+    "hidden": false,
+    "background": "minecraft:textures/block/obsidian.png"
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:tick"
+    }
+  },
+  "requirements": [
+    [
+      "done"
+    ]
+  ]
+}

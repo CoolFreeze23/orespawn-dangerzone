@@ -1,0 +1,7 @@
+{
+  "required": true,
+  "package": "danger.orespawn.dangerzone.gametest.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "client": ["WindowHiddenMixin"],
+  "injectors": { "defaultRequire": 1 }
+}

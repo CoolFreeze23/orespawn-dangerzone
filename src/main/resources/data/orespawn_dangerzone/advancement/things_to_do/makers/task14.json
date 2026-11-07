@@ -1,0 +1,38 @@
+{
+  "display": {
+    "icon": {
+      "id": "orespawn:crystal_furnace"
+    },
+    "title": {
+      "translate": "advancement.orespawn_dangerzone.task14"
+    },
+    "description": {
+      "translate": "advancement.orespawn_dangerzone.task14.desc"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "orespawn:crystal_furnace"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "done"
+    ]
+  ],
+  "parent": "orespawn_dangerzone:things_to_do/makers/task13",
+  "rewards": {
+    "experience": 111
+  }
+}

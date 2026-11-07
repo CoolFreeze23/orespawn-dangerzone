@@ -1,0 +1,38 @@
+{
+  "display": {
+    "icon": {
+      "id": "orespawn:ultimate_helmet"
+    },
+    "title": {
+      "translate": "advancement.orespawn_dangerzone.task43"
+    },
+    "description": {
+      "translate": "advancement.orespawn_dangerzone.task43.desc"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "orespawn:ultimate_helmet"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "done"
+    ]
+  ],
+  "parent": "orespawn_dangerzone:things_to_do/makers/task42",
+  "rewards": {
+    "experience": 111
+  }
+}

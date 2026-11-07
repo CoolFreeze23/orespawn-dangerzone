@@ -1,0 +1,38 @@
+{
+  "display": {
+    "icon": {
+      "id": "orespawn:kraken_repellent"
+    },
+    "title": {
+      "translate": "advancement.orespawn_dangerzone.task30"
+    },
+    "description": {
+      "translate": "advancement.orespawn_dangerzone.task30.desc"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "orespawn:kraken_repellent"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "done"
+    ]
+  ],
+  "parent": "orespawn_dangerzone:things_to_do/makers/task28",
+  "rewards": {
+    "experience": 111
+  }
+}

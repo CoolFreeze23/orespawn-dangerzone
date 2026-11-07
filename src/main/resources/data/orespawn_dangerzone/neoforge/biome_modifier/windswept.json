@@ -1,0 +1,18 @@
+{
+  "type": "neoforge:add_spawns",
+  "biomes": "#c:is_windswept",
+  "spawners": [
+    {
+      "type": "orespawn_dangerzone:ant_queen",
+      "weight": 1,
+      "minCount": 1,
+      "maxCount": 1
+    },
+    {
+      "type": "orespawn_dangerzone:bloodlust_ant",
+      "weight": 3,
+      "minCount": 1,
+      "maxCount": 5
+    }
+  ]
+}

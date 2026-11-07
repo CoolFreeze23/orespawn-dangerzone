@@ -1,0 +1,38 @@
+{
+  "display": {
+    "icon": {
+      "id": "orespawn:peacock_feather"
+    },
+    "title": {
+      "translate": "advancement.orespawn_dangerzone.task181"
+    },
+    "description": {
+      "translate": "advancement.orespawn_dangerzone.task181.desc"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "orespawn:peacock_feather"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "done"
+    ]
+  ],
+  "parent": "orespawn_dangerzone:things_to_do/finders/task179",
+  "rewards": {
+    "experience": 111
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "display": {
+    "icon": {
+      "id": "orespawn:termite_troll"
+    },
+    "title": {
+      "translate": "advancement.orespawn_dangerzone.task202"
+    },
+    "description": {
+      "translate": "advancement.orespawn_dangerzone.task202.desc"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:placed_block",
+      "conditions": {
+        "location": [
+          {
+            "condition": "minecraft:block_state_property",
+            "block": "orespawn:termite_troll"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "done"
+    ]
+  ],
+  "parent": "orespawn_dangerzone:things_to_do/planters/task201",
+  "rewards": {
+    "experience": 111
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "display": {
+    "icon": {
+      "id": "orespawn:dragon_spawn_egg"
+    },
+    "title": {
+      "translate": "advancement.orespawn_dangerzone.task112"
+    },
+    "description": {
+      "translate": "advancement.orespawn_dangerzone.task112.desc"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:tame_animal",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "orespawn:dragon"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "done"
+    ]
+  ],
+  "parent": "orespawn_dangerzone:things_to_do/friends/task111",
+  "rewards": {
+    "experience": 111
+  }
+}

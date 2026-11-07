@@ -1,0 +1,20 @@
+{
+  "values": [
+    {
+      "id": "orespawn:dragon",
+      "required": false
+    },
+    {
+      "id": "orespawn:water_dragon",
+      "required": false
+    },
+    {
+      "id": "orespawn:spyro",
+      "required": false
+    },
+    {
+      "id": "orespawn:leonopteryx",
+      "required": false
+    }
+  ]
+}

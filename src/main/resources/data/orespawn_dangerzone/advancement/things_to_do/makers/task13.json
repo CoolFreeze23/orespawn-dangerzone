@@ -1,0 +1,38 @@
+{
+  "display": {
+    "icon": {
+      "id": "orespawn:crystal_workbench"
+    },
+    "title": {
+      "translate": "advancement.orespawn_dangerzone.task13"
+    },
+    "description": {
+      "translate": "advancement.orespawn_dangerzone.task13.desc"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "orespawn:crystal_workbench"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "done"
+    ]
+  ],
+  "parent": "orespawn_dangerzone:things_to_do/makers/task12",
+  "rewards": {
+    "experience": 111
+  }
+}

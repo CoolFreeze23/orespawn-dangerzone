@@ -1,0 +1,39 @@
+{
+  "display": {
+    "icon": {
+      "id": "orespawn:lavafoam"
+    },
+    "title": {
+      "translate": "advancement.orespawn_dangerzone.task203"
+    },
+    "description": {
+      "translate": "advancement.orespawn_dangerzone.task203.desc"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:placed_block",
+      "conditions": {
+        "location": [
+          {
+            "condition": "minecraft:block_state_property",
+            "block": "orespawn:lavafoam"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "done"
+    ]
+  ],
+  "parent": "orespawn_dangerzone:things_to_do/planters/task202",
+  "rewards": {
+    "experience": 111
+  }
+}

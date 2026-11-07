@@ -1,0 +1,38 @@
+{
+  "display": {
+    "icon": {
+      "id": "orespawn:bertha_handle"
+    },
+    "title": {
+      "translate": "advancement.orespawn_dangerzone.task28"
+    },
+    "description": {
+      "translate": "advancement.orespawn_dangerzone.task28.desc"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "orespawn:bertha_handle"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "done"
+    ]
+  ],
+  "parent": "orespawn_dangerzone:things_to_do/makers/task27",
+  "rewards": {
+    "experience": 111
+  }
+}

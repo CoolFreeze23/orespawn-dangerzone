@@ -1,0 +1,30 @@
+{
+  "type": "neoforge:add_spawns",
+  "biomes": "orespawn:chaos_biome",
+  "spawners": [
+    {
+      "type": "orespawn_dangerzone:nastysaurus_prime",
+      "weight": 3,
+      "minCount": 1,
+      "maxCount": 2
+    },
+    {
+      "type": "orespawn_dangerzone:ant_queen",
+      "weight": 1,
+      "minCount": 1,
+      "maxCount": 1
+    },
+    {
+      "type": "orespawn_dangerzone:bloodlust_ant",
+      "weight": 3,
+      "minCount": 1,
+      "maxCount": 3
+    },
+    {
+      "type": "orespawn_dangerzone:nurse_bug",
+      "weight": 3,
+      "minCount": 1,
+      "maxCount": 1
+    }
+  ]
+}

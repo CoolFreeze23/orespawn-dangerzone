@@ -1,0 +1,44 @@
+{
+  "display": {
+    "icon": {
+      "id": "orespawn:cephadrome_spawn_egg"
+    },
+    "title": {
+      "translate": "advancement.orespawn_dangerzone.task120"
+    },
+    "description": {
+      "translate": "advancement.orespawn_dangerzone.task120.desc"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:started_riding",
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "vehicle": {
+                "type": "orespawn:cephadrome"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "done"
+    ]
+  ],
+  "parent": "orespawn_dangerzone:things_to_do/friends/task119",
+  "rewards": {
+    "experience": 111
+  }
+}

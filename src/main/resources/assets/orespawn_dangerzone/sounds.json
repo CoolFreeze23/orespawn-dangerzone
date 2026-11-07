@@ -1,0 +1,84 @@
+{
+  "needlenose.ambient": {
+    "sounds": [
+      "orespawn_dangerzone:warthog_living1",
+      "orespawn_dangerzone:warthog_living2",
+      "orespawn_dangerzone:warthog_living3"
+    ]
+  },
+  "needlenose.hurt": {
+    "sounds": [
+      "orespawn_dangerzone:warthog_hit1",
+      "orespawn_dangerzone:warthog_hit2",
+      "orespawn_dangerzone:warthog_hit3"
+    ]
+  },
+  "needlenose.death": {
+    "sounds": [
+      "orespawn_dangerzone:lurkingterror_dead"
+    ]
+  },
+  "nurse_bug.ambient": {
+    "sounds": [
+      "orespawn_dangerzone:beebuzz"
+    ]
+  },
+  "nurse_bug.hurt": {
+    "sounds": [
+      "orespawn_dangerzone:dragonfly_hurt"
+    ]
+  },
+  "ant_queen.hurt": {
+    "sounds": [
+      "orespawn_dangerzone:nope_hit"
+    ]
+  },
+  "ant_queen.death": {
+    "sounds": [
+      "orespawn_dangerzone:nope_death"
+    ]
+  },
+  "ant_queen.attack": {
+    "sounds": [
+      "orespawn_dangerzone:scorpion_attack"
+    ]
+  },
+  "bloodlust_ant.ambient": {
+    "sounds": [
+      "orespawn_dangerzone:clatter1",
+      "orespawn_dangerzone:clatter2"
+    ]
+  },
+  "bloodlust_ant.attack": {
+    "sounds": [
+      "orespawn_dangerzone:crunch"
+    ]
+  },
+  "bloodlust_ant.death": {
+    "sounds": [
+      "orespawn_dangerzone:emperorscorpion_death"
+    ]
+  },
+  "shrink_ray.shoot": {
+    "sounds": [
+      "orespawn_dangerzone:laser1",
+      "orespawn_dangerzone:laser2",
+      "orespawn_dangerzone:laser3",
+      "orespawn_dangerzone:laser4",
+      "orespawn_dangerzone:laser5",
+      "orespawn_dangerzone:laser6"
+    ]
+  },
+  "item.teleport": {
+    "sounds": [
+      "orespawn_dangerzone:teleport1",
+      "orespawn_dangerzone:teleport2",
+      "orespawn_dangerzone:teleport3"
+    ]
+  },
+  "duct_tape.use": {
+    "sounds": [
+      "orespawn_dangerzone:goose_living"
+    ]
+  }
+}

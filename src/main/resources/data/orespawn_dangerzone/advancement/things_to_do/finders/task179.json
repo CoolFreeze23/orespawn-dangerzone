@@ -1,0 +1,38 @@
+{
+  "display": {
+    "icon": {
+      "id": "orespawn:crystal_apple"
+    },
+    "title": {
+      "translate": "advancement.orespawn_dangerzone.task179"
+    },
+    "description": {
+      "translate": "advancement.orespawn_dangerzone.task179.desc"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "orespawn:crystal_apple"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "done"
+    ]
+  ],
+  "parent": "orespawn_dangerzone:things_to_do/finders",
+  "rewards": {
+    "experience": 111
+  }
+}

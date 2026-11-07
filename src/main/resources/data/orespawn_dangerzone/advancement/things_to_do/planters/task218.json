@@ -1,0 +1,39 @@
+{
+  "display": {
+    "icon": {
+      "id": "orespawn:crystal_stone"
+    },
+    "title": {
+      "translate": "advancement.orespawn_dangerzone.task218"
+    },
+    "description": {
+      "translate": "advancement.orespawn_dangerzone.task218.desc"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:placed_block",
+      "conditions": {
+        "location": [
+          {
+            "condition": "minecraft:block_state_property",
+            "block": "orespawn:crystal_stone"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "done"
+    ]
+  ],
+  "parent": "orespawn_dangerzone:things_to_do/planters/task204",
+  "rewards": {
+    "experience": 111
+  }
+}

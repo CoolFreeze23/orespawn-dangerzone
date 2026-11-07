@@ -1,0 +1,38 @@
+{
+  "display": {
+    "icon": {
+      "id": "orespawn:worm_tooth"
+    },
+    "title": {
+      "translate": "advancement.orespawn_dangerzone.task152"
+    },
+    "description": {
+      "translate": "advancement.orespawn_dangerzone.task152.desc"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "orespawn:worm_tooth"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "done"
+    ]
+  ],
+  "parent": "orespawn_dangerzone:things_to_do/finders/task151",
+  "rewards": {
+    "experience": 111
+  }
+}

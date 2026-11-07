@@ -1,0 +1,15 @@
+{
+  "type": "neoforge:add_spawns",
+  "biomes": [
+    "orespawn:crystal_plains",
+    "orespawn:island_biome"
+  ],
+  "spawners": [
+    {
+      "type": "orespawn_dangerzone:nurse_bug",
+      "weight": 3,
+      "minCount": 1,
+      "maxCount": 1
+    }
+  ]
+}

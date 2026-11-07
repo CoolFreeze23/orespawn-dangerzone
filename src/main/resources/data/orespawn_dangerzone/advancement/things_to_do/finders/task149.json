@@ -1,0 +1,38 @@
+{
+  "display": {
+    "icon": {
+      "id": "orespawn:jumpy_bug_scale"
+    },
+    "title": {
+      "translate": "advancement.orespawn_dangerzone.task149"
+    },
+    "description": {
+      "translate": "advancement.orespawn_dangerzone.task149.desc"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "orespawn:jumpy_bug_scale"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "done"
+    ]
+  ],
+  "parent": "orespawn_dangerzone:things_to_do/finders/task148",
+  "rewards": {
+    "experience": 111
+  }
+}

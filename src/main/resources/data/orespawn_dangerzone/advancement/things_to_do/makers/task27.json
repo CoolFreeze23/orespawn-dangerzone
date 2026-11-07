@@ -1,0 +1,38 @@
+{
+  "display": {
+    "icon": {
+      "id": "orespawn:bertha_guard"
+    },
+    "title": {
+      "translate": "advancement.orespawn_dangerzone.task27"
+    },
+    "description": {
+      "translate": "advancement.orespawn_dangerzone.task27.desc"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "orespawn:bertha_guard"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "done"
+    ]
+  ],
+  "parent": "orespawn_dangerzone:things_to_do/makers/task26",
+  "rewards": {
+    "experience": 111
+  }
+}

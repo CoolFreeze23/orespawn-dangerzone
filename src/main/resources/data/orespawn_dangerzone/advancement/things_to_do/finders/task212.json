@@ -1,0 +1,38 @@
+{
+  "display": {
+    "icon": {
+      "id": "orespawn:ruby_helmet"
+    },
+    "title": {
+      "translate": "advancement.orespawn_dangerzone.task212"
+    },
+    "description": {
+      "translate": "advancement.orespawn_dangerzone.task212.desc"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "orespawn:ruby_helmet"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "done"
+    ]
+  ],
+  "parent": "orespawn_dangerzone:things_to_do/finders/task183",
+  "rewards": {
+    "experience": 111
+  }
+}

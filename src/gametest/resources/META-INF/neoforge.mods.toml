@@ -1,0 +1,19 @@
+modLoader="javafml"
+loaderVersion="[4,)"
+license="All Rights Reserved"
+
+[[mods]]
+modId="orespawn_dangerzone_tests"
+version="1"
+displayName="OreSpawn: DangerZone GameTests"
+description="GameTests for OreSpawn: DangerZone. Dev runs only; never shipped."
+
+[[mixins]]
+config="orespawn_dangerzone_tests.mixins.json"
+
+[[dependencies.orespawn_dangerzone_tests]]
+modId="orespawn_dangerzone"
+type="required"
+versionRange="[0,)"
+ordering="AFTER"
+side="BOTH"

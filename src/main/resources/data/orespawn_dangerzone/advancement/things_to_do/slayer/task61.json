@@ -1,0 +1,62 @@
+{
+  "display": {
+    "icon": {
+      "id": "orespawn:beaver_spawn_egg"
+    },
+    "title": {
+      "translate": "advancement.orespawn_dangerzone.task61"
+    },
+    "description": {
+      "translate": "advancement.orespawn_dangerzone.task61.desc"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "orespawn:beaver"
+            }
+          }
+        ],
+        "player": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type_specific": {
+                "type": "minecraft:player",
+                "stats": [
+                  {
+                    "type": "minecraft:killed",
+                    "stat": "orespawn:beaver",
+                    "value": {
+                      "min": 2
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "done"
+    ]
+  ],
+  "parent": "orespawn_dangerzone:things_to_do/slayer",
+  "rewards": {
+    "experience": 111
+  }
+}

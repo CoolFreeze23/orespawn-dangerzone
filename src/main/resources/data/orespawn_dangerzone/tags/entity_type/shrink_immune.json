@@ -1,0 +1,88 @@
+{
+  "values": [
+    "orespawn_dangerzone:nastysaurus_prime",
+    "orespawn_dangerzone:ant_queen",
+    "minecraft:wither",
+    "minecraft:ender_dragon",
+    {
+      "id": "#c:bosses",
+      "required": false
+    },
+    {
+      "id": "orespawn:the_king",
+      "required": false
+    },
+    {
+      "id": "orespawn:king_head",
+      "required": false
+    },
+    {
+      "id": "orespawn:the_queen",
+      "required": false
+    },
+    {
+      "id": "orespawn:queen_head",
+      "required": false
+    },
+    {
+      "id": "orespawn:godzilla",
+      "required": false
+    },
+    {
+      "id": "orespawn:godzilla_head",
+      "required": false
+    },
+    {
+      "id": "orespawn:kraken",
+      "required": false
+    },
+    {
+      "id": "orespawn:mothra",
+      "required": false
+    },
+    {
+      "id": "orespawn:basilisk",
+      "required": false
+    },
+    {
+      "id": "orespawn:alien_boss",
+      "required": false
+    },
+    {
+      "id": "orespawn:the_prince_adult",
+      "required": false
+    },
+    {
+      "id": "orespawn:giant_robot",
+      "required": false
+    },
+    {
+      "id": "orespawn:jeffery",
+      "required": false
+    },
+    {
+      "id": "orespawn:emperor_scorpion",
+      "required": false
+    },
+    {
+      "id": "orespawn:sea_monster",
+      "required": false
+    },
+    {
+      "id": "orespawn:water_dragon",
+      "required": false
+    },
+    {
+      "id": "orespawn:worm_large",
+      "required": false
+    },
+    {
+      "id": "orespawn:ender_reaper",
+      "required": false
+    },
+    {
+      "id": "orespawn:nastysaurus",
+      "required": false
+    }
+  ]
+}

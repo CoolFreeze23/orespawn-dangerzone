@@ -1,0 +1,36 @@
+{
+  "display": {
+    "icon": {
+      "id": "orespawn:butter_candy"
+    },
+    "title": {
+      "translate": "advancement.orespawn_dangerzone.task206"
+    },
+    "description": {
+      "translate": "advancement.orespawn_dangerzone.task206.desc"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:consume_item",
+      "conditions": {
+        "item": {
+          "items": "orespawn:butter_candy"
+        }
+      }
+    }
+  },
+  "requirements": [
+    [
+      "done"
+    ]
+  ],
+  "parent": "orespawn_dangerzone:things_to_do/makers/task205",
+  "rewards": {
+    "experience": 111
+  }
+}

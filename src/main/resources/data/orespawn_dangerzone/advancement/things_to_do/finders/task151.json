@@ -1,0 +1,38 @@
+{
+  "display": {
+    "icon": {
+      "id": "orespawn:water_dragon_scale"
+    },
+    "title": {
+      "translate": "advancement.orespawn_dangerzone.task151"
+    },
+    "description": {
+      "translate": "advancement.orespawn_dangerzone.task151.desc"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "orespawn:water_dragon_scale"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "done"
+    ]
+  ],
+  "parent": "orespawn_dangerzone:things_to_do/finders/task150",
+  "rewards": {
+    "experience": 111
+  }
+}

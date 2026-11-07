@@ -1,0 +1,41 @@
+{
+  "display": {
+    "icon": {
+      "id": "orespawn:magic_apple"
+    },
+    "title": {
+      "translate": "advancement.orespawn_dangerzone.task233"
+    },
+    "description": {
+      "translate": "advancement.orespawn_dangerzone.task233.desc"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:item_used_on_block",
+      "conditions": {
+        "location": [
+          {
+            "condition": "minecraft:match_tool",
+            "predicate": {
+              "items": "orespawn:magic_apple"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "done"
+    ]
+  ],
+  "parent": "orespawn_dangerzone:things_to_do/planters",
+  "rewards": {
+    "experience": 111
+  }
+}

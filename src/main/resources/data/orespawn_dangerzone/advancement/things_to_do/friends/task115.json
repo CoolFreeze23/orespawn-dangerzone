@@ -1,0 +1,42 @@
+{
+  "display": {
+    "icon": {
+      "id": "orespawn:camarasaurus_spawn_egg"
+    },
+    "title": {
+      "translate": "advancement.orespawn_dangerzone.task115"
+    },
+    "description": {
+      "translate": "advancement.orespawn_dangerzone.task115.desc"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:tame_animal",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "orespawn:camarasaurus"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "done"
+    ]
+  ],
+  "parent": "orespawn_dangerzone:things_to_do/friends/task113",
+  "rewards": {
+    "experience": 111
+  }
+}

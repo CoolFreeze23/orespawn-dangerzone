@@ -1,0 +1,38 @@
+{
+  "display": {
+    "icon": {
+      "id": "orespawn:random_dungeon"
+    },
+    "title": {
+      "translate": "advancement.orespawn_dangerzone.task204"
+    },
+    "description": {
+      "translate": "advancement.orespawn_dangerzone.task204.desc"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "orespawn:random_dungeon"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "done"
+    ]
+  ],
+  "parent": "orespawn_dangerzone:things_to_do/planters/task203",
+  "rewards": {
+    "experience": 111
+  }
+}

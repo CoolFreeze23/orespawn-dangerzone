@@ -1,0 +1,42 @@
+{
+  "display": {
+    "icon": {
+      "id": "orespawn:nastysaurus_spawn_egg"
+    },
+    "title": {
+      "translate": "advancement.orespawn_dangerzone.task59"
+    },
+    "description": {
+      "translate": "advancement.orespawn_dangerzone.task59.desc"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "orespawn:nastysaurus"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "done"
+    ]
+  ],
+  "parent": "orespawn_dangerzone:things_to_do/slayer/task58",
+  "rewards": {
+    "experience": 111
+  }
+}

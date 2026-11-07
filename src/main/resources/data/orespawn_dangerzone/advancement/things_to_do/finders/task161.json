@@ -1,0 +1,38 @@
+{
+  "display": {
+    "icon": {
+      "id": "orespawn:trex_tooth"
+    },
+    "title": {
+      "translate": "advancement.orespawn_dangerzone.task161"
+    },
+    "description": {
+      "translate": "advancement.orespawn_dangerzone.task161.desc"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "orespawn:trex_tooth"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "done"
+    ]
+  ],
+  "parent": "orespawn_dangerzone:things_to_do/finders/task160",
+  "rewards": {
+    "experience": 111
+  }
+}

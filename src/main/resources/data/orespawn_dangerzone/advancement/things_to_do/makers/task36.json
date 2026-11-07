@@ -1,0 +1,38 @@
+{
+  "display": {
+    "icon": {
+      "id": "orespawn:miners_dream"
+    },
+    "title": {
+      "translate": "advancement.orespawn_dangerzone.task36"
+    },
+    "description": {
+      "translate": "advancement.orespawn_dangerzone.task36.desc"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "orespawn:miners_dream"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "done"
+    ]
+  ],
+  "parent": "orespawn_dangerzone:things_to_do/makers/task35",
+  "rewards": {
+    "experience": 111
+  }
+}

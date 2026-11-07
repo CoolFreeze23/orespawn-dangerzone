@@ -1,0 +1,76 @@
+plugins {
+    id 'java-library'
+    id 'net.neoforged.gradle.userdev' version '7.1.21'
+}
+
+version = mod_version
+group = mod_group_id
+
+base {
+    archivesName = mod_id
+}
+
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+
+// GameTests live in their own source set and their own small jar, so the release jar never carries them.
+sourceSets {
+    gametest {
+        compileClasspath += sourceSets.main.output + sourceSets.main.compileClasspath
+        runtimeClasspath += sourceSets.main.output
+    }
+}
+
+dependencies {
+    implementation "net.neoforged:neoforge:${neo_version}"
+    // OreSpawn and GeckoLib: see libs/README.md for the jars to place here and in runmods/.
+    compileOnly fileTree(dir: 'libs', include: '*.jar')
+    runtimeOnly fileTree(dir: 'runmods', include: '*.jar')
+}
+
+tasks.register('gametestJar', Jar) {
+    group = 'build'
+    description = 'Builds the GameTest mod for dev runs.'
+    archiveBaseName = 'orespawn_dangerzone_tests'
+    archiveVersion = mod_version
+    from sourceSets.gametest.output
+}
+
+dependencies {
+    runtimeOnly files(tasks.named('gametestJar'))
+}
+
+runs {
+    configureEach {
+        systemProperty 'forge.logging.console.level', 'info'
+        modSource project.sourceSets.main
+    }
+    gameTestServer {
+        systemProperty 'neoforge.enabledGameTestNamespaces', 'orespawn_dangerzone_tests'
+        workingDirectory project.file('run-gametest')
+        jvmArguments.addAll('-Xmx3G', '-Xms1G')
+    }
+    client {
+        workingDirectory project.file('run-client')
+        jvmArguments.addAll('-Xmx4G', '-Xms1G', '-Dorespawn_dangerzone.shots=true')
+    }
+}
+
+tasks.withType(ProcessResources).configureEach {
+    var replaceProperties = [
+            minecraft_version      : minecraft_version,
+            minecraft_version_range: minecraft_version_range,
+            neo_version            : neo_version,
+            neo_version_range      : neo_version_range,
+            loader_version_range   : loader_version_range,
+            mod_id                 : mod_id,
+            mod_name               : mod_name,
+            mod_license            : mod_license,
+            mod_version            : mod_version,
+            mod_authors            : mod_authors,
+            mod_description        : mod_description,
+    ]
+    inputs.properties replaceProperties
+    filesMatching(['META-INF/neoforge.mods.toml']) {
+        expand replaceProperties
+    }
+}

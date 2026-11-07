@@ -1,0 +1,38 @@
+{
+  "display": {
+    "icon": {
+      "id": "orespawn:spider_robot_kit"
+    },
+    "title": {
+      "translate": "advancement.orespawn_dangerzone.task183"
+    },
+    "description": {
+      "translate": "advancement.orespawn_dangerzone.task183.desc"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "orespawn:spider_robot_kit"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "done"
+    ]
+  ],
+  "parent": "orespawn_dangerzone:things_to_do/finders/task182",
+  "rewards": {
+    "experience": 111
+  }
+}

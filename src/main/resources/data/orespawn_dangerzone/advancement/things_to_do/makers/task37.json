@@ -1,0 +1,38 @@
+{
+  "display": {
+    "icon": {
+      "id": "orespawn:instant_garden"
+    },
+    "title": {
+      "translate": "advancement.orespawn_dangerzone.task37"
+    },
+    "description": {
+      "translate": "advancement.orespawn_dangerzone.task37.desc"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "orespawn:instant_garden"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "done"
+    ]
+  ],
+  "parent": "orespawn_dangerzone:things_to_do/makers/task36",
+  "rewards": {
+    "experience": 111
+  }
+}

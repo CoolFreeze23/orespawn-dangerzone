@@ -1,0 +1,38 @@
+{
+  "display": {
+    "icon": {
+      "id": "orespawn:queen_helmet"
+    },
+    "title": {
+      "translate": "advancement.orespawn_dangerzone.task215"
+    },
+    "description": {
+      "translate": "advancement.orespawn_dangerzone.task215.desc"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "orespawn:queen_helmet"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "done"
+    ]
+  ],
+  "parent": "orespawn_dangerzone:things_to_do/finders/task214",
+  "rewards": {
+    "experience": 111
+  }
+}
