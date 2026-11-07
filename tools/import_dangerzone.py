@@ -41,14 +41,37 @@ TEXTURES = {
     "orespawnres/items/eggneedlenose.png": "item/needlenose_spawn_egg.png",
     "orespawnres/items/eggantqueen.png": "item/ant_queen_spawn_egg.png",
     "orespawnres/items/eggbloodlustant.png": "item/bloodlust_ant_spawn_egg.png",
+    "orespawnres/skins/Nopetexture.png": "entity/nope.png",
+    "orespawnres/skins/BabyNopetexture.png": "entity/baby_nope.png",
+    "orespawnres/skins/ThePrincessTeentexture.png": "entity/princess_teen.png",
+    "orespawnres/skins/ThePrincessTeentexture2.png": "entity/princess_teen_angry.png",
+    "orespawnres/skins/ThePrincessAdulttexture.png": "entity/princess_young_adult.png",
+    "orespawnres/skins/ThePrincessAdulttexture2.png": "entity/princess_young_adult_angry.png",
+    "orespawnres/skins/UFOtexture.png": "entity/ufo.png",
+    "orespawnres/skins/UFO_Carriertexture.png": "entity/ufo_carrier.png",
+    "orespawnres/skins/UFO_Fightertexture.png": "entity/ufo_fighter.png",
+    "orespawnres/items/eggnope.png": "item/nope_spawn_egg.png",
+    "orespawnres/items/eggbabynope.png": "item/baby_nope_spawn_egg.png",
+    "orespawnres/items/eggufo.png": "item/ufo_spawn_egg.png",
+    "orespawnres/items/eggufocarrier.png": "item/ufo_carrier_spawn_egg.png",
+    "orespawnres/items/eggufofighter.png": "item/ufo_fighter_spawn_egg.png",
+}
+# from the game itself rather than its OreSpawn mod
+ENGINE_TEXTURES = {
+    "res/skins/Flagtexture.png": "entity/tower_flag.png",
+    "res/skins/Martiantexture.png": "entity/martian.png",
+    "res/items/flag.png": "item/tower_flag.png",
+    "res/items/trophy.png": "item/trophy.png",
+    "res/items/eggmartian.png": "item/martian_spawn_egg.png",
 }
 MOD_SOUNDS = [
     "warthog_living1", "warthog_living2", "warthog_living3", "warthog_hit1", "warthog_hit2", "warthog_hit3",
     "lurkingterror_dead", "dragonfly_hurt", "beebuzz", "nope_death", "nope_hit", "scorpion_attack",
     "clatter1", "clatter2", "crunch", "emperorscorpion_death",
-    "laser1", "laser2", "laser3", "laser4", "laser5", "laser6",
+    "laser1", "laser2", "laser3", "laser4", "laser5", "laser6", "nope_living",
+    "roar1", "roar2", "roar3", "roar4", "roar5", "roar6", "mothrawings1", "mothrawings2", "mothrawings3",
 ]
-GAME_SOUNDS = ["teleport1", "teleport2", "teleport3", "goose_living"]
+GAME_SOUNDS = ["teleport1", "teleport2", "teleport3", "goose_living", "martian_hit", "martian_death"]
 # sound event -> its variants
 SOUND_EVENTS = {
     "needlenose.ambient": ["warthog_living1", "warthog_living2", "warthog_living3"],
@@ -65,6 +88,11 @@ SOUND_EVENTS = {
     "shrink_ray.shoot": ["laser1", "laser2", "laser3", "laser4", "laser5", "laser6"],
     "item.teleport": ["teleport1", "teleport2", "teleport3"],
     "duct_tape.use": ["goose_living"],
+    "nope.ambient": ["nope_living"],
+    "martian.hurt": ["martian_hit"],
+    "martian.death": ["martian_death"],
+    "princess.roar": ["roar1", "roar2", "roar3", "roar4", "roar5", "roar6"],
+    "princess.wings": ["mothrawings1", "mothrawings2", "mothrawings3"],
 }
 MODEL_CLASSES = {
     "ModelNastysaurusPrime": "DzNastysaurusPrimeModel",
@@ -72,7 +100,48 @@ MODEL_CLASSES = {
     "ModelMantis": "DzNurseBugModel",
     "ModelAntQueen": "DzAntQueenModel",
     "ModelBloodlustAnt": "DzBloodlustAntModel",
+    "ModelNope": "DzNopeModel",
+    "ModelBabyNope": "DzBabyNopeModel",
+    "ModelUFO": "DzUfoModel",
+    "ModelUFOCarrier": "DzUfoCarrierModel",
+    "ModelUFOFighter": "DzUfoFighterModel",
+    "ModelThePrincessTeen": "DzPrincessTeenModel",
+    "ModelThePrincessAdult": "DzPrincessYoungAdultModel",
 }
+ENGINE_MODEL_CLASSES = {
+    "ModelFlag": "DzTowerFlagModel",
+    "ModelMartian": "DzMartianModel",
+}
+# Models whose render method calls helper methods of their own, which come along.
+KEEP_HELPERS = {"ModelThePrincessAdult"}
+# DangerZone applies this model's extra scale only to other creatures that borrow it.
+SCALE_OVERRIDE = {"ModelThePrincessAdult": 1.0}
+
+
+def strip_method(text, start):
+    at = text.find(start)
+    if at < 0:
+        return text
+    depth, i = 0, text.index("{", at)
+    for j in range(i, len(text)):
+        depth += (text[j] == "{") - (text[j] == "}")
+        if depth == 0:
+            return text[:at] + text[j + 1 :]
+    return text
+
+
+def strip_block(text, start):
+    """Removes a whole `if (...) { ... }` block whose opening starts with the given text."""
+    while True:
+        at = text.find(start)
+        if at < 0:
+            return text
+        depth, i = 0, text.index("{", at)
+        for j in range(i, len(text)):
+            depth += (text[j] == "{") - (text[j] == "}")
+            if depth == 0:
+                text = text[:at] + text[j + 1:]
+                break
 
 
 def number(text):
@@ -107,17 +176,23 @@ def to_zyx(m):
     return x, y, z
 
 
-def convert_model(source_name, class_name):
-    src = open(os.path.join(ENTITIES, source_name + ".java"), encoding="utf8", errors="ignore").read()
-    ctor = src[src.index("public " + source_name + "()") :]
+def convert_model(source_name, class_name, folder=ENTITIES):
+    src = open(os.path.join(folder, source_name + ".java"), encoding="utf8", errors="ignore").read()
+    ctor = re.search(r"public " + source_name + r"\(\s*\)", src)
+    ctor = src[ctor.start() :]
     ctor = ctor[: ctor.index("public void render(")]
+    # the game's own models leave off "this." and write the angles in their own helper
+    ctor = re.sub(r"(?m)^(\s*)(\w+)(\s*=\s*new ModelRenderer|\.addBox|\.setRotationPoint|\.setTextureSize|\.mirror|\.connectPart|\.finishConnect)", r"\1this.\2\3", ctor)
+    ctor = re.sub(r"setRotation\((\w+),", r"setRotation(this.\1,", ctor).replace("this.this.", "this.")
+    ctor = re.sub(r"(?<![\w.])this\.setRotation\(", "setRotation(", ctor).replace("setRotation(", "this.setRotation(")
+    ctor = re.sub(r"connectPart\((\w+)\)", r"connectPart(this.\1)", ctor).replace("this.this.", "this.")
     parts = {}
 
     def part(name):
         return parts.setdefault(name, {"name": name, "children": []})
 
     fields = re.findall(r"ModelRenderer (\w+) = new ModelRenderer\(this, (-?\d+), (-?\d+)\)", src)
-    fields += re.findall(r"this\.(\w+) = new ModelRenderer\(this, (-?\d+), (-?\d+)\)", ctor)
+    fields += re.findall(r"this\.(\w+)\s*=\s*new ModelRenderer\(this, (-?\d+), (-?\d+)\)", ctor)
     for name, u, v in fields:
         part(name).update(u=int(u), v=int(v), pos=(0.0, 0.0, 0.0), rot=(0.0, 0.0, 0.0))
     for name, args in re.findall(r"this\.(\w+)\.addBox\(([^;]+)\);", ctor):
@@ -136,7 +211,7 @@ def convert_model(source_name, class_name):
         connected[child] = parent
 
     scale_m = re.search(r"MatrixStack\.scale\(([\d.]+)F", src)
-    scale = float(scale_m.group(1)) if scale_m else 1.0
+    scale = SCALE_OVERRIDE.get(source_name, float(scale_m.group(1)) if scale_m else 1.0)
 
     def box_code(p):
         b = p["box"]
@@ -169,7 +244,11 @@ def convert_model(source_name, class_name):
                 % (name, child, box_code(c), *[repr(round(x, 5)) for x in off], *[repr(round(x, 5)) for x in (ex, ey, ez)])
             )
 
-    body = src[src.index("public void render(Entity entity") :]
+    body = re.search(r"public void render\(\s*Entity entity", src)
+    body = src[body.start() :]
+    signature = body[: body.index("{")]
+    last_arg = re.findall(r"float (\w+)\s*\)", signature)[0]
+    args = re.findall(r"float (\w+)", signature)
     body = body[body.index("{") + 1 :]
     depth, end = 1, 0
     for i, ch in enumerate(body):
@@ -177,17 +256,51 @@ def convert_model(source_name, class_name):
         if depth == 0:
             end = i
             break
-    body = body[:end]
+    helpers = body[end + 1 :]
+    helpers = helpers[: helpers.rindex("}")]
+    helpers = strip_method(helpers, "public void doScale(")
+    body = body[:end] + ("\n//@@HELPERS\n" + helpers if source_name in KEEP_HELPERS else "")
     for old, new in (("rotateAngleX", "xRot"), ("rotateAngleY", "yRot"), ("rotateAngleZ", "zRot"),
                      ("rotationPointX", "x"), ("rotationPointY", "y"), ("rotationPointZ", "z")):
         body = body.replace("." + old, "." + new)
-    body = re.sub(r"this\.(\w+)\.render\(deathfactor\);",
+    # the game's own models leave off "this." too
+    for name in sorted(parts, key=len, reverse=True):
+        body = re.sub(r"(?<![\w.])" + name + r"\.", "this." + name + ".", body)
+    body = re.sub(r"this\.(\w+)\.render\(\w+\);",
                   lambda m: "" if m.group(1) in connected else "draw(this.%s);" % m.group(1), body)
+    # a box's y offset can't change once baked: move the part by the same amount instead, as these parts have no rotation
+    for name, value in re.findall(r"this\.(\w+)\.offsetY = (\w+);", body):
+        rest = parts[name]["pos"][1] - parts[name]["box"][1]
+        body = body.replace(f"this.{name}.offsetY = {value};", f"this.{name}.y = {rest}F + {value};")
+    # held items are drawn by the engine's player code; there's no such thing to call here
+    body = strip_block(body, "if(entity != null && (entity != DangerZone.player")
+    body = strip_block(body, "if (entity != null && (entity != DangerZone.player")
+    blended = "GL_BLEND" in body
+    body = re.sub(r"GL11\.gl\w+\([^;]*\);", "", body)
+    # the model's own state calls go through the interface its creature implements
+    body = re.sub(r"\b(c|k|ro)\.getAttacking\(\)", r"\1.dzAttacking()", body)
+    body = re.sub(r"\b(c|k|ro)\.isFlying\(\)", r"\1.dzFlying()", body)
+    body = re.sub(r"\b(c|k|ro)\.getStaying\(\)", r"\1.dzStaying()", body)
+    body = re.sub(r'GL20\.glUniform1f\(GL20\.glGetUniformLocation\(DangerZone\.model_shader, "alpha_adjust"\), ([\d.]+)F\);', r"alpha(\1F);", body)
+    body = re.sub(r"DangerZone\.wr\.setBrightness\([\d.]+F\);", "fullBright(true);", body)
+    body = body.replace("DangerZone.wr.setBrightness();", "fullBright(false);")
+    body = body.replace("entity.isBaby()", "((net.minecraft.world.entity.LivingEntity) entity).isBaby()")
+    body = body.replace("entity.getHealth()", "((net.minecraft.world.entity.LivingEntity) entity).getHealth()")
+    body = body.replace("entity.getMaxHealth()", "((net.minecraft.world.entity.LivingEntity) entity).getMaxHealth()")
+    body = body.replace(".scaleX", ".xScale").replace(".scaleY", ".yScale").replace(".scaleZ", ".zScale")
+    entity_pkg = "danger.orespawn.dangerzone.entity."
+    body = re.sub(r"(\w+) (\w+) = \((UFO|UFOFighter|ThePrincessTeen|ThePrincessYoungAdult)\)entity;",
+                  lambda m: f"{entity_pkg}DzAnimated {m.group(2)} = ({entity_pkg}DzAnimated) entity;", body)
     body = body.replace("entity.getAttacking()", "attacking()")
     body = body.replace("entity.world.rand.", "entity.level().random.")
     body = re.sub(r"NastysaurusPrime o = \(NastysaurusPrime\)entity;\s*RenderInfo r = o\.renderdata;",
                   "danger.orespawn.entity.client.RenderInfo r = ((danger.orespawn.entity.Nastysaurus) entity).getRenderInfo();", body)
 
+    translucent = "alpha(" in body or blended
+    extra = ""
+    if "//@@HELPERS" in body:
+        body, extra = body.split("//@@HELPERS")
+    ctor_super = "        super(net.minecraft.client.renderer.RenderType::entityTranslucent);\n" if translucent else ""
     out = f"""package danger.orespawn.dangerzone.client.model;
 
 import net.minecraft.client.model.geom.ModelPart;
@@ -207,7 +320,7 @@ public class {class_name}<T extends Entity> extends DzModel<T> {{
 {os.linesep.join(fields_decl)}
 
     public {class_name}(ModelPart root) {{
-{os.linesep.join(ctor_code)}
+{ctor_super}{os.linesep.join(ctor_code)}
     }}
 
     public static LayerDefinition createBodyLayer() {{
@@ -218,10 +331,11 @@ public class {class_name}<T extends Entity> extends DzModel<T> {{
     }}
 
     @Override
-    protected void animateAndDraw(T entity, float f, float f1, float f2, float f3, float f4) {{
-        float deathfactor = 1.0F;
+    protected void animateAndDraw(T entity, {", ".join("float " + a for a in args[:5])}) {{
+        float {last_arg} = 1.0F;
 {body}
     }}
+{extra}
 }}
 """
     os.makedirs(MODELS, exist_ok=True)
@@ -240,9 +354,15 @@ def main():
     game = zipfile.ZipFile(os.path.join(DZ, "dl/dzvr-2.8/DZVR2.8.zip"))
     mod = zipfile.ZipFile(io.BytesIO(game.read("mods/OreSpawn_for_dzvr2.8.jar")))
     engine = zipfile.ZipFile(io.BytesIO(game.read("DangerZone.jar")))
+    names = set(mod.namelist())
     for source, target in TEXTURES.items():
-        write_file(os.path.join(ASSETS, "textures", target), mod.read(source))
-    print("textures", len(TEXTURES))
+        if source in names:
+            write_file(os.path.join(ASSETS, "textures", target), mod.read(source))
+        else:
+            print("no texture", source)
+    for source, target in ENGINE_TEXTURES.items():
+        write_file(os.path.join(ASSETS, "textures", target), engine.read(source))
+    print("textures", len(TEXTURES) + len(ENGINE_TEXTURES))
 
     ffmpeg = shutil.which("ffmpeg")
     if ffmpeg is None:
@@ -252,7 +372,9 @@ def main():
         for zf, prefix, names in ((mod, "orespawnres/sounds/", MOD_SOUNDS), (engine, "res/sounds/", GAME_SOUNDS)):
             for name in names:
                 wav = os.path.join(tmp, name + ".wav")
-                write_file(wav, zf.read(prefix + name + ".wav"))
+                # the archive's own capitalisation varies from the names the code uses
+                entry = next(n for n in zf.namelist() if n.lower() == (prefix + name + ".wav").lower())
+                write_file(wav, zf.read(entry))
                 ogg = os.path.join(ASSETS, "sounds", name + ".ogg")
                 subprocess.run([ffmpeg, "-y", "-loglevel", "error", "-i", wav, "-ac", "1", "-c:a", "libvorbis", "-q:a", "5", ogg], check=True)
     print("sounds", len(MOD_SOUNDS) + len(GAME_SOUNDS))
@@ -261,6 +383,8 @@ def main():
 
     for source, target in MODEL_CLASSES.items():
         convert_model(source, target)
+    for source, target in ENGINE_MODEL_CLASSES.items():
+        convert_model(source, target, os.path.join(DZ, "x/dz21-buildkit/src/dangerzone/entities"))
 
 
 main()

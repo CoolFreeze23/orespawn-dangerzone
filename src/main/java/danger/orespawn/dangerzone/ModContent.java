@@ -2,6 +2,19 @@ package danger.orespawn.dangerzone;
 
 import danger.orespawn.dangerzone.effect.ShrunkEffect;
 import danger.orespawn.dangerzone.entity.AntQueen;
+import danger.orespawn.dangerzone.entity.BabyNope;
+import danger.orespawn.dangerzone.entity.Martian;
+import danger.orespawn.dangerzone.entity.Nope;
+import danger.orespawn.dangerzone.entity.PrincessTeen;
+import danger.orespawn.dangerzone.entity.PrincessYoungAdult;
+import danger.orespawn.dangerzone.entity.TowerFlag;
+import danger.orespawn.dangerzone.entity.Trophy;
+import danger.orespawn.dangerzone.entity.Ufo;
+import danger.orespawn.dangerzone.entity.UfoCarrier;
+import danger.orespawn.dangerzone.entity.UfoFighter;
+import danger.orespawn.dangerzone.entity.Volcano;
+import danger.orespawn.dangerzone.item.TowerFlagItem;
+import danger.orespawn.dangerzone.item.TrophyItem;
 import danger.orespawn.dangerzone.entity.BloodlustAnt;
 import danger.orespawn.dangerzone.entity.NastysaurusPrime;
 import danger.orespawn.dangerzone.entity.Needlenose;
@@ -67,6 +80,29 @@ public final class ModContent {
     public static final DeferredHolder<EntityType<?>, EntityType<ShrinkBolt>> SHRINK_BOLT = ENTITIES.register("shrink_bolt",
             () -> EntityType.Builder.<ShrinkBolt>of(ShrinkBolt::new, MobCategory.MISC).sized(0.25f, 0.25f).clientTrackingRange(8).updateInterval(4).build("shrink_bolt"));
 
+    public static final DeferredHolder<EntityType<?>, EntityType<TowerFlag>> TOWER_FLAG = ENTITIES.register("tower_flag",
+            () -> EntityType.Builder.of(TowerFlag::new, MobCategory.MISC).sized(1.0f, 10.0f).clientTrackingRange(16).build("tower_flag"));
+    public static final DeferredHolder<EntityType<?>, EntityType<Trophy>> TROPHY_ENTITY = ENTITIES.register("trophy",
+            () -> EntityType.Builder.<Trophy>of(Trophy::new, MobCategory.MISC).sized(0.8f, 0.8f).clientTrackingRange(8).build("trophy"));
+    public static final DeferredHolder<EntityType<?>, EntityType<Nope>> NOPE = ENTITIES.register("nope",
+            () -> EntityType.Builder.of(Nope::new, MobCategory.MONSTER).sized(8.75f, 7.0f).clientTrackingRange(16).build("nope"));
+    public static final DeferredHolder<EntityType<?>, EntityType<BabyNope>> BABY_NOPE = ENTITIES.register("baby_nope",
+            () -> EntityType.Builder.of(BabyNope::new, MobCategory.MONSTER).sized(1.25f, 0.95f).clientTrackingRange(8).build("baby_nope"));
+    public static final DeferredHolder<EntityType<?>, EntityType<PrincessTeen>> PRINCESS_TEEN = ENTITIES.register("princess_teen",
+            () -> EntityType.Builder.of(PrincessTeen::new, MobCategory.CREATURE).sized(3.25f, 3.75f).clientTrackingRange(12).build("princess_teen"));
+    public static final DeferredHolder<EntityType<?>, EntityType<PrincessYoungAdult>> PRINCESS_YOUNG_ADULT = ENTITIES.register("princess_young_adult",
+            () -> EntityType.Builder.of(PrincessYoungAdult::new, MobCategory.CREATURE).sized(10.75f, 11.75f).clientTrackingRange(16).build("princess_young_adult"));
+    public static final DeferredHolder<EntityType<?>, EntityType<Volcano>> VOLCANO = ENTITIES.register("volcano",
+            () -> EntityType.Builder.of(Volcano::new, MobCategory.MONSTER).sized(1.0f, 1.0f).clientTrackingRange(8).build("volcano"));
+    public static final DeferredHolder<EntityType<?>, EntityType<Ufo>> UFO = ENTITIES.register("ufo",
+            () -> EntityType.Builder.of(Ufo::new, MobCategory.MONSTER).sized(16.0f, 4.0f).clientTrackingRange(32).build("ufo"));
+    public static final DeferredHolder<EntityType<?>, EntityType<UfoCarrier>> UFO_CARRIER = ENTITIES.register("ufo_carrier",
+            () -> EntityType.Builder.of(UfoCarrier::new, MobCategory.MONSTER).sized(6.0f, 2.5f).clientTrackingRange(24).build("ufo_carrier"));
+    public static final DeferredHolder<EntityType<?>, EntityType<UfoFighter>> UFO_FIGHTER = ENTITIES.register("ufo_fighter",
+            () -> EntityType.Builder.of(UfoFighter::new, MobCategory.MONSTER).sized(2.5f, 2.1f).clientTrackingRange(24).build("ufo_fighter"));
+    public static final DeferredHolder<EntityType<?>, EntityType<Martian>> MARTIAN = ENTITIES.register("martian",
+            () -> EntityType.Builder.of(Martian::new, MobCategory.MONSTER).sized(0.65f, 1.55f).clientTrackingRange(10).build("martian"));
+
     public static final DeferredHolder<MobEffect, ShrunkEffect> SHRUNK = EFFECTS.register("shrunk", ShrunkEffect::new);
 
     public static final DeferredHolder<SoundEvent, SoundEvent> SND_NEEDLENOSE_AMBIENT = sound("needlenose.ambient");
@@ -83,6 +119,9 @@ public final class ModContent {
     public static final DeferredHolder<SoundEvent, SoundEvent> SND_RAY = sound("shrink_ray.shoot");
     public static final DeferredHolder<SoundEvent, SoundEvent> SND_TELEPORT = sound("item.teleport");
     public static final DeferredHolder<SoundEvent, SoundEvent> SND_TAPE = sound("duct_tape.use");
+    public static final DeferredHolder<SoundEvent, SoundEvent> SND_NOPE_AMBIENT = sound("nope.ambient");
+    public static final DeferredHolder<SoundEvent, SoundEvent> SND_MARTIAN_HURT = sound("martian.hurt");
+    public static final DeferredHolder<SoundEvent, SoundEvent> SND_MARTIAN_DEATH = sound("martian.death");
 
     /** DangerZone's 6000 uses and 85 damage, with damage on the port's scale: its Ultimate Sword is 100 there, 36 here. */
     public static final Tier DRAGONS_EYE_TIER = new SimpleTier(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 6000, 15.0f, 26.0f, 50,
@@ -97,6 +136,21 @@ public final class ModContent {
     public static final DeferredItem<ShrinkRayItem> SHRINK_RAY = ITEMS.register("shrink_ray",
             () -> new ShrinkRayItem(new Item.Properties().durability(500).rarity(Rarity.RARE)));
 
+    public static final DeferredItem<TowerFlagItem> TOWER_FLAG_ITEM = ITEMS.register("tower_flag",
+            () -> new TowerFlagItem(new Item.Properties().stacksTo(1).rarity(Rarity.RARE)));
+    public static final DeferredItem<TrophyItem> TROPHY = ITEMS.register("trophy",
+            () -> new TrophyItem(new Item.Properties().stacksTo(16)));
+
+    public static final DeferredItem<DeferredSpawnEggItem> NOPE_EGG = egg("nope", NOPE);
+    public static final DeferredItem<DeferredSpawnEggItem> BABY_NOPE_EGG = egg("baby_nope", BABY_NOPE);
+    public static final DeferredItem<DeferredSpawnEggItem> PRINCESS_TEEN_EGG = egg("princess_teen", PRINCESS_TEEN);
+    public static final DeferredItem<DeferredSpawnEggItem> PRINCESS_YOUNG_ADULT_EGG = egg("princess_young_adult", PRINCESS_YOUNG_ADULT);
+    public static final DeferredItem<DeferredSpawnEggItem> VOLCANO_EGG = egg("volcano", VOLCANO);
+    public static final DeferredItem<DeferredSpawnEggItem> UFO_EGG = egg("ufo", UFO);
+    public static final DeferredItem<DeferredSpawnEggItem> UFO_CARRIER_EGG = egg("ufo_carrier", UFO_CARRIER);
+    public static final DeferredItem<DeferredSpawnEggItem> UFO_FIGHTER_EGG = egg("ufo_fighter", UFO_FIGHTER);
+    public static final DeferredItem<DeferredSpawnEggItem> MARTIAN_EGG = egg("martian", MARTIAN);
+
     public static final DeferredItem<DeferredSpawnEggItem> NASTYSAURUS_PRIME_EGG = egg("nastysaurus_prime", NASTYSAURUS_PRIME);
     public static final DeferredItem<DeferredSpawnEggItem> NEEDLENOSE_EGG = egg("needlenose", NEEDLENOSE);
     public static final DeferredItem<DeferredSpawnEggItem> NURSE_BUG_EGG = egg("nurse_bug", NURSE_BUG);
@@ -109,11 +163,18 @@ public final class ModContent {
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> TAB = TABS.register("main", () -> CreativeModeTab.builder()
             .title(Component.translatable("itemGroup.orespawn_dangerzone"))
             .icon(() -> DIMENSION_STAFF.get().getDefaultInstance())
-            .displayItems((params, out) -> ITEMS.getEntries().forEach(item -> out.accept(item.get())))
+            .displayItems((params, out) -> ITEMS.getEntries().forEach(item -> {
+                // a blank trophy has no creature to be: they only come as drops
+                if (item.get() != TROPHY.get()) {
+                    out.accept(item.get());
+                }
+            }))
             .build());
 
     public static final TagKey<EntityType<?>> SHRINK_IMMUNE = TagKey.create(Registries.ENTITY_TYPE, OreSpawnDangerZone.id("shrink_immune"));
     public static final TagKey<EntityType<?>> DROPS_DRAGONS_EYE = TagKey.create(Registries.ENTITY_TYPE, OreSpawnDangerZone.id("drops_dragons_eye"));
+    public static final TagKey<EntityType<?>> TOWER_DEFENSE = TagKey.create(Registries.ENTITY_TYPE, OreSpawnDangerZone.id("tower_defense"));
+    public static final TagKey<EntityType<?>> NO_TROPHY = TagKey.create(Registries.ENTITY_TYPE, OreSpawnDangerZone.id("no_trophy"));
     public static final TagKey<Item> NOT_TAPEABLE = TagKey.create(Registries.ITEM, OreSpawnDangerZone.id("not_tapeable"));
 
     private ModContent() {
@@ -144,6 +205,16 @@ public final class ModContent {
         event.put(NURSE_BUG.get(), NurseBug.createAttributes().build());
         event.put(ANT_QUEEN.get(), AntQueen.createAttributes().build());
         event.put(BLOODLUST_ANT.get(), BloodlustAnt.createAttributes().build());
+        event.put(TOWER_FLAG.get(), TowerFlag.createAttributes().build());
+        event.put(NOPE.get(), Nope.createAttributes().build());
+        event.put(BABY_NOPE.get(), BabyNope.createAttributes().build());
+        event.put(PRINCESS_TEEN.get(), PrincessTeen.createPrincessAttributes().build());
+        event.put(PRINCESS_YOUNG_ADULT.get(), PrincessYoungAdult.createPrincessAttributes().build());
+        event.put(VOLCANO.get(), Volcano.createAttributes().build());
+        event.put(UFO.get(), Ufo.createAttributes().build());
+        event.put(UFO_CARRIER.get(), UfoCarrier.createAttributes().build());
+        event.put(UFO_FIGHTER.get(), UfoFighter.createAttributes().build());
+        event.put(MARTIAN.get(), Martian.createAttributes().build());
     }
 
     private static void placements(RegisterSpawnPlacementsEvent event) {
@@ -156,6 +227,16 @@ public final class ModContent {
         // The Queen stands in the open by day or night in DangerZone: PERMANENT and not tied to the dark.
         event.register(ANT_QUEEN.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
                 Mob::checkMobSpawnRules, RegisterSpawnPlacementsEvent.Operation.REPLACE);
+        event.register(NOPE.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
+                Mob::checkMobSpawnRules, RegisterSpawnPlacementsEvent.Operation.REPLACE);
+        event.register(BABY_NOPE.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
+                Monster::checkMonsterSpawnRules, RegisterSpawnPlacementsEvent.Operation.REPLACE);
+        event.register(MARTIAN.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
+                Monster::checkMonsterSpawnRules, RegisterSpawnPlacementsEvent.Operation.REPLACE);
+        event.register(UFO.get(), SpawnPlacementTypes.NO_RESTRICTIONS, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
+                Mob::checkMobSpawnRules, RegisterSpawnPlacementsEvent.Operation.REPLACE);
+        event.register(VOLCANO.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
+                Volcano::checkVolcanoSpawnRules, RegisterSpawnPlacementsEvent.Operation.REPLACE);
         event.register(NURSE_BUG.get(), SpawnPlacementTypes.NO_RESTRICTIONS, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
                 NurseBug::checkNurseSpawnRules, RegisterSpawnPlacementsEvent.Operation.REPLACE);
     }

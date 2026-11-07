@@ -27,7 +27,7 @@
       "done"
     ]
   ],
-  "parent": "orespawn_dangerzone:things_to_do/makers/task211",
+  "parent": "orespawn_dangerzone:things_to_do/makers/flag",
   "rewards": {
     "experience": 111
   }

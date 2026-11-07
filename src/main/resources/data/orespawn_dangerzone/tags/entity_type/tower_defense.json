@@ -1,0 +1,220 @@
+{
+  "values": [
+    {
+      "id": "orespawn:alien",
+      "required": false
+    },
+    {
+      "id": "orespawn:alosaurus",
+      "required": false
+    },
+    {
+      "id": "orespawn:band_p",
+      "required": false
+    },
+    {
+      "id": "orespawn:basilisk",
+      "required": false
+    },
+    {
+      "id": "orespawn:bee",
+      "required": false
+    },
+    {
+      "id": "orespawn:brutalfly",
+      "required": false
+    },
+    {
+      "id": "orespawn:cater_killer",
+      "required": false
+    },
+    {
+      "id": "orespawn:cave_fisher",
+      "required": false
+    },
+    {
+      "id": "orespawn:cloud_shark",
+      "required": false
+    },
+    {
+      "id": "orespawn:crab",
+      "required": false
+    },
+    {
+      "id": "orespawn:creeping_horror",
+      "required": false
+    },
+    {
+      "id": "orespawn:cryolophosaurus",
+      "required": false
+    },
+    {
+      "id": "orespawn:dungeon_beast",
+      "required": false
+    },
+    {
+      "id": "orespawn:emperor_scorpion",
+      "required": false
+    },
+    {
+      "id": "orespawn:ender_knight",
+      "required": false
+    },
+    {
+      "id": "orespawn:ender_reaper",
+      "required": false
+    },
+    {
+      "id": "orespawn:gamma_metroid",
+      "required": false
+    },
+    {
+      "id": "orespawn:godzilla",
+      "required": false
+    },
+    {
+      "id": "orespawn:hammerhead",
+      "required": false
+    },
+    {
+      "id": "orespawn:hercules_beetle",
+      "required": false
+    },
+    {
+      "id": "orespawn:jeffery",
+      "required": false
+    },
+    {
+      "id": "orespawn:kyuubi",
+      "required": false
+    },
+    {
+      "id": "orespawn:leaf_monster",
+      "required": false
+    },
+    {
+      "id": "orespawn:leonopteryx",
+      "required": false
+    },
+    {
+      "id": "orespawn:lurking_terror",
+      "required": false
+    },
+    {
+      "id": "orespawn:mantis",
+      "required": false
+    },
+    {
+      "id": "orespawn:molenoid",
+      "required": false
+    },
+    {
+      "id": "orespawn:mothra",
+      "required": false
+    },
+    {
+      "id": "orespawn:nastysaurus",
+      "required": false
+    },
+    {
+      "id": "orespawn:pitch_black",
+      "required": false
+    },
+    {
+      "id": "orespawn:pointysaurus",
+      "required": false
+    },
+    {
+      "id": "orespawn:red_ant",
+      "required": false
+    },
+    {
+      "id": "orespawn:robot_1",
+      "required": false
+    },
+    {
+      "id": "orespawn:robot_2",
+      "required": false
+    },
+    {
+      "id": "orespawn:robot_3",
+      "required": false
+    },
+    {
+      "id": "orespawn:robot_4",
+      "required": false
+    },
+    {
+      "id": "orespawn:robot_5",
+      "required": false
+    },
+    {
+      "id": "orespawn:rotator",
+      "required": false
+    },
+    {
+      "id": "orespawn:scorpion",
+      "required": false
+    },
+    {
+      "id": "orespawn:sea_monster",
+      "required": false
+    },
+    {
+      "id": "orespawn:sea_viper",
+      "required": false
+    },
+    {
+      "id": "orespawn:spit_bug",
+      "required": false
+    },
+    {
+      "id": "orespawn:terrible_terror",
+      "required": false
+    },
+    {
+      "id": "orespawn:trex",
+      "required": false
+    },
+    {
+      "id": "orespawn:trooper_bug",
+      "required": false
+    },
+    {
+      "id": "orespawn:urchin",
+      "required": false
+    },
+    {
+      "id": "orespawn:vortex",
+      "required": false
+    },
+    {
+      "id": "orespawn:water_dragon",
+      "required": false
+    },
+    {
+      "id": "orespawn_dangerzone:ant_queen",
+      "required": false
+    },
+    {
+      "id": "orespawn_dangerzone:baby_nope",
+      "required": false
+    },
+    {
+      "id": "orespawn_dangerzone:bloodlust_ant",
+      "required": false
+    },
+    {
+      "id": "orespawn_dangerzone:nastysaurus_prime",
+      "required": false
+    },
+    {
+      "id": "orespawn_dangerzone:needlenose",
+      "required": false
+    },
+    {
+      "id": "orespawn_dangerzone:nope",
+      "required": false
+    }
+  ]
+}

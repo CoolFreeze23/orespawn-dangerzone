@@ -1,0 +1,12 @@
+{
+  "type": "neoforge:add_spawns",
+  "biomes": "orespawn:mining_biome",
+  "spawners": [
+    {
+      "type": "orespawn_dangerzone:volcano",
+      "weight": 1,
+      "minCount": 1,
+      "maxCount": 1
+    }
+  ]
+}

@@ -80,5 +80,37 @@
     "sounds": [
       "orespawn_dangerzone:goose_living"
     ]
+  },
+  "nope.ambient": {
+    "sounds": [
+      "orespawn_dangerzone:nope_living"
+    ]
+  },
+  "martian.hurt": {
+    "sounds": [
+      "orespawn_dangerzone:martian_hit"
+    ]
+  },
+  "martian.death": {
+    "sounds": [
+      "orespawn_dangerzone:martian_death"
+    ]
+  },
+  "princess.roar": {
+    "sounds": [
+      "orespawn_dangerzone:roar1",
+      "orespawn_dangerzone:roar2",
+      "orespawn_dangerzone:roar3",
+      "orespawn_dangerzone:roar4",
+      "orespawn_dangerzone:roar5",
+      "orespawn_dangerzone:roar6"
+    ]
+  },
+  "princess.wings": {
+    "sounds": [
+      "orespawn_dangerzone:mothrawings1",
+      "orespawn_dangerzone:mothrawings2",
+      "orespawn_dangerzone:mothrawings3"
+    ]
   }
 }

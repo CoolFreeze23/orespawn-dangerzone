@@ -1,0 +1,58 @@
+{
+  "values": [
+    {
+      "id": "orespawn:island",
+      "required": false
+    },
+    {
+      "id": "orespawn:island_too",
+      "required": false
+    },
+    {
+      "id": "orespawn:elevator",
+      "required": false
+    },
+    {
+      "id": "orespawn:skate",
+      "required": false
+    },
+    {
+      "id": "orespawn:coin",
+      "required": false
+    },
+    {
+      "id": "orespawn:tshirt",
+      "required": false
+    },
+    {
+      "id": "orespawn:rock_base",
+      "required": false
+    },
+    {
+      "id": "orespawn:king_head",
+      "required": false
+    },
+    {
+      "id": "orespawn:queen_head",
+      "required": false
+    },
+    {
+      "id": "orespawn:godzilla_head",
+      "required": false
+    },
+    {
+      "id": "orespawn:butterfly",
+      "required": false
+    },
+    {
+      "id": "orespawn:cage",
+      "required": false
+    },
+    {
+      "id": "orespawn:shoes",
+      "required": false
+    },
+    "orespawn_dangerzone:tower_flag",
+    "orespawn_dangerzone:volcano"
+  ]
+}

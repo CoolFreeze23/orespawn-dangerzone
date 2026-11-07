@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "B",
+    "D",
+    "D"
+  ],
+  "key": {
+    "B": {
+      "tag": "minecraft:banners"
+    },
+    "D": {
+      "item": "minecraft:diamond_block"
+    }
+  },
+  "result": {
+    "id": "orespawn_dangerzone:tower_flag",
+    "count": 1
+  }
+}

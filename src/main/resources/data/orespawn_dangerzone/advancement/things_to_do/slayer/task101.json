@@ -35,7 +35,7 @@
       "done"
     ]
   ],
-  "parent": "orespawn_dangerzone:things_to_do/slayer",
+  "parent": "orespawn_dangerzone:things_to_do/slayer/task100",
   "rewards": {
     "experience": 111
   }

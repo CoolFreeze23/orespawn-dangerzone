@@ -22,7 +22,9 @@ ids = json.load(open(IDS, encoding="utf8"))
 PORT_ITEMS, PORT_BLOCKS, PORT_ENTITIES = set(ids["items"]), set(ids["blocks"]), set(ids["entities"])
 
 OWN_ENTITIES = {"NastysaurusPrime": "nastysaurus_prime", "Needlenose": "needlenose", "NurseBug": "nurse_bug",
-                "AntQueen": "ant_queen", "BloodlustAnt": "bloodlust_ant"}
+                "AntQueen": "ant_queen", "BloodlustAnt": "bloodlust_ant", "Nope": "nope", "BabyNope": "baby_nope",
+                "ThePrincessTeen": "princess_teen", "ThePrincessYoungAdult": "princess_young_adult", "UFO": "ufo",
+                "UFOCarrier": "ufo_carrier", "UFOFighter": "ufo_fighter", "Martian": "martian", "MyMartian": "martian"}
 OWN_ITEMS = {"dimensionstaff": "dimension_staff", "dragonseye": "dragons_eye", "dragonseyesword": "dragons_eye_sword",
              "shrinkray": "shrink_ray"}
 ENTITY_ALIAS = {
@@ -44,6 +46,14 @@ DIMENSIONS = {"utopiadimension": "utopia", "miningdimension": "mining", "chaosdi
 EXCLUDE = re.compile(r"Putin|Lavrov|Russian|Vaxx|Libtard|Pharma|Red-Pill|Whiner|Liberals|Deep State", re.I)
 # The original's text and its check disagree, so there's nothing faithful to carry over.
 BROKEN = {"task218"}
+
+
+def swarm_lines():
+    src = open(os.path.join(DZ, "src/orespawn-dzvr28/OreSpawn/OreSpawnServerHooks.java"), encoding="utf8", errors="ignore").read()
+    return re.findall(r'toprint = "([^"]+)"', src)
+
+
+SWARM_LINES = swarm_lines()
 
 
 def write_json(path, value):
@@ -80,6 +90,24 @@ def entity_id(cls):
     if name is None:
         name = re.sub(r"(?<!^)(?=[A-Z])", "_", cls).lower()
     return "orespawn:" + name if name in PORT_ENTITIES else None
+
+
+def tower_defense():
+    """DangerZone marks which creatures its flag may call; those that exist here are the ladder."""
+    import glob
+    found = set()
+    missing = []
+    for path in sorted(glob.glob(os.path.join(DZ, "src/orespawn-dzvr28/OreSpawn/entities/*.java"))):
+        text = open(path, encoding="utf8", errors="ignore").read()
+        if "tower_defense_enable = true" in text:
+            cls = os.path.basename(path)[:-5]
+            entity = entity_id(cls)
+            if entity:
+                found.add(entity)
+            else:
+                missing.append(cls)
+    print("tower defense", len(found), "not in this mod or the port:", missing)
+    return sorted(found)
 
 
 def egg_icon(entity):
@@ -153,6 +181,10 @@ def parse_tasks():
     kill = lambda entity: {"trigger": "minecraft:player_killed_entity", "conditions": {"entity": [
         {"condition": "minecraft:entity_properties", "entity": "this", "predicate": {"type": entity}}]}}
     tasks += [
+        dict(id="flag", kind="CompareCrafter", title="Bring It On", desc="Make a Tower Defense Flag.", level=4,
+             crit={"trigger": "minecraft:inventory_changed", "conditions": {"items": [{"items": f"{MOD}:tower_flag"}]}}, icon=f"{MOD}:tower_flag"),
+        dict(id="trophy", kind="FoundOnGround", title="Bragging Rights", desc="Find a Trophy.", level=2,
+             crit={"trigger": "minecraft:inventory_changed", "conditions": {"items": [{"items": f"{MOD}:trophy"}]}}, icon=f"{MOD}:trophy"),
         dict(id="prime", kind="MobKiller", title="Prime Time", desc="Kill a Nastysaurus Prime.", level=8,
              crit=kill(f"{MOD}:nastysaurus_prime"), icon=f"{MOD}:nastysaurus_prime_spawn_egg"),
         dict(id="queen", kind="MobKiller", title="Long Live the Queen", desc="Kill an Ant Queen.", level=8,
@@ -263,15 +295,47 @@ def main():
         "item.orespawn_dangerzone.ant_queen_spawn_egg": "Ant Queen Egg",
         "item.orespawn_dangerzone.bloodlust_ant_spawn_egg": "Bloodlust Ant Egg",
         "effect.orespawn_dangerzone.shrunk": "Shrunk",
+        "entity.orespawn_dangerzone.tower_flag": "Tower Defense Flag",
+        "entity.orespawn_dangerzone.tower_flag.wave": "Wave %s of %s: %s",
+        "entity.orespawn_dangerzone.trophy": "Trophy",
+        "entity.orespawn_dangerzone.nope": "NOPE!!!",
+        "entity.orespawn_dangerzone.baby_nope": "Baby Nope",
+        "entity.orespawn_dangerzone.princess_teen": "Teen Princess",
+        "entity.orespawn_dangerzone.princess_young_adult": "Young Adult Princess",
+        "entity.orespawn_dangerzone.volcano": "Volcano",
+        "entity.orespawn_dangerzone.ufo": "UFO",
+        "entity.orespawn_dangerzone.ufo_carrier": "UFO Carrier",
+        "entity.orespawn_dangerzone.ufo_fighter": "UFO Fighter",
+        "entity.orespawn_dangerzone.martian": "Martian",
+        "item.orespawn_dangerzone.tower_flag": "Tower Defense Flag",
+        "item.orespawn_dangerzone.trophy": "Trophy",
+        "item.orespawn_dangerzone.trophy.of": "%s Trophy",
+        "item.orespawn_dangerzone.nope_spawn_egg": "NOPE!!! Egg",
+        "item.orespawn_dangerzone.baby_nope_spawn_egg": "Baby Nope Egg",
+        "item.orespawn_dangerzone.princess_teen_spawn_egg": "Teen Princess Egg",
+        "item.orespawn_dangerzone.princess_young_adult_spawn_egg": "Young Adult Princess Egg",
+        "item.orespawn_dangerzone.volcano_spawn_egg": "Volcano Egg",
+        "item.orespawn_dangerzone.ufo_spawn_egg": "UFO Egg",
+        "item.orespawn_dangerzone.ufo_carrier_spawn_egg": "UFO Carrier Egg",
+        "item.orespawn_dangerzone.ufo_fighter_spawn_egg": "UFO Fighter Egg",
+        "item.orespawn_dangerzone.martian_spawn_egg": "Martian Egg",
+        "swarm.orespawn_dangerzone.0": "What is that sound.....?",
+        "swarm.orespawn_dangerzone.1": SWARM_LINES[1],
+        "swarm.orespawn_dangerzone.2": SWARM_LINES[2],
+        "swarm.orespawn_dangerzone.3": SWARM_LINES[3],
+        "swarm.orespawn_dangerzone.4": SWARM_LINES[4],
     }
     models = os.path.join(ASSETS, "models/item")
     write_json(os.path.join(models, "dragons_eye.json"), item_model("dragons_eye"))
     write_json(os.path.join(models, "shrink_ray.json"), item_model("shrink_ray", "minecraft:item/handheld"))
     write_json(os.path.join(models, "dimension_staff.json"), item_model("dimension_staff", "minecraft:item/handheld"))
     write_json(os.path.join(models, "dragons_eye_sword.json"), item_model("dragons_eye_sword", "minecraft:item/handheld"))
-    for egg in ("nastysaurus_prime", "needlenose", "ant_queen", "bloodlust_ant"):
+    for egg in ("nastysaurus_prime", "needlenose", "ant_queen", "bloodlust_ant", "nope", "baby_nope", "ufo", "ufo_carrier", "ufo_fighter", "martian"):
         write_json(os.path.join(models, f"{egg}_spawn_egg.json"), item_model(f"{egg}_spawn_egg"))
-    write_json(os.path.join(models, "nurse_bug_spawn_egg.json"), {"parent": "minecraft:item/template_spawn_egg"})
+    for egg in ("nurse_bug", "princess_teen", "princess_young_adult", "volcano"):
+        write_json(os.path.join(models, f"{egg}_spawn_egg.json"), {"parent": "minecraft:item/template_spawn_egg"})
+    write_json(os.path.join(models, "tower_flag.json"), item_model("tower_flag"))
+    write_json(os.path.join(models, "trophy.json"), item_model("trophy"))
 
     # DangerZone has no effect icons: the ray's own picture, doubled onto the 18x18 frame.
     ray = Image.open(os.path.join(ASSETS, "textures/item/shrink_ray.png")).convert("RGBA")
@@ -295,6 +359,15 @@ def main():
         "result": {"id": f"{MOD}:shrink_ray", "count": 1}})
     write_json(os.path.join(recipes, "duct_tape_repair.json"), {"type": f"{MOD}:duct_tape_repair", "category": "misc"})
 
+    write_json(os.path.join(recipes, "tower_flag.json"), {
+        "type": "minecraft:crafting_shaped", "category": "equipment", "pattern": ["B", "D", "D"],
+        "key": {"B": {"tag": "minecraft:banners"}, "D": {"item": "minecraft:diamond_block"}},
+        "result": {"id": f"{MOD}:tower_flag", "count": 1}})
+    # DangerZone pays out 80 to 110 of each of its three coins. There are no coins here, so the worth comes as gems and ingots.
+    write_json(os.path.join(DATA, "loot_table/gameplay/tower_flag_reward.json"), {"type": "minecraft:empty", "pools": [
+        pool("minecraft:emerald", 20, 32), pool("minecraft:diamond", 8, 16), pool("minecraft:gold_ingot", 16, 32),
+        pool("orespawn:ruby", 8, 16), pool("orespawn:ingot_titanium", 4, 8), pool("orespawn:ingot_uranium", 4, 8)]})
+
     tables = os.path.join(DATA, "loot_table/entities")
     write_json(os.path.join(tables, "nastysaurus_prime.json"), loot(
         pool("minecraft:beef", 7, 15), pool("minecraft:bone", 3, 7), pool("orespawn:ruby", 6, 20), pool(f"{MOD}:dragons_eye", chance=0.35)))
@@ -310,9 +383,28 @@ def main():
     queen.append(pool(f"{MOD}:dimension_staff", chance=0.05))
     write_json(os.path.join(tables, "ant_queen.json"), loot(*queen))
 
+    write_json(os.path.join(tables, "tower_flag.json"), loot(pool(f"{MOD}:tower_flag")))
+    write_json(os.path.join(tables, "baby_nope.json"), loot(pool("minecraft:spider_eye", 1, 2)))
+    nope_eggs = [f"{MOD}:nope_spawn_egg", f"{MOD}:baby_nope_spawn_egg"]
+    nope = [pool("orespawn:raw_crab_meat", 50, 99), pool("minecraft:bone", 37, 62), pool(nope_eggs[0], chance=0.25), pool(nope_eggs[1], 2, 5)]
+    for rare in ("worm_tooth", "kraken_tooth", "vortex_eye", "ultimate_sword", "trex_tooth", "sea_monster_scale", "nightmare_scale", "jumpy_bug_scale",
+                 "moth_scale", "basilisk_scale", "water_dragon_scale", "emperor_scorpion_scale", "caterkiller_jaw", "big_bertha"):
+        if rare in PORT_ITEMS:
+            nope.append(pool("orespawn:" + rare, chance=0.5))
+    write_json(os.path.join(tables, "nope.json"), loot(*nope))
+    write_json(os.path.join(tables, "ufo.json"), loot(pool("orespawn:ray_gun", chance=0.25), pool("minecraft:iron_ingot", 8, 16), pool("minecraft:redstone", 8, 16)))
+    write_json(os.path.join(tables, "ufo_fighter.json"), loot(pool("orespawn:ray_gun", chance=0.1), pool("minecraft:iron_ingot", 1, 3)))
+    write_json(os.path.join(tables, "ufo_carrier.json"), loot(pool("minecraft:iron_ingot", 3, 6), pool("minecraft:redstone", 2, 5)))
+    write_json(os.path.join(tables, "martian.json"), loot(pool("orespawn:ray_gun", chance=0.05), pool("minecraft:arrow", 1, 4)))
+
+    write_json(os.path.join(DATA, "tags/entity_type/tower_defense.json"), {"values": [{"id": e, "required": False} for e in tower_defense()]})
     optional = lambda name: {"id": name, "required": False}
+    write_json(os.path.join(DATA, "tags/entity_type/no_trophy.json"), {"values": [optional("orespawn:" + e) for e in (
+        "island", "island_too", "elevator", "skate", "coin", "tshirt", "rock_base", "king_head", "queen_head", "godzilla_head", "butterfly", "cage", "shoes")]
+        + [f"{MOD}:tower_flag", f"{MOD}:volcano"]})
     write_json(os.path.join(DATA, "tags/entity_type/shrink_immune.json"), {"values": [
-        f"{MOD}:nastysaurus_prime", f"{MOD}:ant_queen", "minecraft:wither", "minecraft:ender_dragon", {"id": "#c:bosses", "required": False}]
+        f"{MOD}:nastysaurus_prime", f"{MOD}:ant_queen", f"{MOD}:nope", f"{MOD}:ufo", f"{MOD}:tower_flag", f"{MOD}:volcano",
+        f"{MOD}:princess_young_adult", "minecraft:wither", "minecraft:ender_dragon", {"id": "#c:bosses", "required": False}]
         + [optional("orespawn:" + b) for b in (
             "the_king", "king_head", "the_queen", "queen_head", "godzilla", "godzilla_head", "kraken", "mothra", "basilisk", "alien_boss",
             "the_prince_adult", "giant_robot", "jeffery", "emperor_scorpion", "sea_monster", "water_dragon", "worm_large", "ender_reaper", "nastysaurus")]})
@@ -331,6 +423,10 @@ def main():
     add_spawns("chaos", "orespawn:chaos_biome", ("nastysaurus_prime", 3, 1, 2), ("ant_queen", 1, 1, 1), ("bloodlust_ant", 3, 1, 3), ("nurse_bug", 3, 1, 1))
     add_spawns("windswept", "#c:is_windswept", ("ant_queen", 1, 1, 1), ("bloodlust_ant", 3, 1, 5))
     add_spawns("nurses", ["orespawn:crystal_plains", "orespawn:island_biome"], ("nurse_bug", 3, 1, 1))
+    # DangerZone keeps Nopes and UFOs in its Misfit dimension and volcanoes in its mountains, which the port doesn't have.
+    add_spawns("chaos_m2", "orespawn:chaos_biome", ("nope", 1, 1, 1), ("ufo", 1, 1, 1), ("volcano", 1, 1, 1))
+    add_spawns("mining_m2", "orespawn:mining_biome", ("volcano", 1, 1, 1))
+    add_spawns("village_m2", "orespawn:village_biome", ("ufo", 1, 1, 1))
     add_spawns("forests", "#minecraft:is_forest", ("nurse_bug", 1, 1, 1))
 
     advancements(lang)

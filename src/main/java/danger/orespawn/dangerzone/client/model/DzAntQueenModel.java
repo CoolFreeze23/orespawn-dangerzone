@@ -205,4 +205,5 @@ public class DzAntQueenModel<T extends Entity> extends DzModel<T> {
       draw(this.spike8);
    
     }
+
 }

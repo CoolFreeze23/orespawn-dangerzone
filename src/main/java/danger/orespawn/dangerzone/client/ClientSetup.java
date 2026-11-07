@@ -9,7 +9,25 @@ import danger.orespawn.dangerzone.client.model.DzModel;
 import danger.orespawn.dangerzone.client.model.DzNastysaurusPrimeModel;
 import danger.orespawn.dangerzone.client.model.DzNeedlenoseModel;
 import danger.orespawn.dangerzone.client.model.DzNurseBugModel;
+import danger.orespawn.dangerzone.client.model.DzBabyNopeModel;
+import danger.orespawn.dangerzone.client.model.DzMartianModel;
+import danger.orespawn.dangerzone.client.model.DzNopeModel;
+import danger.orespawn.dangerzone.client.model.DzPrincessTeenModel;
+import danger.orespawn.dangerzone.client.model.DzPrincessYoungAdultModel;
+import danger.orespawn.dangerzone.client.model.DzTowerFlagModel;
+import danger.orespawn.dangerzone.client.model.DzUfoCarrierModel;
+import danger.orespawn.dangerzone.client.model.DzUfoFighterModel;
+import danger.orespawn.dangerzone.client.model.DzUfoModel;
 import danger.orespawn.dangerzone.entity.AntQueen;
+import danger.orespawn.dangerzone.entity.BabyNope;
+import danger.orespawn.dangerzone.entity.Martian;
+import danger.orespawn.dangerzone.entity.Nope;
+import danger.orespawn.dangerzone.entity.PrincessTeen;
+import danger.orespawn.dangerzone.entity.PrincessYoungAdult;
+import danger.orespawn.dangerzone.entity.TowerFlag;
+import danger.orespawn.dangerzone.entity.Ufo;
+import danger.orespawn.dangerzone.entity.UfoCarrier;
+import danger.orespawn.dangerzone.entity.UfoFighter;
 import danger.orespawn.dangerzone.entity.BloodlustAnt;
 import danger.orespawn.dangerzone.entity.NastysaurusPrime;
 import danger.orespawn.dangerzone.entity.Needlenose;
@@ -32,6 +50,15 @@ public final class ClientSetup {
     private static final ModelLayerLocation NURSE = layer("nurse_bug");
     private static final ModelLayerLocation QUEEN = layer("ant_queen");
     private static final ModelLayerLocation BLOODLUST = layer("bloodlust_ant");
+    private static final ModelLayerLocation FLAG = layer("tower_flag");
+    private static final ModelLayerLocation NOPE = layer("nope");
+    private static final ModelLayerLocation BABY_NOPE = layer("baby_nope");
+    private static final ModelLayerLocation PRINCESS_TEEN = layer("princess_teen");
+    private static final ModelLayerLocation PRINCESS_YOUNG_ADULT = layer("princess_young_adult");
+    private static final ModelLayerLocation UFO = layer("ufo");
+    private static final ModelLayerLocation UFO_CARRIER = layer("ufo_carrier");
+    private static final ModelLayerLocation UFO_FIGHTER = layer("ufo_fighter");
+    private static final ModelLayerLocation MARTIAN = layer("martian");
 
     private ClientSetup() {
     }
@@ -47,6 +74,15 @@ public final class ClientSetup {
         event.registerLayerDefinition(NURSE, DzNurseBugModel::createBodyLayer);
         event.registerLayerDefinition(QUEEN, DzAntQueenModel::createBodyLayer);
         event.registerLayerDefinition(BLOODLUST, DzBloodlustAntModel::createBodyLayer);
+        event.registerLayerDefinition(FLAG, DzTowerFlagModel::createBodyLayer);
+        event.registerLayerDefinition(NOPE, DzNopeModel::createBodyLayer);
+        event.registerLayerDefinition(BABY_NOPE, DzBabyNopeModel::createBodyLayer);
+        event.registerLayerDefinition(PRINCESS_TEEN, DzPrincessTeenModel::createBodyLayer);
+        event.registerLayerDefinition(PRINCESS_YOUNG_ADULT, DzPrincessYoungAdultModel::createBodyLayer);
+        event.registerLayerDefinition(UFO, DzUfoModel::createBodyLayer);
+        event.registerLayerDefinition(UFO_CARRIER, DzUfoCarrierModel::createBodyLayer);
+        event.registerLayerDefinition(UFO_FIGHTER, DzUfoFighterModel::createBodyLayer);
+        event.registerLayerDefinition(MARTIAN, DzMartianModel::createBodyLayer);
     }
 
     @SubscribeEvent
@@ -62,15 +98,39 @@ public final class ClientSetup {
         event.registerEntityRenderer(ModContent.BLOODLUST_ANT.get(), (EntityRendererProvider<BloodlustAnt>) c ->
                 new DzRenderer<>(c, new DzBloodlustAntModel<>(c.bakeLayer(BLOODLUST)), "bloodlust_ant", 1.0f, DzBloodlustAntModel.SCALE));
         event.registerEntityRenderer(ModContent.SHRINK_BOLT.get(), NoopRenderer::new);
+        event.registerEntityRenderer(ModContent.VOLCANO.get(), NoopRenderer::new);
+        event.registerEntityRenderer(ModContent.TROPHY_ENTITY.get(), TrophyRenderer::new);
+        event.registerEntityRenderer(ModContent.TOWER_FLAG.get(), (EntityRendererProvider<TowerFlag>) c ->
+                new DzRenderer<>(c, new DzTowerFlagModel<>(c.bakeLayer(FLAG)), "tower_flag", 0.5f, DzTowerFlagModel.SCALE));
+        event.registerEntityRenderer(ModContent.NOPE.get(), (EntityRendererProvider<Nope>) c ->
+                new DzRenderer<>(c, new DzNopeModel<>(c.bakeLayer(NOPE)), "nope", 4.0f, DzNopeModel.SCALE));
+        event.registerEntityRenderer(ModContent.BABY_NOPE.get(), (EntityRendererProvider<BabyNope>) c ->
+                new DzRenderer<>(c, new DzBabyNopeModel<>(c.bakeLayer(BABY_NOPE)), "baby_nope", 0.5f, DzBabyNopeModel.SCALE));
+        event.registerEntityRenderer(ModContent.PRINCESS_TEEN.get(), (EntityRendererProvider<PrincessTeen>) c ->
+                new DzRenderer<>(c, new DzPrincessTeenModel<>(c.bakeLayer(PRINCESS_TEEN)), "princess_teen", 2.0f, DzPrincessTeenModel.SCALE, e -> e.getAttacking() != 0 ? "princess_teen_angry" : "princess_teen"));
+        event.registerEntityRenderer(ModContent.PRINCESS_YOUNG_ADULT.get(), (EntityRendererProvider<PrincessYoungAdult>) c ->
+                new DzRenderer<>(c, new DzPrincessYoungAdultModel<>(c.bakeLayer(PRINCESS_YOUNG_ADULT)), "princess_young_adult", 5.0f, DzPrincessYoungAdultModel.SCALE, e -> e.getAttacking() != 0 ? "princess_young_adult_angry" : "princess_young_adult"));
+        event.registerEntityRenderer(ModContent.UFO.get(), (EntityRendererProvider<Ufo>) c ->
+                new DzRenderer<>(c, new DzUfoModel<>(c.bakeLayer(UFO)), "ufo", 0.0f, DzUfoModel.SCALE));
+        event.registerEntityRenderer(ModContent.UFO_CARRIER.get(), (EntityRendererProvider<UfoCarrier>) c ->
+                new DzRenderer<>(c, new DzUfoCarrierModel<>(c.bakeLayer(UFO_CARRIER)), "ufo_carrier", 0.0f, DzUfoCarrierModel.SCALE));
+        event.registerEntityRenderer(ModContent.UFO_FIGHTER.get(), (EntityRendererProvider<UfoFighter>) c ->
+                new DzRenderer<>(c, new DzUfoFighterModel<>(c.bakeLayer(UFO_FIGHTER)), "ufo_fighter", 0.0f, DzUfoFighterModel.SCALE));
+        event.registerEntityRenderer(ModContent.MARTIAN.get(), (EntityRendererProvider<Martian>) c ->
+                new DzRenderer<>(c, new DzMartianModel<>(c.bakeLayer(MARTIAN)), "martian", 0.4f, DzMartianModel.SCALE));
     }
 
     private static final class DzRenderer<T extends Mob> extends MobRenderer<T, DzModel<T>> {
-        private final ResourceLocation texture;
+        private final java.util.function.Function<T, String> texture;
         private final float scale;
 
         DzRenderer(EntityRendererProvider.Context context, DzModel<T> model, String texture, float shadow, float scale) {
+            this(context, model, texture, shadow, scale, e -> texture);
+        }
+
+        DzRenderer(EntityRendererProvider.Context context, DzModel<T> model, String texture, float shadow, float scale, java.util.function.Function<T, String> textures) {
             super(context, model, shadow);
-            this.texture = OreSpawnDangerZone.id("textures/entity/" + texture + ".png");
+            this.texture = textures;
             this.scale = scale;
         }
 
@@ -81,7 +141,7 @@ public final class ClientSetup {
 
         @Override
         public ResourceLocation getTextureLocation(T entity) {
-            return this.texture;
+            return OreSpawnDangerZone.id("textures/entity/" + this.texture.apply(entity) + ".png");
         }
     }
 }

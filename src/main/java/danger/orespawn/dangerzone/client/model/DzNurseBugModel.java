@@ -205,4 +205,5 @@ public class DzNurseBugModel<T extends Entity> extends DzModel<T> {
       draw(this.rrleg1);
    
     }
+
 }

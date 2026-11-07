@@ -19,6 +19,8 @@ import java.util.Map;
  * <p>DangerZone's arguments are (ticks alive, speed, head pitch, head yaw, roll).
  */
 public abstract class DzModel<T extends Entity> extends EntityModel<T> {
+    private static final int FULL_BRIGHT = 0xF000F0;
+
     private T entity;
     private float ticks;
     private float speed;
@@ -30,6 +32,15 @@ public abstract class DzModel<T extends Entity> extends EntityModel<T> {
     private int light;
     private int overlay;
     private int color;
+    private boolean bright;
+    private float alpha = 1.0F;
+
+    protected DzModel() {
+    }
+
+    protected DzModel(java.util.function.Function<net.minecraft.resources.ResourceLocation, net.minecraft.client.renderer.RenderType> renderType) {
+        super(renderType);
+    }
 
     @Override
     public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
@@ -56,10 +67,28 @@ public abstract class DzModel<T extends Entity> extends EntityModel<T> {
     protected abstract void animateAndDraw(T entity, float f, float f1, float f2, float f3, float f4);
 
     protected final void draw(ModelPart part) {
-        part.render(this.poseStack, this.consumer, this.light, this.overlay, this.color);
+        int tint = this.color;
+        if (this.alpha < 1.0F) {
+            int a = (int) (((tint >>> 24) & 0xFF) * this.alpha);
+            tint = (a << 24) | (tint & 0xFFFFFF);
+        }
+        part.render(this.poseStack, this.consumer, this.bright ? FULL_BRIGHT : this.light, this.overlay, tint);
+    }
+
+    /** DangerZone's "setBrightness": parts drawn while this is on glow. */
+    protected final void fullBright(boolean on) {
+        this.bright = on;
+    }
+
+    /** DangerZone's shader alpha: parts drawn while this is below 1 are see-through. */
+    protected final void alpha(float value) {
+        this.alpha = value;
     }
 
     protected final boolean attacking() {
+        if (this.entity instanceof danger.orespawn.dangerzone.entity.DzAnimated animated && !(this.entity instanceof Mob m && m.isAggressive())) {
+            return animated.dzAttacking();
+        }
         if (this.entity instanceof Nastysaurus nastysaurus) {
             return nastysaurus.getAttacking() != 0;
         }

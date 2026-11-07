@@ -423,4 +423,5 @@ public class DzNastysaurusPrimeModel<T extends Entity> extends DzModel<T> {
       draw(this.frill1);
    
     }
+
 }

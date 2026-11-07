@@ -181,4 +181,5 @@ public class DzBloodlustAntModel<T extends Entity> extends DzModel<T> {
       draw(this.rant2);
    
     }
+
 }
